@@ -3,6 +3,7 @@ import com.opencsv.CSVWriterBuilder;
 
 import java.io.*;
 import java.util.*;
+import java.lang.*;
 
 public class MazeGenerator
 {
@@ -50,9 +51,11 @@ public class MazeGenerator
 
         // if maze[i][j] = '1', it is a barrier in grey color
         // if maze[i][j] = '0', it is a clear path in white color
+        // if maze[i][j] = 'S', it is the starting point for the mouse Jerry
+        // if maze[i][j] = 'E', it is the exit point where the mouse Jerry should go to
 
-        final int r = 10 ;
-        final int c = 10 ;
+        final int r = 30 ;
+        final int c = 30 ;
 
         // corresponds to North, East, South, West
         final int[] row_step = {-1, 0, 1, 0} ;
@@ -129,7 +132,6 @@ public class MazeGenerator
                 maze[last.row][last.col] = '0' ;
             }
 
-
         }
 
 
@@ -174,6 +176,8 @@ public class MazeGenerator
 
             CSVWriter writer = new CSVWriter(outputfile);
 
+            String[] temporary_string_arr = new String[maze_data[0].length] ;
+
             List<String[]> data = new ArrayList<String[]>() ;
 
 
@@ -181,13 +185,11 @@ public class MazeGenerator
             {
                 for (int j = 0; j < maze_data[0].length; ++j)
                 {
-                    // data.add(new String(Character.toString(maze_data[i][j]))) ;
-                    // data.add(new String[]{Arrays.toString(maze_data[i])}) ;
-                    data.add(new String[]{Character.toString(maze_data[i][j])}) ;
+                    temporary_string_arr[j] = Character.toString(maze_data[i][j]) ;
                 }
 
+                data.add(temporary_string_arr) ;
 
-                // System.out.println(data);
                 writer.writeAll(data); ;
                 data.clear() ;
             }
