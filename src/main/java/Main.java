@@ -1,11 +1,13 @@
 import com.opencsv.CSVWriter;
-import com.opencsv.CSVWriterBuilder;
 
 import java.io.*;
 import java.util.*;
 import java.lang.*;
 
-public class MazeGenerator
+import javax.swing.JFrame;
+import java.awt.Color;
+
+public class Main
 {
 
     static class Vertex
@@ -44,6 +46,7 @@ public class MazeGenerator
             return null ;
         }
     }
+
 
     public static char[][] PrimMazeGenerator()
     {
@@ -208,5 +211,15 @@ public class MazeGenerator
         print_maze(output_maze) ;
 
         toCSV(output_maze) ;
+
+        Window f1= new Window(output_maze) ;
+
+        f1.setTitle("Snake");
+
+        f1.setSize(300,300);
+
+        f1.setVisible(true);
+
+        f1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }
