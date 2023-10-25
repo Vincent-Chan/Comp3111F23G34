@@ -49,10 +49,10 @@ public class MazeGenerator
     {
         Random rand = new Random() ;
 
-        // if maze[i][j] = '1', it is a barrier in grey color
         // if maze[i][j] = '0', it is a clear path in white color
-        // if maze[i][j] = 'S', it is the starting point for the mouse Jerry
-        // if maze[i][j] = 'E', it is the exit point where the mouse Jerry should go to
+        // if maze[i][j] = '1', it is a barrier in grey color
+        // if maze[i][j] = '2', it is the starting point for the mouse Jerry
+        // if maze[i][j] = '3', it is the exit point where the mouse Jerry should go to
 
         final int r = 30 ;
         final int c = 30 ;
@@ -72,7 +72,7 @@ public class MazeGenerator
         }
 
         Vertex start = new Vertex(rand.nextInt(r), 0, null) ;
-        maze[start.row][start.col] = 'S' ;
+        maze[start.row][start.col] = '2' ;
 
         ArrayList<Vertex> frontier = new ArrayList<Vertex> () ;
 
@@ -143,7 +143,7 @@ public class MazeGenerator
 
             if (maze[temp][c-2] == '0')
             {
-                maze[temp][c-1] = 'E' ;
+                maze[temp][c-1] = '3' ;
                 flag_exit_placed = true ;
             }
         }
@@ -164,9 +164,8 @@ public class MazeGenerator
         }
     }
 
-    public static void toCSV(char[][] maze_data) {
-
-        //String maze_data_string = Arrays.deepToString(maze_data) ;
+    public static void toCSV(char[][] maze_data)
+    {
 
         File file = new File("MazeData.csv");
 
