@@ -1,7 +1,12 @@
+import com.opencsv.CSVWriter;
+import com.opencsv.CSVWriterBuilder;
+
+import java.io.*;
 import java.util.*;
 
 public class MazeGenerator
 {
+
     static class Vertex
     {
         int row ;
@@ -157,10 +162,50 @@ public class MazeGenerator
         }
     }
 
+    public static void toCSV(char[][] maze_data) {
+
+        //String maze_data_string = Arrays.deepToString(maze_data) ;
+
+        File file = new File("MazeData.csv");
+
+        try
+        {
+            FileWriter outputfile = new FileWriter(file);
+
+            CSVWriter writer = new CSVWriter(outputfile);
+
+            List<String[]> data = new ArrayList<String[]>() ;
+
+
+            for (int i = 0; i < maze_data.length; ++i)
+            {
+                for (int j = 0; j < maze_data[0].length; ++j)
+                {
+                    // data.add(new String(Character.toString(maze_data[i][j]))) ;
+                    // data.add(new String[]{Arrays.toString(maze_data[i])}) ;
+                    data.add(new String[]{Character.toString(maze_data[i][j])}) ;
+                }
+
+
+                // System.out.println(data);
+                writer.writeAll(data); ;
+                data.clear() ;
+            }
+
+            writer.close() ;
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace() ;
+        }
+    }
+
     public static void main(String[] args)
     {
         char[][] output_maze = PrimMazeGenerator() ;
 
-        print_maze(output_maze);
+        print_maze(output_maze) ;
+
+        toCSV(output_maze) ;
     }
 }
