@@ -108,4 +108,5 @@ public class MazeGenerator {
         return maze ;
 
     }
+
 }

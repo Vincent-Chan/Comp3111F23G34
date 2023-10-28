@@ -1,4 +1,5 @@
 public class PrintMaze {
+
     public static void print_maze(char[][] m)
     {
         for (int i = 0; i < m.length; i++)
@@ -10,4 +11,5 @@ public class PrintMaze {
             System.out.println();
         }
     }
+
 }

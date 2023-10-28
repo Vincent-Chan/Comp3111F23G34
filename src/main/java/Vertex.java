@@ -6,14 +6,14 @@ public class Vertex {
 
     public Vertex(int x, int y, Vertex v)
     {
-        row = x ;
-        col = y ;
+        this.row = x ;
+        this.col = y ;
         this.parent = v ;
     }
 
     public Vertex opposite_node()
     {
-        if (row > parent.row)
+        if (this.row > this.parent.row)
         {
             return new Vertex(this.row + 1, this.col, this) ;
         }
