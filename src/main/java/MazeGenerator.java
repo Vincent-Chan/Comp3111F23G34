@@ -1,53 +1,7 @@
-import java.lang.*;
+import java.util.ArrayList;
+import java.util.Random;
 
-import javax.swing.JFrame;
-
-public class Main
-{
-
-    /*
-
-    static class Vertex
-    {
-        int row ;
-        int col ;
-        Vertex parent ;
-
-        public Vertex(int x, int y, Vertex v)
-        {
-            this.row = x ;
-            this.col = y ;
-            this.parent = v ;
-        }
-
-        public Vertex opposite_node()
-        {
-            if (this.row > this.parent.row)
-            {
-                return new Vertex(this.row + 1, this.col, this) ;
-            }
-            if (this.row < this.parent.row)
-            {
-                return new Vertex(this.row - 1, this.col, this) ;
-            }
-
-            if (this.col > this.parent.col)
-            {
-                return new Vertex(this.row, this.col + 1, this) ;
-            }
-            if (this.col < this.parent.col)
-            {
-                return new Vertex(this.row, this.col - 1, this) ;
-            }
-
-            return null ;
-        }
-    }
-
-    */
-
-    /*
-
+public class MazeGenerator {
     public static char[][] PrimMazeGenerator()
     {
         Random rand = new Random() ;
@@ -153,80 +107,5 @@ public class Main
 
         return maze ;
 
-    }
-
-    */
-
-    /*
-
-    public static void print_maze(char[][] m)
-    {
-        for (int i = 0; i < m.length; i++)
-        {
-            for (int j = 0; j < m[0].length; j++)
-            {
-                System.out.print(m[i][j]);
-            }
-            System.out.println();
-        }
-    }
-
-    */
-
-
-    /*
-
-    public static void toCSV(char[][] maze_data)
-    {
-
-        File file = new File("MazeData.csv");
-
-        try
-        {
-            FileWriter outputfile = new FileWriter(file);
-
-            CSVWriter writer = new CSVWriter(outputfile);
-
-            String[] temporary_string_arr = new String[maze_data[0].length] ;
-
-            List<String[]> data = new ArrayList<String[]>() ;
-
-
-            for (int i = 0; i < maze_data.length; ++i)
-            {
-                for (int j = 0; j < maze_data[0].length; ++j)
-                {
-                    temporary_string_arr[j] = Character.toString(maze_data[i][j]) ;
-                }
-
-                data.add(temporary_string_arr) ;
-
-                writer.writeAll(data); ;
-                data.clear() ;
-            }
-
-            writer.close() ;
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace() ;
-        }
-    }
-
-    */
-
-    public static void main(String[] args)
-    {
-        char[][] output_maze = MazeGenerator.PrimMazeGenerator() ;
-
-        PrintMaze.print_maze(output_maze) ;
-
-        MazeDataToCSV.toCSV(output_maze); ;
-
-        Window f1 = new Window(output_maze) ;
-        f1.setTitle("Snake");
-        f1.setSize(300,300);
-        f1.setVisible(true);
-        f1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }
