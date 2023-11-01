@@ -133,12 +133,18 @@ public class ShortestPath
         {
             int i = 0;
             while ((row = br.readLine()) != null) {
-                String[] values = row.split(", ");
-                
-                // Process the values
+                String[] values = row.split(",");
+//                for (i = 0; i < COL; i++)
+//                {
+//                    System.out.print(values[i].substring(1,2));
+//                }
+//                System.out.println();
+
+
+//                 Process the values
                 int j = 0;
                 for (String value : values) {
-                    map[i][j] = (Integer.parseInt(value));
+                    map[i][j] = (Integer.parseInt(values[j].substring(1,2)));
                     j++;
                 }
                 // System.out.println();
