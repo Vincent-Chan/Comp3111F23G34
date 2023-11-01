@@ -129,7 +129,7 @@ public class ShortestPath
     {
     	// transform the .csv into map
         String row = "";
-        try (BufferedReader br = new BufferedReader(new FileReader("/Users/anthonywong/IdeaProjects/Comp3111F23G34/src/main/java/MazeData.csv")))
+        try (BufferedReader br = new BufferedReader(new FileReader("MazeData.csv")))
         {
             int i = 0;
             while ((row = br.readLine()) != null) {
