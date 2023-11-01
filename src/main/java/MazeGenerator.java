@@ -4,6 +4,8 @@ import java.util.Random;
 public class MazeGenerator {
     public static char[][] PrimMazeGenerator()
     {
+        int no_of_barrier_need_to_removed = 18 ;
+
         Random rand = new Random() ;
 
         // if maze[i][j] = '0', it is a clear path in white color
@@ -102,6 +104,18 @@ public class MazeGenerator {
             {
                 maze[temp][c-1] = '3' ;
                 flag_exit_placed = true ;
+            }
+        }
+
+        while (no_of_barrier_need_to_removed  > 0)
+        {
+            int temp_row = rand.nextInt(r) ;
+            int temp_col = rand.nextInt(c) ;
+
+            if (maze[temp_row][temp_col] == '1')
+            {
+                maze[temp_row][temp_col] = '0' ;
+                --no_of_barrier_need_to_removed ;
             }
         }
 
