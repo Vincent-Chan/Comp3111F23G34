@@ -8,6 +8,10 @@ public class MazeGenerator {
 
         Random rand = new Random() ;
 
+        // set the seed number as 3111 seems to generate a very good maze
+        // long seed_number = 3111 ;
+        // rand.setSeed(seed_number) ;
+
         // if maze[i][j] = '0', it is a clear path in white color
         // if maze[i][j] = '1', it is a barrier in grey color
         // if maze[i][j] = '2', it is the starting point for the mouse Jerry
