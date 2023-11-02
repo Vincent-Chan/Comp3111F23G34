@@ -217,6 +217,11 @@ public class Main
 
     public static void main(String[] args)
     {
+        // setSeed() will be useful for unit testing
+        // set the seed number as 3111 seems to generate a very good maze
+
+        // MazeGenerator.rand.setSeed(3111);
+
         char[][] output_maze = MazeGenerator.PrimMazeGenerator() ;
 
         PrintMaze.print_maze(output_maze) ;

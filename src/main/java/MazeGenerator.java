@@ -2,11 +2,14 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class MazeGenerator {
+
+    public static Random rand = new Random() ;
+
     public static char[][] PrimMazeGenerator()
     {
         int no_of_barrier_need_to_removed = 18 ;
 
-        Random rand = new Random() ;
+        // Random rand = new Random() ;
 
         // set the seed number as 3111 seems to generate a very good maze
         // long seed_number = 3111 ;
