@@ -220,7 +220,7 @@ public class Main
         // setSeed() will be useful for unit testing
         // set the seed number as 3111 seems to generate a very good maze
 
-        // MazeGenerator.rand.setSeed(3111);
+//         MazeGenerator.rand.setSeed(3111);
 
         char[][] output_maze = MazeGenerator.PrimMazeGenerator() ;
 
