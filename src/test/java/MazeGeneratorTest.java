@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 public class MazeGeneratorTest {
 
     @Test
-    public void MazeGeneratorTest1() {
+    void MazeGeneratorTest1() {
 
         /*
         111111111111111111111111101110
