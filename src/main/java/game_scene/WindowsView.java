@@ -35,7 +35,7 @@ public class WindowsView extends JFrame {
         int height = Math.max(controlPanelView.getPreferredSize().height, mapViewer.getPreferredSize().height) + 20;
         setSize(width, height);
 
-        setVisible(true);
+
     }
 
     public void setTextBillboard(String text){
