@@ -1,3 +1,10 @@
+/**
+ * Before running the main function,
+ * please remember to search for com.opencsv:openscv in "Dependencies",
+ * and add com.opencsv:openscv to your dependency.
+ * Also, remember to reload Maven so that the game can be run successfully.
+ */
+
 package game_algorithm;
 import game_states.Location;
 import com.opencsv.CSVWriter;
@@ -8,17 +15,91 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+
+/**
+ * The class GameMapGenerator involves 4 data members,
+ * in which 1 of them is public and the remaining 3 of them are private.
+ *
+ * rand: store a java.util.Random class instance
+ * ROW: store the number of rows in the maze
+ * COL: stores the number of columns in the maze
+ * maze_csv_file: stores the filename of the csv file
+ *
+ *
+ *
+ * This class also involves 1 constructor and 2 member functions.
+ *
+ * The constructor GameMapGenerator() construct a new Random instance and put it in the class's variable rand.
+ * It also put the string stored in the input parameter "maze_csv_file" to the class's variable maze_csv_file.
+ *
+ *
+ * The function PrimMazeGenerator() will create a random maze of size ROW*COL at anytime,
+ * and will return the maze in a 2D char array.
+ * PrimMazeGenerator() accepts no input parameter.
+ * The return data type of PrimMazeGenerator() is a 2D char array, which stores the maze data.
+ *
+ * The function to_csv() will write the data of the maze to a csv file.
+ * to_csv() accepts one input parameter of 2D char array type.
+ * The return data type of to_csv() is void.
+ *
+ *
+ *
+ * To create a random maze map, programmers should create a GameMapGenerator class instance,
+ * and then call the PrimMazeGenerator() method to generate a maze of 2D char array.
+ *
+ * To write the maze data to a csv file, programmers should call the to_csv() method by passing the
+ * maze of 2D char array as the input parameter. Programmers then can see the maze data in the csv file
+ * that they have specified.
+ */
+
 public class GameMapGenerator {
+
+    /**
+     * rand: stores a java.util.Random class instance
+     */
     public Random rand;
+
+    /**
+     * ROW: a constant integer that stores the number of rows in the maze, which is always 30.
+     */
     private final int ROW = 30;
+
+    /**
+     * COL: a constant integer that stores the number of columns in the maze, which is always 30.
+     */
     private final int COL = 30;
+
+    /**
+     * maze_csv_file: stores the filename of the csv file in String data type
+     */
     private String maze_csv_file;
+
+    /**
+     * GameMapGenerator() is a constructor for GameMapGenerator.
+     * It initializes the data members "rand" by creating a new instance of java.util.Random class
+     * It initializes the data members "this.maze_csv_file" by assigning maze_csv_file to it.
+     *
+     * @param maze_csv_file: The filename of the csv file that stores the maze data.
+     */
     public GameMapGenerator(String maze_csv_file){
         rand = new Random();
         this.maze_csv_file = maze_csv_file;
     }
+
+    /**
+     * PrimMazeGenerator() is a member function for GameMapGenerator class.
+     * It randomly generates a maze map at any time,
+     * and return the data of the maze map as 2D char array.
+     *
+     * This maze generator uses the idea of Prim's Minimum Spanning Tree (MST) algorithm.
+     *
+     * @return maze: It stores the data of the randomly generated maze map.
+     */
     public char[][] PrimMazeGenerator()
     {
+        /**
+         * no_of_barrier_need_to_removed: Number of barriers we want to break after using Prim's MST algorithm
+         */
         int no_of_barrier_need_to_removed = 18 ;
 
         // Random rand = new Random() ;
@@ -32,13 +113,28 @@ public class GameMapGenerator {
         // if maze[i][j] = '2', it is the starting point for the mouse Jerry
         // if maze[i][j] = '3', it is the exit point where the mouse Jerry should go to
 
-
+        /**
+         * row_step: A constant 1D integer array that represents the movement on row
+         * col_step: A constant 1D integer array that represents the movement on column
+         *
+         * (row_step, col_step) = (-1, 0): corresponds to go upward (North)
+         * (row_step, col_step) = (0, 1): corresponds to go rightward (East)
+         * (row_step, col_step) = (1, 0): corresponds to go downward (South)
+         * (row_step, col_step) = (0, -1): corresponds to go leftward (West)
+         */
         // corresponds to North, East, South, West
         final int[] row_step = {-1, 0, 1, 0} ;
         final int[] col_step = {0, 1, 0, -1} ;
 
+
+        /**
+         * maze: It will store the data of the maze map after running the core part of the Prim's MST algorithm
+         */
         char[][] maze = new char [ROW][COL] ;
 
+        /**
+         * Initialize the whole maze map with '1', i.e. barrier
+         */
         for (int i = 0; i < ROW; ++i)
         {
             for (int j = 0; j < COL; ++j)
@@ -47,23 +143,48 @@ public class GameMapGenerator {
             }
         }
 
+        /**
+         * Randomly select one of the block at the leftmost column of the maze as the starting point (i.e. starting node)
+         * Denote that starting point as '2'
+         */
         Location start = new Location(rand.nextInt(ROW), 0) ;
         maze[start.row()][start.col()] = '2' ;
 
+        /**
+         * frontier: An array list that stores the frontier nodes when creating the path using Prim's MST algorithm
+         * node2parent: A hashmap to the parent node of a child node
+         */
         ArrayList<Location> frontier = new ArrayList<Location> () ;
         HashMap<Location, Location> node2parent = new HashMap<>();
+
+        /**
+         * Exhaust through North, East, South, West (neighbour) node from the starting point
+         */
         for (int i = 0; i < row_step.length; ++i)
         {
+            /**
+             * Check whether the neighbour node from the starting point is within a valid range of the 2D char array
+             */
             if ( (start.row() + row_step[i]) >= 0 &&
                     (start.row() + row_step[i]) < ROW &&
                     (start.col() + col_step[i]) >= 0 &&
                     (start.col() + col_step[i]) < COL )
             {
+                /**
+                 * If the neighbour node from the starting point is already a clear path,
+                 * do nothing and go to the next iteration
+                 */
                 if (maze[start.row() + row_step[i]][start.col() + col_step[i]] == '0')
                 {
                     continue ;
                 }
 
+                /**
+                 * If the neighbour node from the starting point is a barrier,
+                 * create a Location class instance for that node and store it in newloc
+                 * Add this neighbor node to frontier
+                 * Declare that newloc is the child node of the starting node in the HashMap node2parent
+                 */
                 Location newloc = new Location(start.row() + row_step[i], start.col() + col_step[i]);
                 frontier.add(newloc) ;
                 node2parent.put(newloc,start);
@@ -72,6 +193,11 @@ public class GameMapGenerator {
             }
         }
 
+        /**
+         * Initialize last as null
+         * Initialize current as null
+         * Initialize opposite as null
+         */
         Location last = null;
         Location current = null ;
         Location opposite = null ;

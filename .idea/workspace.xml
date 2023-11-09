@@ -4,11 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="894bb80f-52ce-4648-bb94-0f7608b0d8b9" name="Changes" comment="Include all test cases for function A">
+    <list default="true" id="894bb80f-52ce-4648-bb94-0f7608b0d8b9" name="Changes" comment="Add one more unit test case for LocationTest.java">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/MazeData.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MazeData.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/game_algorithm/GameMapGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game_algorithm/GameMapGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/game_states/LocationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/game_states/LocationTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game_algorithm/GameMapGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game_algorithm/GameMapGenerator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/shortest_path_at_beginning.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/shortest_path_at_beginning.csv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -295,7 +295,14 @@
       <option name="project" value="LOCAL" />
       <updated>1699517574764</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Add one more unit test case for LocationTest.java">
+      <created>1699518324949</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1699518324949</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -327,7 +334,8 @@
     <MESSAGE value="Include a new unit test: SquarePanelTest.java" />
     <MESSAGE value="- Include a new unit test: VertexTest.java&#10;&#10;- Modify MazeGeneratorTest.java and SquarePanelTest.java a bit&#10;&#10;- Main class and PrintMaze class no need to unit test them (I guess?)" />
     <MESSAGE value="Include all test cases for function A" />
-    <option name="LAST_COMMIT_MESSAGE" value="Include all test cases for function A" />
+    <MESSAGE value="Add one more unit test case for LocationTest.java" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add one more unit test case for LocationTest.java" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Comp3111F23G34$GameMapGeneratorTest_GameMapGeneratorTest1.ic" NAME="GameMapGeneratorTest.GameMapGeneratorTest1 Coverage Results" MODIFIED="1699517689089" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
