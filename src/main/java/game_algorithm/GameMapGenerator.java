@@ -146,6 +146,8 @@ public class GameMapGenerator {
     }
 
     public void to_csv(char[][] maze_data) throws IOException{
+        // Use "throws IOException" instead of try ... catch ...
+
         File file = new File(this.maze_csv_file);
 
 
