@@ -82,4 +82,17 @@ public class LocationTest {
         assertEquals(expected4, actual4) ;
     }
 
+    @Test
+    public void opposite_nodeTest5()
+    {
+        Location loc_a5 = new Location(15, 25) ;
+        Location loc_b5 = new Location(15, 25) ;
+
+        Location actual5 = loc_a5.opposite_node(loc_b5) ;
+
+        Location expected5 = null ;
+
+        assertEquals(expected5, actual5) ;
+    }
+
 }

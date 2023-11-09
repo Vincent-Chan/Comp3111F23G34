@@ -169,7 +169,7 @@ public class GameMapGenerator {
 
             data.add(temporary_string_arr) ;
 
-            writer.writeAll(data); ;
+            writer.writeAll(data);
             data.clear() ;
         }
 

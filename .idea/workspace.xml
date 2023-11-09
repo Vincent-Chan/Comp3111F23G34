@@ -4,17 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="894bb80f-52ce-4648-bb94-0f7608b0d8b9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/game_algorithm/GameMapGeneratorTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_5_10_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_engine_5_10_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_params_5_10_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_platform_junit_platform_engine_1_10_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_28__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_28__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_31__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_31__Changes_.xml" afterDir="false" />
+    <list default="true" id="894bb80f-52ce-4648-bb94-0f7608b0d8b9" name="Changes" comment="Include all test cases for function A">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/game_algorithm/GameMapGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game_algorithm/GameMapGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/game_states/LocationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/game_states/LocationTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/game_algorithm/GameMapGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game_algorithm/GameMapGenerator.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,11 +75,80 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager">
-    <configuration name="PrimTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Comp3111F23G34" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="PrimTest" />
+  <component name="RunManager" selected="JUnit.GameMapGeneratorTest">
+    <configuration name="GameMapGeneratorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ourgameGUI" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="game_algorithm.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="game_algorithm" />
+      <option name="MAIN_CLASS_NAME" value="game_algorithm.GameMapGeneratorTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GameMapGeneratorTest.GameMapGeneratorTest1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ourgameGUI" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="game_algorithm.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="game_algorithm" />
+      <option name="MAIN_CLASS_NAME" value="game_algorithm.GameMapGeneratorTest" />
+      <option name="METHOD_NAME" value="GameMapGeneratorTest1" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GameMapGeneratorTest.PrimMazeGeneratorTest1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ourgameGUI" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="game_algorithm.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="game_algorithm" />
+      <option name="MAIN_CLASS_NAME" value="game_algorithm.GameMapGeneratorTest" />
+      <option name="METHOD_NAME" value="PrimMazeGeneratorTest1" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GameMapGeneratorTest.to_csvTest1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ourgameGUI" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="game_algorithm.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="game_algorithm" />
+      <option name="MAIN_CLASS_NAME" value="game_algorithm.GameMapGeneratorTest" />
+      <option name="METHOD_NAME" value="to_csvTest1" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="LocationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ourgameGUI" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="game_states.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="game_states" />
+      <option name="MAIN_CLASS_NAME" value="game_states.LocationTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -93,7 +156,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.PrimTest" />
+        <item itemvalue="JUnit.GameMapGeneratorTest" />
+        <item itemvalue="JUnit.LocationTest" />
+        <item itemvalue="JUnit.GameMapGeneratorTest.to_csvTest1" />
+        <item itemvalue="JUnit.GameMapGeneratorTest.PrimMazeGeneratorTest1" />
+        <item itemvalue="JUnit.GameMapGeneratorTest.GameMapGeneratorTest1" />
       </list>
     </recent_temporary>
   </component>
@@ -221,7 +288,14 @@
       <option name="project" value="LOCAL" />
       <updated>1699434051358</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Include all test cases for function A">
+      <created>1699517574764</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1699517574764</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -252,9 +326,25 @@
     <MESSAGE value="Modified DataOfSquareTest.java.&#10;&#10;(&#10;Email reply from TA John Li Tsz On regarding unit testing on class or function of void return type:&#10;&#10;Dear Vincent,&#10;&#10;Junit can run without assertion statements. So to cover lines of void functions or classes, you may just call them in a test case without assertion statements.&#10;&#10;Yours sincerely,&#10;Tsz-On&#10;)" />
     <MESSAGE value="Include a new unit test: SquarePanelTest.java" />
     <MESSAGE value="- Include a new unit test: VertexTest.java&#10;&#10;- Modify MazeGeneratorTest.java and SquarePanelTest.java a bit&#10;&#10;- Main class and PrintMaze class no need to unit test them (I guess?)" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Include a new unit test: VertexTest.java&#10;&#10;- Modify MazeGeneratorTest.java and SquarePanelTest.java a bit&#10;&#10;- Main class and PrintMaze class no need to unit test them (I guess?)" />
+    <MESSAGE value="Include all test cases for function A" />
+    <option name="LAST_COMMIT_MESSAGE" value="Include all test cases for function A" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$GameMapGeneratorTest_GameMapGeneratorTest1.ic" NAME="GameMapGeneratorTest.GameMapGeneratorTest1 Coverage Results" MODIFIED="1699517689089" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>game_algorithm.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$GameMapGeneratorTest_to_csvTest1.ic" NAME="GameMapGeneratorTest.to_csvTest1 Coverage Results" MODIFIED="1699517739765" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>game_algorithm.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$GameMapGeneratorTest.ic" NAME="GameMapGeneratorTest Coverage Results" MODIFIED="1699518167860" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>game_algorithm.*</FILTER>
+    </SUITE>
     <SUITE FILE_PATH="coverage/Comp3111F23G34$PrimTest.ic" NAME="PrimTest Coverage Results" MODIFIED="1698076114212" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$GameMapGeneratorTest_PrimMazeGeneratorTest1.ic" NAME="GameMapGeneratorTest.PrimMazeGeneratorTest1 Coverage Results" MODIFIED="1699517715057" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>game_algorithm.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$LocationTest.ic" NAME="LocationTest Coverage Results" MODIFIED="1699518102060" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>game_states.*</FILTER>
+    </SUITE>
   </component>
 </project>
