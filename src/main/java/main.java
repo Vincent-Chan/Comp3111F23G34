@@ -66,8 +66,8 @@ public class main {
         // initialize the GUI components and obtain their controllers
         WindowsView windowsView = new WindowsView(mazeMap, entry, exit);
         MazeMapController mazeMapController = windowsView.getMapViewer().getController();
-        mazeMapController.insertImage(entry, StringResources.jerry);
-        mazeMapController.insertImage(exit, StringResources.tom);
+        // mazeMapController.insertImage(entry, StringResources.jerry);
+        // mazeMapController.insertImage(exit, StringResources.tom);
         windowsView.setTextBillboard(StringResources.gamestarts);
         windowsView.revalidate();
         windowsView.repaint();
@@ -80,7 +80,7 @@ public class main {
         ShortestPathGenerator shortestPathGenerator = new ShortestPathGenerator(MAP_FILE_PATH,SP_OUTPUT_PATH);
         JOptionPane.showMessageDialog(null,StringResources.show_sp_hint , "Hint", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(StringResources.show_sp_hint_image));
         ArrayList<Location> SP = shortestPathGenerator.calculate_shortest_path(entry,exit);
-        mazeMapController.highlightPath(SP);
+        // mazeMapController.highlightPath(SP);
         shortestPathGenerator.output_file(SP);
         boolean highlighted = true; // flag, false->not yet highlighted the shortest path from entry to exit
 

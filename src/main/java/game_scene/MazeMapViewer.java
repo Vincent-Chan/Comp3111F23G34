@@ -49,7 +49,7 @@ public class MazeMapViewer extends JPanel {
         label.setHorizontalAlignment(JLabel.CENTER);
         label.setVerticalAlignment(JLabel.CENTER);
         label.setPreferredSize(new Dimension(50, 50));
-        label.setFont(new Font("Arial", Font.BOLD, 12));
+        label.setFont(new Font("Arial", Font.BOLD, 7));
         return label;
     }
 
