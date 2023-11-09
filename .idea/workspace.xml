@@ -4,12 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="894bb80f-52ce-4648-bb94-0f7608b0d8b9" name="Changes" comment="- Include a new unit test: VertexTest.java&#10;&#10;- Modify MazeGeneratorTest.java and SquarePanelTest.java a bit&#10;&#10;- Main class and PrintMaze class no need to unit test them (I guess?)">
-      <change beforePath="$PROJECT_DIR$/src/main/java/MazeData.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MazeData.csv" afterDir="false" />
+    <list default="true" id="894bb80f-52ce-4648-bb94-0f7608b0d8b9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/test/java/game_algorithm/GameMapGeneratorTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_5_10_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_engine_5_10_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_params_5_10_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_platform_junit_platform_engine_1_10_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_28__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_28__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_31__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_31__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/game_algorithm/GameMapGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game_algorithm/GameMapGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game_scene/MazeMapViewer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game_scene/MazeMapViewer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/shortest_path_at_beginning.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/shortest_path_at_beginning.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/game_states/LocationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/game_states/LocationTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,6 +77,7 @@
       <recent name="" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
+      <recent name="game_algorithm" />
       <recent name="" />
     </key>
   </component>

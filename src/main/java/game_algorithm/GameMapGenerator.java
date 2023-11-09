@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 public class GameMapGenerator {
-    private Random rand;
+    public Random rand;
     private final int ROW = 30;
     private final int COL = 30;
     private String maze_csv_file;
