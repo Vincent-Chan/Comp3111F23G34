@@ -152,7 +152,7 @@ public class GameMapGenerator {
 
         /**
          * frontier: An array list that stores the frontier nodes when creating the path using Prim's MST algorithm
-         * node2parent: A hashmap to the parent node of a child node
+         * node2parent: A HashMap to the parent node of a child node
          */
         ArrayList<Location> frontier = new ArrayList<Location> () ;
         HashMap<Location, Location> node2parent = new HashMap<>();
@@ -189,11 +189,14 @@ public class GameMapGenerator {
                 frontier.add(newloc) ;
                 node2parent.put(newloc,start);
 
-
             }
         }
 
         /**
+         * last: The node that we finally go to at last in this iteration after we break the barriers (i.e. "current" and "opposite")
+         * current: The current node
+         * opposite: The node that is adjacent to "current" and opposite to the parent node of "current"
+         *
          * Initialize last as null
          * Initialize current as null
          * Initialize opposite as null
@@ -202,29 +205,64 @@ public class GameMapGenerator {
         Location current = null ;
         Location opposite = null ;
 
-
+        /**
+         * Exhaust through all the frontier nodes
+         */
         while (frontier.isEmpty() == false)
         {
+            /**
+             * - Randomly select one of the nodes from the frontier and save it in "current"
+             * - The opposite node ("opposite") of the current node ("current") is exactly the adjacent node of "current"
+             * that it is opposite to the parent node of "current"
+             */
             current = frontier.remove( rand.nextInt( frontier.size() ) ) ;
             opposite = current.opposite_node(node2parent.get(current)) ;
 
+            /**
+             * Check whether the opposite node ("opposite") is still within the valid range of the maze
+             */
             if (opposite.row() >= 0 && opposite.row() < ROW && opposite.col() >= 0 && opposite.col() < COL)
             {
+                /**
+                 * Break the barriers into clear path only if both current node and opposite node are barriers
+                 */
                 if (maze[current.row()][current.col()] == '1' && maze[opposite.row()][opposite.col()] == '1') {
-
+                    /**
+                     * Set both current node and opposite node from barriers to clear path
+                     */
                     maze[current.row()][current.col()] = '0';
                     maze[opposite.row()][opposite.col()] = '0';
 
+                    /**
+                     * Update the last node as opposite node
+                     */
                     last = opposite;
 
+                    /**
+                     * Exhaust through North, East, South, West (neighbour) node from the opposite node
+                     */
                     for (int i = 0; i < row_step.length; ++i) {
+                        /**
+                         * Check whether the neighbour node of the opposite node ("opposite") is still within the valid range of the maze
+                         */
                         if ((opposite.row() + row_step[i]) >= 0 &&
                                 (opposite.row() + row_step[i]) < ROW &&
                                 (opposite.col() + col_step[i]) >= 0 &&
                                 (opposite.col() + col_step[i]) < COL) {
+                            /**
+                             * If the neighbour node of the opposite node is already a clear path,
+                             * do nothing and go to the next iteration
+                             */
                             if (maze[opposite.row() + row_step[i]][opposite.col() + col_step[i]] == '0') {
                                 continue;
                             }
+
+                            /**
+                             * If the neighbour node from the opposite point is a barrier,
+                             * create a Location class instance for that node and store it in newloc
+                             * Add this neighbor node to frontier
+                             * Declare that newloc is the child node of the opposite node in the HashMap node2parent
+                             */
                             Location newloc = new Location(opposite.row() + row_step[i], opposite.col() + col_step[i]);
                             frontier.add(newloc);
                             node2parent.put(newloc, opposite);
@@ -233,7 +271,10 @@ public class GameMapGenerator {
                 }
             }
 
-
+            /**
+             * If we exhaust through all the frontier node,
+             * set the last node as a clear path
+             */
             if (frontier.isEmpty() == true)
             {
                 maze[last.row()][last.col()] = '0' ;
@@ -241,13 +282,25 @@ public class GameMapGenerator {
 
         }
 
-
+        /**
+         * flag_exit_placed: a flag indicating whether the exit point has been located on the map or not
+         */
         boolean flag_exit_placed = false ;
 
         while (flag_exit_placed == false)
         {
+            /**
+             * The exit point should be on the rightmost column of the maze
+             *
+             * randomly select a row index number
+             */
             int temp = rand.nextInt(ROW) ;
 
+            /**
+             * If the adjacent node (i.e. maze[temp][COL-2]) located on the left of the node maze[ROW][COL-1] is a clear path,
+             * set the node maze[ROW][COL-1] as the exit point,
+             * and update flag_exit_placed to true
+             */
             if (maze[temp][COL-2] == '0')
             {
                 maze[temp][COL-1] = '3' ;
@@ -255,11 +308,23 @@ public class GameMapGenerator {
             }
         }
 
+        /**
+         * Before we return the maze map data, randomly break no_of_barrier_need_to_removed of barriers
+         */
         while (no_of_barrier_need_to_removed  > 0)
         {
+            /**
+             * Randomly select row index and store it in temp_row
+             * Randomly select column index and store it in temp_col
+             */
             int temp_row = rand.nextInt(ROW) ;
             int temp_col = rand.nextInt(COL) ;
 
+            /**
+             * If the node maze[temp_row][temp_col] is a barrier,
+             * break the barrier by setting it to a clear path,
+             * and reduce no_of_barrier_need_to_removed by 1
+             */
             if (maze[temp_row][temp_col] == '1')
             {
                 maze[temp_row][temp_col] = '0' ;
@@ -267,6 +332,9 @@ public class GameMapGenerator {
             }
         }
 
+        /**
+         * Finally, return the maze map data as a 2D char array
+         */
         return maze ;
 
     }
