@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="894bb80f-52ce-4648-bb94-0f7608b0d8b9" name="Changes" comment="Write only part of the Javadoc documentation in GameMapGenerator.java. &#10;&#10;Will finish that after I go home.">
+    <list default="true" id="894bb80f-52ce-4648-bb94-0f7608b0d8b9" name="Changes" comment="Complete the JavaDoc documentaion for the core maze generator function PrimMazeGenerator()">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/game_algorithm/GameMapGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game_algorithm/GameMapGenerator.java" afterDir="false" />
     </list>
@@ -307,7 +307,14 @@
       <option name="project" value="LOCAL" />
       <updated>1699523650881</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Complete the JavaDoc documentaion for the core maze generator function PrimMazeGenerator()">
+      <created>1699535420923</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1699535420923</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -341,7 +348,8 @@
     <MESSAGE value="Include all test cases for function A" />
     <MESSAGE value="Add one more unit test case for LocationTest.java" />
     <MESSAGE value="Write only part of the Javadoc documentation in GameMapGenerator.java. &#10;&#10;Will finish that after I go home." />
-    <option name="LAST_COMMIT_MESSAGE" value="Write only part of the Javadoc documentation in GameMapGenerator.java. &#10;&#10;Will finish that after I go home." />
+    <MESSAGE value="Complete the JavaDoc documentaion for the core maze generator function PrimMazeGenerator()" />
+    <option name="LAST_COMMIT_MESSAGE" value="Complete the JavaDoc documentaion for the core maze generator function PrimMazeGenerator()" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Comp3111F23G34$GameMapGeneratorTest_GameMapGeneratorTest1.ic" NAME="GameMapGeneratorTest.GameMapGeneratorTest1 Coverage Results" MODIFIED="1699517689089" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
