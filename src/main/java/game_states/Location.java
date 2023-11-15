@@ -2,11 +2,13 @@ package game_states;
 
 import java.util.Objects;
 
+
 public record Location(int row, int col) {
     @Override
     public String toString(){
         return "[ "+row+" , "+col+" ]";
     }
+
 
     public Location opposite_node(Location l) {
         if (this.row > l.row)

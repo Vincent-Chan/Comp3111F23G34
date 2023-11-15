@@ -1,6 +1,6 @@
 package game_entities;
 
-public class Vertex extends Entity{
+public class Vertex{
     private boolean clear;
 
     public Vertex(boolean isClear){

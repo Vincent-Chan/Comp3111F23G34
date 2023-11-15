@@ -17,7 +17,6 @@ public class ControlPanelController {
         }
 
         this.move2Button = move2Button;
-        System.out.println("Hashcode of actionqueue upon initializing ControlPanelController"+actionQueue.hashCode());
         for(MoveCode move: MoveCode.values()){
 
             // Add ActionListener(s) to the buttons
@@ -30,17 +29,11 @@ public class ControlPanelController {
                         case LEFT -> new Move.Left(1);
                         case DOWN -> new Move.Down(1);
                     };
-                    System.out.println("Action received from button: "+m);
                     try {
                         actionQueue.put(m);
                     } catch (InterruptedException ex) {
-                        throw new RuntimeException(ex);
+                        throw new RuntimeException();
                     }
-                    System.out.print("Current actionQueue"+"("+actionQueue.hashCode()+")");
-                    for(int i = 0;i< actionQueue.size();i++){
-                        System.out.print(actionQueue.toArray()[i]+"->");
-                    }
-                    System.out.println();
                 }
 
 

@@ -145,38 +145,33 @@ public class GameMapGenerator {
 
     }
 
-    public void to_csv(char[][] maze_data){
+    public void to_csv(char[][] maze_data) throws IOException {
         File file = new File(this.maze_csv_file);
 
-        try
+        FileWriter outputfile = new FileWriter(file);
+
+        CSVWriter writer = new CSVWriter(outputfile);
+
+        String[] temporary_string_arr = new String[maze_data[0].length] ;
+
+        List<String[]> data = new ArrayList<String[]>() ;
+
+
+        for (int i = 0; i < maze_data.length; ++i)
         {
-            FileWriter outputfile = new FileWriter(file);
-
-            CSVWriter writer = new CSVWriter(outputfile);
-
-            String[] temporary_string_arr = new String[maze_data[0].length] ;
-
-            List<String[]> data = new ArrayList<String[]>() ;
-
-
-            for (int i = 0; i < maze_data.length; ++i)
+            for (int j = 0; j < maze_data[0].length; ++j)
             {
-                for (int j = 0; j < maze_data[0].length; ++j)
-                {
-                    temporary_string_arr[j] = Character.toString(maze_data[i][j]) ;
-                }
-
-                data.add(temporary_string_arr) ;
-
-                writer.writeAll(data); ;
-                data.clear() ;
+                temporary_string_arr[j] = Character.toString(maze_data[i][j]) ;
             }
 
-            writer.close() ;
+            data.add(temporary_string_arr) ;
+
+            writer.writeAll(data); ;
+            data.clear() ;
         }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        writer.close() ;
+
     }
 }
 

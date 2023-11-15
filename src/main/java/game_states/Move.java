@@ -9,13 +9,6 @@ public abstract sealed class Move permits Move.Down, Move.Left, Move.Right, Move
 
     protected final int initiator;
 
-    /**
-     * @return The id of the player who performed the action.
-     */
-    public int getInitiator() {
-        return initiator;
-    }
-
     protected Move(int initiator) {
         this.initiator = initiator;
     }
@@ -44,9 +37,6 @@ public abstract sealed class Move permits Move.Down, Move.Left, Move.Right, Move
         public @NotNull Location nextPosition(@NotNull Location currentLocation) {
             return new Location(currentLocation.row()+1, currentLocation.col());
         }
-
-        @Override
-        public String toString(){return "DOWN";}
     }
 
     /**
@@ -64,9 +54,6 @@ public abstract sealed class Move permits Move.Down, Move.Left, Move.Right, Move
         public @NotNull Location nextPosition(@NotNull Location currentLocation) {
             return new Location(currentLocation.row(), currentLocation.col()-1);
         }
-
-        @Override
-        public String toString(){return "LEFT";}
     }
 
     /**
@@ -84,10 +71,6 @@ public abstract sealed class Move permits Move.Down, Move.Left, Move.Right, Move
         public @NotNull Location nextPosition(@NotNull Location currentLocation) {
             return new Location(currentLocation.row(), currentLocation.col()+1);
         }
-
-        @Override
-        public String toString(){return "RIGHT";}
-
     }
 
     /**
@@ -105,8 +88,5 @@ public abstract sealed class Move permits Move.Down, Move.Left, Move.Right, Move
         public @NotNull Location nextPosition(@NotNull Location currentLocation) {
             return new Location(currentLocation.row()-1, currentLocation.col());
         }
-
-        @Override
-        public String toString(){return "UP";}
     }
 }

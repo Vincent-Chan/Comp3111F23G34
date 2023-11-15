@@ -17,7 +17,6 @@ import java.util.*;
  */
 public class GameStateController {
 
-
     private  Map<Location, Vertex> location2vertex = new HashMap<>();
     private Location TomLocation;
     private Location JerryLocation;

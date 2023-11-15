@@ -102,7 +102,7 @@ public class main {
             shortestPathGenerator.output_file(SP);
             boolean highlighted = true; // flag, false->not yet highlighted the shortest path from entry to exit
 
-            /**Game Looop*/
+            /**Game Loop*/
             while(stateController.gameStateOutcome()==GameState.CONTINUE){
                 turn = turn%2;
 
