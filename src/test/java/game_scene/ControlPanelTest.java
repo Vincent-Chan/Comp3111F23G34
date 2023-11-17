@@ -3,6 +3,7 @@ package game_scene;
 import game_states.Move;
 import game_states.MoveCode;
 import org.junit.Test;
+import visuals.StringResources;
 
 import javax.swing.*;
 import java.util.HashMap;
@@ -57,7 +58,7 @@ public class ControlPanelTest {
     }
 
     @Test
-    public void testCOntrolPanelActionQueueException(){
+    public void testControlPanelActionQueueException(){
         HashMap<MoveCode, JButton> move2Button = generateMove2ButtonMap();
         ControlPanelController ctrler = new ControlPanelController(move2Button);
         LinkedBlockingQueue<Move> queue = ctrler.getActionQueue();
@@ -67,7 +68,11 @@ public class ControlPanelTest {
 
     }
 
-
+    @Test
+    public void testShowRemainingMoves(){
+        StringResources.showRemainingMoves(0,2); //target
+        StringResources.showRemainingMoves(1,3); //target
+    }
     private HashMap<MoveCode, JButton> generateMove2ButtonMap(){
         HashMap<MoveCode, JButton> move2Button = new HashMap<MoveCode, JButton>();
         JButton upButton = new JButton("↑");

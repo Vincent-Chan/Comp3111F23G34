@@ -50,7 +50,8 @@ public class GameStateController {
     }
 
     public boolean moveCharacter(int charId, Move move){
-        Location from = charId==0?TomLocation:JerryLocation;
+        Location from = charId==0?TomLocation
+                :JerryLocation;
         Location to = move.nextPosition(from);
         if(!canMove(charId, move))
             return false;
@@ -63,7 +64,10 @@ public class GameStateController {
         return true;
     }
 
-    public Location getCharacterLocation(int charId){return charId==0? TomLocation:JerryLocation;}
+    public Location getCharacterLocation(int charId){
+        return charId==0
+            ? TomLocation
+                :JerryLocation;}
 
     public GameState gameStateOutcome(){
 
