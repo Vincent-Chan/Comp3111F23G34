@@ -39,14 +39,6 @@ public class VertexController {
 
     public VertexViewer getVertex(){return vertex;}
 
-    public ArrayList<Integer> getLocation(){
-        ArrayList<Integer> toBeReturned = new ArrayList<>();
-        toBeReturned.add(location.row());
-        toBeReturned.add(location.col());
-
-        return toBeReturned;
-    }
-
     public void insertImage(String filepath) throws IOException {
         BufferedImage myPicture = ImageIO.read(new File(filepath));
         Image scaledImage = myPicture.getScaledInstance(this.vertex.getWidth(),this.vertex.getHeight(),Image.SCALE_DEFAULT);
