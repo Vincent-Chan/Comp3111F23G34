@@ -30,6 +30,7 @@ public class VertexController {
         COLOR_MAP.put(StringResources.clear_vertex, Color.WHITE);
         COLOR_MAP.put(StringResources.sp_component,Color.GREEN);
         COLOR_MAP.put(StringResources.tom_reachable_location, Color.RED);
+        COLOR_MAP.put(StringResources.SP_union_tom_reachable_location, Color.ORANGE);
     }
 
     /**The vertex viewer that this class controls*/

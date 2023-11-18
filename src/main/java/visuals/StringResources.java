@@ -15,6 +15,7 @@ public class StringResources {
     public static String barrier = "BARRIER";
     public static String sp_component = "SP";
     public static String tom_reachable_location = "TRL";
+    public static String SP_union_tom_reachable_location = "TRL_SP";
     public static String showRemainingMoves(int playerID, int remainingRounds){
         if(playerID == 0){
             return "Tom's round: "+remainingRounds+" left.";

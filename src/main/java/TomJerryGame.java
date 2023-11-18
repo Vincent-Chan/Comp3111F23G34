@@ -135,13 +135,6 @@ public class TomJerryGame {
             System.exit(0);
         }
     }
-    public void highlightShortestPath(){
-        ShortestPathGenerator shortestPathGenerator = new ShortestPathGenerator(MAP_FILE_PATH,SP_OUTPUT_PATH);
-        JOptionPane.showMessageDialog(null,StringResources.show_sp_hint , "Hint", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(StringResources.show_sp_hint_image));
-        ArrayList<Location> SP = shortestPathGenerator.calculate_shortest_path(entry,exit);
-        mazeMapController.highlightPath(SP, StringResources.sp_component);
-        shortestPathGenerator.output_file(SP);
-    }
 
     public void TomMovesOneStep(int remainingMoves) throws IOException {
 
@@ -247,19 +240,44 @@ public class TomJerryGame {
 
         }
     }
+
+    /**
+     * Show the shortest path from Jerry to the exit AND the reachable positions by Tom
+     * Shown at end of every even-number rounds
+     * */
+    public void showHintsOnMap(){
+        /**Highlight the shortest path from Jerry to exit*/
+        JOptionPane.showMessageDialog(null,StringResources.show_sp_hint , "Hint", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(StringResources.show_sp_hint_image));
+        ArrayList<Location> SP = shortestPathGenerator.calculate_shortest_path(stateController.getCharacterLocation(characterID.JERRY_ID),exit);
+        mazeMapController.highlightPath(SP, StringResources.sp_component);
+
+        /**Highlight the reachable locations by Tom*/
+        ArrayList<Location> reachableByTom = stateController.reachablePositions(characterID.TOM_ID, tomSpeed);
+        mazeMapController.highlightPath(reachableByTom, StringResources.tom_reachable_location);
+
+        /**If a vertex is both on the shortest path AND reachable by Tom, change it to another color*/
+        for(Location l:SP){
+            if(reachableByTom.contains(l)){
+                mazeMapController.getLocationVertexControllerMap().get(l).changeVertexColor(StringResources.SP_union_tom_reachable_location);
+            }
+        }
+    }
     public void run(LandingPageView landingPageView) throws IOException, InterruptedException {
         /**Player presses "Start Game"*/
 
         this.setDifficulty();
         windowsView.setVisible(true);
         landingPageView.setVisible(false);
-        this.highlightShortestPath();
         boolean highlighted = true;
 
         int turn = 1; // turn%2 -> id of current GameCharacter that can move
         /**Game loop with ending condition being checked upon the record of every new state*/
         while(stateController.gameStateOutcome()== GameState.CONTINUE){
             turn = turn%2;
+            if(turn%2==1){
+                highlighted = true;
+                showHintsOnMap();
+            }
             if(turn == characterID.TOM_ID){
                 this.TomMoves();
             }
