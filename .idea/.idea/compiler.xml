@@ -6,13 +6,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
- Function_C
-        <module name="Comp3111F23G34" />
+        <module name="ourgameGUI" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="Comp3111F23G34" target="17" />
-    </bytecodeTargetLevel>
-
   </component>
 </project>

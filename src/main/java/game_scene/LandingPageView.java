@@ -7,13 +7,29 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * The viewer of the landing page which user sees first after starting the program
+ */
 public class LandingPageView extends JFrame {
+    /**The panel for holding the start button*/
     private JPanel startButtonPanel;
+
+    /**The controller of this landing page*/
     private LandingPageController controller;
+
+    /**The panel for holding all GUI elements this class creates*/
     private JPanel panel;
+
+    /**The start button for starting the game*/
     private JButton startButton;
 
+    /**The logo will be displayed on the panel*/
     private JLabel logo;
+
+
+    /**
+     * The constructor of this class
+     */
     public LandingPageView(){
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 600);
@@ -42,6 +58,9 @@ public class LandingPageView extends JFrame {
 
     }
 
+    /**
+     * @return the controller of this landing page
+     * */
     public LandingPageController getController(){return controller;}
 
 

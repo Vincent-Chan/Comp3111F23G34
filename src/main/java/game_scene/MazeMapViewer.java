@@ -7,11 +7,24 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-//https://stackoverflow.com/questions/51746451/how-do-i-make-a-jpanel-grid
-
+/**
+ * The user view of the maze map
+ */
 public class MazeMapViewer extends JPanel {
+
+    /**The side length of the map*/
     public static final int SIDE_LENGTH = 30;
+
+    /**The controller of this maze map view*/
     private MazeMapController controller;
+
+    /**
+     * The constructor of this class
+     *
+     * @param MazeMap The underlying maze map data that this class will display
+     * @param entry The entry location of the maze map
+     * @param exit The exit location of the maze map
+     * */
     public MazeMapViewer(ArrayList<ArrayList<Integer>> MazeMap, Location entry, Location exit){
 
         controller = new MazeMapController(MazeMap, entry, exit);
@@ -43,15 +56,25 @@ public class MazeMapViewer extends JPanel {
         }
     }
 
-    // for marking the row and column indices
-    private JLabel createAxisLabel(String item){
+    /**
+     * Helper function for displaying a text
+     *
+     * @param item: the text to be displayed
+     * */
+    public JLabel createAxisLabel(String item){
         JLabel label = new JLabel(item);
         label.setHorizontalAlignment(JLabel.CENTER);
         label.setVerticalAlignment(JLabel.CENTER);
         label.setPreferredSize(new Dimension(50, 50));
-        label.setFont(new Font("Arial", Font.BOLD, 12));
+        label.setFont(new Font("Arial", Font.BOLD, 7));
         return label;
     }
 
+
+    /**
+     * Accessor function
+     *
+     * @return the controller of this maze map view
+     */
     public MazeMapController getController(){return controller;}
 }

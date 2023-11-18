@@ -19,7 +19,16 @@ import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
 
+
 public class main {
+
+    /**Read maze map data from a specified csv file
+     *
+     * @param file  the path of the csv file containing the maze map data
+     * @param separator the separator used by the csv file
+     *
+     * @throws  IOException if the filepath points to invalid csv file
+     * */
     public static ArrayList<ArrayList<Integer>> readData(String file, String separator) throws IOException {
         int count = 0;
         ArrayList<ArrayList<Integer>> content = new ArrayList<>();
@@ -35,10 +44,23 @@ public class main {
                 content.add(intList);
             }
         } catch (FileNotFoundException e) {
-            //Some error logging
+            return null;
         }
         return content;
     }
+
+    /**
+     * The driver function of the game that performs the following:
+     * <ul>
+     *     <li>Initiate a landing page showing a button to start the game</li>
+     *     <li>If the user clicks the button, the game windows with the maze map and control panel is shown</li>
+     *     <li>The user plays the game while the game state controller checks ending condition whenever a new state is recorded</li>
+     *     <li>If the game ends, a message box is shown, and the user is directed back to the landing page</li>
+     *     <li>The user can choose to start a new game by clicking the start button on the landing page again or close the landing page</li>
+     *
+     * </ul>
+     *
+     * */
     public static void main(String[] args) throws IOException {
 
         LandingPageView landingPageView= new LandingPageView();
@@ -81,7 +103,7 @@ public class main {
             }
 
 
-            // initialize the GUI components and obtain their controllers
+            /**initialize the GUI components and obtain their controllers*/
             WindowsView windowsView = new WindowsView(mazeMap, entry, exit);
             MazeMapController mazeMapController = windowsView.getMapViewer().getController();
             mazeMapController.insertImage(entry, StringResources.jerry);
@@ -102,7 +124,7 @@ public class main {
             shortestPathGenerator.output_file(SP);
             boolean highlighted = true; // flag, false->not yet highlighted the shortest path from entry to exit
 
-            /**Game Looop*/
+            /**Game loop with ending condition being checked upon the record of every new state*/
             while(stateController.gameStateOutcome()==GameState.CONTINUE){
                 turn = turn%2;
 

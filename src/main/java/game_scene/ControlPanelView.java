@@ -6,10 +6,20 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 
+/**
+ *The user view of the control panel
+ */
 public class ControlPanelView extends JPanel {
+    /**The four buttons that control movements to four directions*/
     private JButton upButton, rightButton, leftButton, downButton;
+
+    /**The controller of this user view, to be constructed later*/
     private ControlPanelController controller;
 
+
+    /**
+     * Constructor of this class, also constructs the controller after creating all buttons
+     */
     public ControlPanelView() {
         setLayout(new GridBagLayout()); // Set the layout to GridBagLayout
 
@@ -72,5 +82,8 @@ public class ControlPanelView extends JPanel {
         add(label, c);
     }
 
+    /**
+     * @return the controller of this view
+     */
     public ControlPanelController getControlPanelController(){return controller;}
 }
