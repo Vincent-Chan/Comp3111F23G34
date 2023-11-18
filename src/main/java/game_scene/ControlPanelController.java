@@ -8,9 +8,22 @@ import java.awt.event.*;
 import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
 
+/**
+ * The controller for the control panel, which contains the keys the player can access
+ */
 public class ControlPanelController {
+
+    /**The hashmap storing the respective JButton instance of each possible move*/
     private HashMap<MoveCode, JButton> move2Button;
+
+    /**The FIFO blocking buffer for the actions submitted by the user via pressing the buttons*/
     private static LinkedBlockingQueue<Move> actionQueue;
+
+
+    /**
+     * Constructor for this class
+     * @param move2Button It is the user's responsibility to pass a well-defined [move->button] table when calling the constructor
+     */
     public ControlPanelController(HashMap<MoveCode, JButton> move2Button){
         if(actionQueue==null){
             actionQueue = new LinkedBlockingQueue<>();
@@ -19,8 +32,10 @@ public class ControlPanelController {
         this.move2Button = move2Button;
         for(MoveCode move: MoveCode.values()){
 
-            // Add ActionListener(s) to the buttons
             this.move2Button.get(move).addActionListener(new ActionListener() {
+                /**
+                 * @param e the event to be processed
+                 */
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     Move m = switch(move){
@@ -42,5 +57,8 @@ public class ControlPanelController {
 
     }
 
+    /**
+     * @return the FIFO blocking queue that stores all movements of Jerry made by user
+     */
     public LinkedBlockingQueue<Move> getActionQueue(){return actionQueue;}
 }

@@ -3,7 +3,7 @@ package game_states;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * An actions of moving a player.
+ * An action of moving a player.
  */
 public abstract sealed class Move permits Move.Down, Move.Left, Move.Right, Move.Up {
 
