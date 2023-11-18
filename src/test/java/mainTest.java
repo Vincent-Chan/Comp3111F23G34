@@ -16,7 +16,7 @@ public class mainTest {
     }
 
     @Test
-    public void test_main() throws IOException {
+    public void test_main() throws Exception {
         String args[] = new String[0];
         main.main(args); //target
     }

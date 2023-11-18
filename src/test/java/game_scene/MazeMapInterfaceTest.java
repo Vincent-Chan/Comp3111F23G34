@@ -62,7 +62,7 @@ public class MazeMapInterfaceTest {
         ArrayList<Location> pathComponents = new ArrayList<>();
         pathComponents.add(new Location(2,3));
         pathComponents.add(new Location(3,4));
-        mmc.highlightPath(pathComponents);
+        mmc.highlightPath(pathComponents, StringResources.sp_component);
         for(Location l:pathComponents){
             Color col = mmc.getLocationVertexControllerMap().get(l).getVertex().getBackground();
             assertEquals(Color.GREEN,col);
@@ -76,7 +76,7 @@ public class MazeMapInterfaceTest {
         ArrayList<Location> pathComponents = new ArrayList<>();
         pathComponents.add(new Location(2,3));
         pathComponents.add(new Location(3,4));
-        mmc.highlightPath(pathComponents);
+        mmc.highlightPath(pathComponents, StringResources.sp_component);
         mmc.removeHighlightPath();
         for(Location l:pathComponents){
             Color col = mmc.getLocationVertexControllerMap().get(l).getVertex().getBackground();
