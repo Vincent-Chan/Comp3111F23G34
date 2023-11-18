@@ -3,6 +3,7 @@ package visuals;
 public class StringResources {
     public static String tom = "src/main/java/visuals/tom.png";
     public static String jerry = "src/main/java/visuals/jerry.png";
+    public static String select_difficulty = "src/main/java/visuals/difficult_selection.png";
     public static String logo_image = "src/main/java/visuals/logo.png";
     public static String tom_catches_jerry = "src/main/java/visuals/tom_catches_jerry.png";
     public static String tom_angry = "src/main/java/visuals/tom_angry.png";

@@ -102,6 +102,40 @@ public class main {
                 System.out.println();
             }
 
+            /**Choose mode of difficulty
+             * <ui>
+             *     <li>Easy: PLAYER_SPEED = 3, COMPUTER_SPEED = 3</li>
+             *     <li>Medium: PLAYER_SPEED = 4, COMPUTER_SPEED = 6</li>
+             *     <li>Hard: PLAYER_SPEED = 6, COMPUTER_SPEED = 9</li>
+             * </ui>
+             * */
+            int PLAYER_SPEED = 3;
+            int COMPUTER_SPEED = 3;
+            String[] difficultyModes = {"Easy", "Medium", "Hard"};
+
+            // Show the message box and get the selected difficulty mode
+            int choice = JOptionPane.showOptionDialog(null, "Please select the difficulty.\n The harder the game, the more steps Tom can run in each turn!", "Game Launcher",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, new ImageIcon(StringResources.select_difficulty), difficultyModes, difficultyModes[0]);
+            if (choice >= 0) {
+                String selectedMode = difficultyModes[choice];
+                if(selectedMode.equals("Easy")){
+                    PLAYER_SPEED = 3;
+                    COMPUTER_SPEED = 3;
+                }
+                else if(selectedMode.equals("Medium")){
+                    PLAYER_SPEED = 4;
+                    COMPUTER_SPEED = 6;
+                }
+                else{
+                    PLAYER_SPEED = 6;
+                    COMPUTER_SPEED = 9;
+                }
+                JOptionPane.showMessageDialog(null, "Selected Difficulty Mode: " + selectedMode);
+
+            } else {
+                // User closed the dialog or clicked outside the options
+                System.exit(0);
+            }
 
             /**initialize the GUI components and obtain their controllers*/
             WindowsView windowsView = new WindowsView(mazeMap, entry, exit);
@@ -114,8 +148,6 @@ public class main {
             GameStateController stateController = new GameStateController(mazeMap, entry, exit);
 
             int turn = 1; // turn%2 -> id of current GameCharacter that can move
-            int PLAYER_SPEED = 3;
-            int COMPUTER_SPEED = 3;
 
             ShortestPathGenerator shortestPathGenerator = new ShortestPathGenerator(MAP_FILE_PATH,SP_OUTPUT_PATH);
             JOptionPane.showMessageDialog(null,StringResources.show_sp_hint , "Hint", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(StringResources.show_sp_hint_image));
