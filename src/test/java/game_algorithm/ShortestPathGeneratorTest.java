@@ -1,12 +1,25 @@
 package game_algorithm;
 import game_states.Location;
+import org.junit.Before;
 import org.junit.Test;
+
+import javax.print.attribute.standard.RequestingUserName;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Random;
 import static org.junit.Assert.*;
 
 public class ShortestPathGeneratorTest {
+    public Random rand1 = new Random();
+    public GameMapGenerator map_gen1 = new GameMapGenerator("src/main/java/MazeData.csv");
+    @Before
+    public void init_map()
+    {
+        long seed_number = 3111;
+        rand1.setSeed(seed_number);
+        char[][] maze_data = map_gen1.PrimMazeGenerator();
+        map_gen1.to_csv(maze_data);
+    }
 
     @Test
     public void test_constructor() {
@@ -17,6 +30,7 @@ public class ShortestPathGeneratorTest {
 
     @Test
     public void test_calculate_shortest_path() {
+        // normal path
         Location entry1 = new Location(11,0);
         Location exit1 = new Location(9,29);
         ShortestPathGenerator obj1 = new ShortestPathGenerator("src/main/java/MazeData.csv", "src/main/java/shortest_path_at_beginning.csv");
@@ -29,6 +43,7 @@ public class ShortestPathGeneratorTest {
         }
         assertArrayEquals(actual_output1.toArray(), expected_output1.toArray());
 
+        // Same entry and exit point
         Location entry2 = new Location(11,0);
         Location exit2 = new Location(11,0);
         ShortestPathGenerator obj2 = new ShortestPathGenerator("src/main/java/MazeData.csv", "src/main/java/shortest_path_at_beginning.csv");
@@ -36,6 +51,7 @@ public class ShortestPathGeneratorTest {
         ArrayList<Location> expected_output2 = null;
         assertEquals(actual_output2, expected_output2);
 
+        // No path
         Location entry3 = new Location(11,0);
         Location exit3 = new Location(0,29);
         ShortestPathGenerator obj3 = new ShortestPathGenerator("src/main/java/MazeData.csv", "src/main/java/shortest_path_at_beginning.csv");
@@ -46,6 +62,7 @@ public class ShortestPathGeneratorTest {
 
     @Test
     public void test_output_file() {
+        // valid directory
         Location entry1 = new Location(11,0);
         Location exit1 = new Location(9,29);
         ShortestPathGenerator obj1 = new ShortestPathGenerator("src/main/java/MazeData.csv", "src/main/java/shortest_path_at_beginning.csv");
@@ -58,6 +75,7 @@ public class ShortestPathGeneratorTest {
         }
         obj1.output_file(Shortest_path_vertices); // target function
 
+        // invalid directory
         ShortestPathGenerator obj2 = new ShortestPathGenerator("src/main/java/MazeData.csv","srcd/main/java/shortest_path_at_beginning.csv");
         obj2.output_file(Shortest_path_vertices); // target function
     }
@@ -113,11 +131,13 @@ public class ShortestPathGeneratorTest {
 
     @Test
     public void test_load_csv() {
+        // valid directory
         Location entry1 = new Location(11,0);
         Location exit1 = new Location(9,29);
         ShortestPathGenerator obj1 = new ShortestPathGenerator("src/main/java/MazeData.csv", "src/main/java/shortest_path_at_beginning.csv");
         obj1.load_csv("src/main/java/MazeData.csv");
 
+        // invalid directory
         Location entry2 = new Location(11,0);
         Location exit2 = new Location(9,29);
         ShortestPathGenerator obj2 = new ShortestPathGenerator("srcc/main/java/MazeData.csv", "src/main/java/shortest_path_at_beginning.csv");
