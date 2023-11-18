@@ -35,7 +35,7 @@ public class main {
                 content.add(intList);
             }
         } catch (FileNotFoundException e) {
-            //Some error logging
+            return null;
         }
         return content;
     }
