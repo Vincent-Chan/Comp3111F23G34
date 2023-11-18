@@ -1,5 +1,6 @@
 package game_states;
 import game_entities.*;
+import visuals.StringResources;
 
 import java.util.*;
 
@@ -122,9 +123,61 @@ public class GameStateController {
         if(JerryLocation.equals(exitLocation)){
             return GameState.JERRY_WIN;
         }
-
-
         return GameState.CONTINUE;
+    }
+    /**
+     * Given a quota of allowed_num_move, return all reachable positions by the given character
+     *
+     * @param characterID the character concerned
+     * @param allowed_num_move the number of moves that can be made
+     * */
+    public ArrayList<Location> reachablePositions(int characterID, int allowed_num_move){
+        final int[][] DIRECTIONS = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
+        ArrayList<Location> reachableLocations = new ArrayList<>();
+        HashSet<Location> visited = new HashSet<>();
+        Queue<Location> queue = new LinkedList<>();
+
+        Location startLocation = getCharacterLocation(characterID);
+        queue.offer(startLocation);
+        visited.add(startLocation);
+
+        int currentLevel = 0;
+        int nodesLeftInCurrentLevel = 1;
+        int nodesInNextLevel = 0;
+
+        while (!queue.isEmpty() && currentLevel <= allowed_num_move) {
+            Location currentLocation = queue.poll();
+
+            if (currentLevel > allowed_num_move)
+                break;
+
+            reachableLocations.add(currentLocation);
+            nodesLeftInCurrentLevel--;
+
+            for (int[] direction : DIRECTIONS) {
+                int newRow = currentLocation.row() + direction[0];
+                int newCol = currentLocation.col() + direction[1];
+
+                Location newLocation = new Location(newRow, newCol);
+
+                if (newLocation.row()<SIDE_LENGTH && newLocation.row()>=0
+                        &&newLocation.col()<SIDE_LENGTH && newLocation.col()>=0
+                        &&location2vertex.get(newLocation).isClear() && !visited.contains(newLocation)) {
+                    queue.offer(newLocation);
+                    visited.add(newLocation);
+                    nodesInNextLevel++;
+                }
+            }
+
+            if (nodesLeftInCurrentLevel == 0) {
+                nodesLeftInCurrentLevel = nodesInNextLevel;
+                nodesInNextLevel = 0;
+                currentLevel++;
+            }
+        }
+
+        return reachableLocations;
     }
 }
 

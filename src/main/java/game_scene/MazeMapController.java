@@ -98,9 +98,9 @@ public class MazeMapController {
      *
      * @param pathComponents the vertices on the path to highlight
      */
-    public void highlightPath(ArrayList<Location> pathComponents){
+    public void highlightPath(ArrayList<Location> pathComponents, String color_code){
         for(Location location:pathComponents){
-            location2vertexController.get(location).changeVertexColor(StringResources.sp_component);
+            location2vertexController.get(location).changeVertexColor(color_code);
             highlightedVertexLocation.add(location);
         }
     }

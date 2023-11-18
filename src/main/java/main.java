@@ -11,7 +11,6 @@ import game_states.Move;
 import visuals.StringResources;
 import game_algorithm.ShortestPathGenerator;
 import javax.swing.*;
-import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -61,7 +60,7 @@ public class main {
      * </ul>
      *
      * */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
 
         LandingPageView landingPageView= new LandingPageView();
         landingPageView.setVisible(true);
@@ -69,13 +68,7 @@ public class main {
         LinkedBlockingQueue<String> queue = landingPageController.getButtonHitRecords();
 
         while(true){
-            String startButtonPressedRecord;
-            try{
-                startButtonPressedRecord = queue.take();
-            }
-            catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            String startButtonPressedRecord= queue.take();
 
             /**Reaches this point only if user presses start button*/
             landingPageView.setVisible(false);
@@ -99,7 +92,6 @@ public class main {
                     else if (mazeMap.get(i).get(j)==3)
                         exit = new Location(i,j);
                 }
-                System.out.println();
             }
 
             /**Choose mode of difficulty
@@ -152,7 +144,7 @@ public class main {
             ShortestPathGenerator shortestPathGenerator = new ShortestPathGenerator(MAP_FILE_PATH,SP_OUTPUT_PATH);
             JOptionPane.showMessageDialog(null,StringResources.show_sp_hint , "Hint", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(StringResources.show_sp_hint_image));
             ArrayList<Location> SP = shortestPathGenerator.calculate_shortest_path(entry,exit);
-            mazeMapController.highlightPath(SP);
+            mazeMapController.highlightPath(SP, StringResources.sp_component);
             shortestPathGenerator.output_file(SP);
             boolean highlighted = true; // flag, false->not yet highlighted the shortest path from entry to exit
 
@@ -161,7 +153,7 @@ public class main {
                 turn = turn%2;
 
                 if(turn == characterID.TOM_ID){
-                    // Tom's turn, move along the shortest path
+                    /** Tom's turn, move along the shortest path*/
                     System.out.println("Tom's turn");
 
                     int remainingMoves =COMPUTER_SPEED;
@@ -200,6 +192,13 @@ public class main {
 
                         Location newjerry = stateController.getCharacterLocation(characterID.JERRY_ID);
 
+                        /**Sleep for a while before rendering, so that user can see how Tom moves step by step*/
+                        javax.swing.Timer timer = new javax.swing.Timer(2000, e -> {
+                            System.out.println("Current Time is: " + new Date(System.currentTimeMillis()));
+                        });
+                        timer.setRepeats(false);
+                        //timer.
+                        timer.start();
                         mazeMapController.renderMap(newtom,newjerry,oldtom,oldjerry);
                         windowsView.setTextBillboard(StringResources.showRemainingMoves(1,remainingMoves));
                         windowsView.revalidate();
@@ -210,7 +209,7 @@ public class main {
                     }
                 }
                 else{
-                    //player's turn
+                    /**Player's turn*/
                     System.out.println("Jerry's turn");
                     int remainingMoves =PLAYER_SPEED;
                     windowsView.setTextBillboard(StringResources.showRemainingMoves(1,remainingMoves));
@@ -221,19 +220,15 @@ public class main {
                         Location oldtom = stateController.getCharacterLocation(0);
                         Location oldjerry = stateController.getCharacterLocation(1);
 
-                        Move nextMove;
-                        try{
-                            LinkedBlockingQueue<Move> actionQueue = windowsView.getControlPanelView().getControlPanelController().getActionQueue();
-                            System.out.println("Hashcode of actionqueue in main.java"+actionQueue.hashCode());
-                            System.out.println(actionQueue.size());
-                            nextMove = actionQueue.take();
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
+                        LinkedBlockingQueue<Move> actionQueue = windowsView.getControlPanelView().getControlPanelController().getActionQueue();
+                        System.out.println("Hashcode of actionqueue in main.java"+actionQueue.hashCode());
+                        System.out.println(actionQueue.size());
+                        Move nextMove = actionQueue.take();
                         System.out.println("new move fetched: "+nextMove);
-                        boolean moveResult = stateController.moveCharacter(1, nextMove);
 
-                        //check validity of the move
+
+                        /**check validity of the move*/
+                        boolean moveResult = stateController.moveCharacter(1, nextMove);
                         if(moveResult){
                             Location newtom = stateController.getCharacterLocation(0);
                             Location newjerry = stateController.getCharacterLocation(1);
@@ -249,6 +244,18 @@ public class main {
                             windowsView.setTextBillboard(StringResources.showRemainingMoves(1,remainingMoves));
                             windowsView.revalidate();
                             windowsView.repaint();
+
+                            /**clear any left-over actions in actionqueue if this is the last chance for user to move in current roun
+                             * e.g. if user can move 3 steps in a round, but he presses the button for 4 times,
+                             *      then there is 1 step left-over
+                             *      need to clear this step before proceeding to next round
+                             * */
+                            if(remainingMoves==0){
+                                if(actionQueue.size()>0){
+                                    actionQueue.clear();
+                                }
+                            }
+
                         }
                         else {
                             JOptionPane.showMessageDialog(null, "Invalid Move!", "Message", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(StringResources.invalid_move));
@@ -263,7 +270,7 @@ public class main {
 
             }
 
-            /**An Game Instance Ends*/
+            /**A Game Instance Ends*/
             if(stateController.gameStateOutcome() == GameState.JERRY_WIN){
                 windowsView.revalidate();
                 windowsView.repaint();
