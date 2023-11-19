@@ -2,8 +2,12 @@ package game_scene;
 import game_states.Location;
 import visuals.StringResources;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -33,7 +37,7 @@ public class WindowsView extends JFrame {
      * @param entry the entry location of the maze map
      * @param exit the exit location of the maze map
      * */
-    public WindowsView(ArrayList<ArrayList<Integer>> MazeMap, Location entry, Location exit)  {
+    public WindowsView(ArrayList<ArrayList<Integer>> MazeMap, Location entry, Location exit) throws IOException {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         getContentPane().setName("Tom vs. Jerry");
 
@@ -49,13 +53,12 @@ public class WindowsView extends JFrame {
         getContentPane().add(mapViewer, BorderLayout.CENTER);//add underlaying maze map
 
         this.controlPanelView = new ControlPanelView();
-        getContentPane().add(new ControlPanelView(), BorderLayout.WEST);
+        getContentPane().add(this.controlPanelView, BorderLayout.WEST);
         pack();
 
-        int width = controlPanelView.getPreferredSize().width + mapViewer.getPreferredSize().width + 20;
-        int height = Math.max(controlPanelView.getPreferredSize().height, mapViewer.getPreferredSize().height) + 20;
+        int width = controlPanelView.getPreferredSize().width + mapViewer.getPreferredSize().width + 50;
+        int height = Math.max(controlPanelView.getPreferredSize().height, mapViewer.getPreferredSize().height) + 40;
         setSize(width, height);
-
 
     }
 
