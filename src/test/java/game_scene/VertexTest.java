@@ -66,7 +66,7 @@ public class VertexTest {
         assertInstanceOf(VertexViewer.class,vv);
     }
 
-    private MazeMapController generateMazeMapController(){
+    private MazeMapController generateMazeMapController() throws IOException {
         Location entry = new Location(12,0);
         Location exit = new Location(12,29);
 

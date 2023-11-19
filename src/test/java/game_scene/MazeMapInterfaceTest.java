@@ -85,20 +85,20 @@ public class MazeMapInterfaceTest {
     }
 
     @Test
-    public void testWindowsView_constructor(){
+    public void testWindowsView_constructor() throws IOException {
         ArrayList<ArrayList<Integer>> mzm = generateMazeMap(entry,exit);
         WindowsView wv = new WindowsView(mzm,entry,exit); //target
     }
 
     @Test
-    public void testWindowsView_setTextBillboard(){
+    public void testWindowsView_setTextBillboard() throws IOException {
         ArrayList<ArrayList<Integer>> mzm = generateMazeMap(entry,exit);
         WindowsView wv = new WindowsView(mzm,entry,exit);
         wv.setTextBillboard("test");//target
     }
 
     @Test
-    public void testWindowsView_getControlPanelView(){
+    public void testWindowsView_getControlPanelView() throws IOException {
         ArrayList<ArrayList<Integer>> mzm = generateMazeMap(entry,exit);
         WindowsView wv = new WindowsView(mzm,entry,exit);
         ControlPanelView cpv = wv.getControlPanelView();//target
@@ -106,7 +106,7 @@ public class MazeMapInterfaceTest {
     }
 
     @Test
-    public void testWindowsView_getMapView(){
+    public void testWindowsView_getMapView() throws IOException {
         ArrayList<ArrayList<Integer>> mzm = generateMazeMap(entry,exit);
         WindowsView wv = new WindowsView(mzm,entry,exit);
         MazeMapViewer mv = wv.getMapViewer();//target

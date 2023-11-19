@@ -6,6 +6,7 @@ import org.junit.Test;
 import visuals.StringResources;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -13,12 +14,12 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ControlPanelTest {
 
     @Test
-    public void testControlPanelViewConstructor(){
+    public void testControlPanelViewConstructor() throws IOException {
         ControlPanelView cpv = new ControlPanelView();//target
     }
 
     @Test
-    public void testgetControlPanelController() {
+    public void testgetControlPanelController() throws IOException {
         ControlPanelView cpv = new ControlPanelView();
         ControlPanelController ctrler = cpv.getControlPanelController(); //target
         assertNotNull(ctrler);
