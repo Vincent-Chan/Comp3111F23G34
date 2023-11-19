@@ -29,8 +29,8 @@ public class VertexController {
         COLOR_MAP.put(StringResources.barrier, Color.DARK_GRAY);
         COLOR_MAP.put(StringResources.clear_vertex, Color.WHITE);
         COLOR_MAP.put(StringResources.sp_component,Color.GREEN);
-        COLOR_MAP.put(StringResources.tom_reachable_location, Color.RED);
-        COLOR_MAP.put(StringResources.SP_union_tom_reachable_location, Color.ORANGE);
+        COLOR_MAP.put(StringResources.tom_reachable_location, Color.ORANGE);
+        COLOR_MAP.put(StringResources.SP_union_tom_reachable_location, Color.RED);
     }
 
     /**The vertex viewer that this class controls*/

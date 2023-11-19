@@ -21,6 +21,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.LinkedBlockingQueue;
 
+/**
+ * Each instance of this class is an independent game with its own maze map, game states, and GUI components
+ * */
 public class TomJerryGame {
     public final int SIDE_LENGTH =  30;
     private String MAP_FILE_PATH = "src/main/java/MazeData.csv";
@@ -34,6 +37,7 @@ public class TomJerryGame {
     public GameStateController stateController;
 
     public ShortestPathGenerator shortestPathGenerator;
+    public String difficulty;
 
     public int jerrySpeed = 3;
     public int tomSpeed = 3;
@@ -115,12 +119,13 @@ public class TomJerryGame {
         int choice = JOptionPane.showOptionDialog(null, "Please select the difficulty.\n The harder the game, the more steps Tom can run in each turn!", "Game Launcher",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, new ImageIcon(StringResources.select_difficulty), difficultyModes, difficultyModes[0]);
         if (choice >= 0) {
-            String selectedMode = difficultyModes[choice];
-            if(selectedMode.equals("Easy")){
+            difficulty = difficultyModes[choice];
+            if(difficulty.equals("Easy")){
                 jerrySpeed = 3;
                 tomSpeed = 3;
+
             }
-            else if(selectedMode.equals("Medium")){
+            else if(difficulty.equals("Medium")){
                 jerrySpeed = 4;
                 tomSpeed = 6;
             }
@@ -128,16 +133,21 @@ public class TomJerryGame {
                 jerrySpeed = 6;
                 tomSpeed = 9;
             }
-            JOptionPane.showMessageDialog(null, "Selected Difficulty Mode: " + selectedMode);
-
+            JOptionPane.showMessageDialog(null, "Selected Difficulty Mode: " + difficulty+" \n In each round, you can control Jerry to run "+jerrySpeed+" blocks and Tom can run "+tomSpeed+" steps.");
         } else {
             // User closed the dialog or clicked outside the options
             System.exit(0);
         }
     }
 
+    /**
+     * Calculate the shortest path from Tom to Jerry
+     * Move Tom by one step following this path
+     *
+     * @param remainingMoves the remaining quota of moves by Tom
+     * @throws IOException when exception occurs in updating the GUI of the map
+     * */
     public void TomMovesOneStep(int remainingMoves) throws IOException {
-
         Location oldtom = stateController.getCharacterLocation(characterID.TOM_ID);
         Location oldjerry = stateController.getCharacterLocation(characterID.JERRY_ID);
 
@@ -172,6 +182,10 @@ public class TomJerryGame {
 
 
     }
+
+    /**
+     * Called when it is Tom's turn to move
+     * */
     public void TomMoves() throws IOException {
         int remainingMoves =tomSpeed;
         windowsView.setTextBillboard(StringResources.showRemainingMoves(characterID.TOM_ID,remainingMoves));
@@ -235,7 +249,7 @@ public class TomJerryGame {
                 }
 
             } else {
-                JOptionPane.showMessageDialog(null, "Invalid Move!", "Message", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(StringResources.invalid_move));
+                JOptionPane.showMessageDialog(null, "Invalid Move! Be sure to stay in map and avoid the barriers\nThis will not exhaust your quota for moving in this round", "Message", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(StringResources.invalid_move));
             }
 
         }
@@ -244,23 +258,33 @@ public class TomJerryGame {
     /**
      * Show the shortest path from Jerry to the exit AND the reachable positions by Tom
      * Shown at end of every even-number rounds
+     *
+     * @param do_SP highlight the shortest path
+     * @param do_TRL highlight the reachable locations by Tom
      * */
-    public void showHintsOnMap(){
-        /**Highlight the shortest path from Jerry to exit*/
-        JOptionPane.showMessageDialog(null,StringResources.show_sp_hint , "Hint", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(StringResources.show_sp_hint_image));
-        ArrayList<Location> SP = shortestPathGenerator.calculate_shortest_path(stateController.getCharacterLocation(characterID.JERRY_ID),exit);
-        mazeMapController.highlightPath(SP, StringResources.sp_component);
-
-        /**Highlight the reachable locations by Tom*/
-        ArrayList<Location> reachableByTom = stateController.reachablePositions(characterID.TOM_ID, tomSpeed);
-        mazeMapController.highlightPath(reachableByTom, StringResources.tom_reachable_location);
-
-        /**If a vertex is both on the shortest path AND reachable by Tom, change it to another color*/
-        for(Location l:SP){
-            if(reachableByTom.contains(l)){
-                mazeMapController.getLocationVertexControllerMap().get(l).changeVertexColor(StringResources.SP_union_tom_reachable_location);
+    public void showHintsOnMap(boolean do_SP, boolean do_TRL){
+        ArrayList<Location> SP = new ArrayList<>();
+        ArrayList<Location> reachableByTom = new ArrayList<>();
+        if(do_SP) {
+            /**Highlight the shortest path from Jerry to exit*/
+            SP = shortestPathGenerator.calculate_shortest_path(stateController.getCharacterLocation(characterID.JERRY_ID), exit);
+            SP.remove(0);
+            mazeMapController.highlightPath(SP, StringResources.sp_component);
+        }
+        if(do_TRL){
+            /**Highlight the reachable locations by Tom*/
+            reachableByTom = stateController.reachablePositions(characterID.TOM_ID, tomSpeed);
+            mazeMapController.highlightPath(reachableByTom, StringResources.tom_reachable_location);
+        }
+        if(do_SP && do_TRL){
+            /**If a vertex is both on the shortest path AND reachable by Tom, change it to another color*/
+            for(Location l:SP){
+                if(reachableByTom.contains(l)){
+                    mazeMapController.getLocationVertexControllerMap().get(l).changeVertexColor(StringResources.SP_union_tom_reachable_location);
+                }
             }
         }
+
     }
     public void run(LandingPageView landingPageView) throws IOException, InterruptedException {
         /**Player presses "Start Game"*/
@@ -268,6 +292,24 @@ public class TomJerryGame {
         this.setDifficulty();
         windowsView.setVisible(true);
         landingPageView.setVisible(false);
+        JOptionPane.showMessageDialog(null,"To make your life easier, we have prepared you with several hints", "Hint", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(StringResources.show_sp_hint_image));
+        /**Guidance: demo of highlighting the shortest path*/
+        showHintsOnMap(true,false);
+        JOptionPane.showMessageDialog(null,"We will highlight the shortest path to the exit in GREEN", "Hint", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(StringResources.show_sp_hint_image));
+
+        /**Guidance: demo of highlighting tom reachable locations*/
+        mazeMapController.removeHighlightPath();
+        showHintsOnMap(false,true);
+        JOptionPane.showMessageDialog(null,"We will highlight the reachable locations by Tom in his next round in YELLOW", "Hint", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(StringResources.show_sp_hint_image));
+
+        /**Guidance: demo of highlighting both shortest path and tom reachable locations*/
+        mazeMapController.removeHighlightPath();
+        showHintsOnMap(true,true);
+        JOptionPane.showMessageDialog(null,"If a location is both on the shortest path and reachable by Tom, we will show it in RED, beware of these locations!", "Hint", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(StringResources.show_sp_hint_image));
+
+
+
+
         boolean highlighted = true;
 
         int turn = 1; // turn%2 -> id of current GameCharacter that can move
@@ -276,7 +318,7 @@ public class TomJerryGame {
             turn = turn%2;
             if(turn%2==1){
                 highlighted = true;
-                showHintsOnMap();
+                showHintsOnMap(true, true);
             }
             if(turn == characterID.TOM_ID){
                 this.TomMoves();
@@ -308,7 +350,6 @@ public class TomJerryGame {
         LinkedBlockingQueue<Move> actionQueue = windowsView.getControlPanelView().getControlPanelController().getActionQueue();
         actionQueue.clear();
         windowsView.setVisible(false);
-
     }
 
 
