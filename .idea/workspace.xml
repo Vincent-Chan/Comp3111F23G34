@@ -4,7 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dced8117-7975-4407-a39c-0a46be81a9a4" name="Changes" comment="Test case added" />
+    <list default="true" id="dced8117-7975-4407-a39c-0a46be81a9a4" name="Changes" comment="Test case added">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_18_11_2023_17_04__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_18_11_2023_17_04__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_28__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_28__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_31__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_31__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_9_11_2023_15_30__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_9_11_2023_15_30__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_9_11_2023__3_11_pm__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_9_11_2023__3_11_pm__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/MazeData.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MazeData.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/game_states/LocationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/game_states/LocationTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/game_algorithm/GameMapGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game_algorithm/GameMapGenerator.class" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -23,7 +33,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Function_B" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -35,19 +45,22 @@
   &quot;associatedIndex&quot;: 5
 }</component>
   <component name="ProjectId" id="2XtcHlsyqZlI34Z8CyM9F5DMQiz" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit4",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4": ""
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit4&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4&quot;: &quot;&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
@@ -56,16 +69,9 @@
       <recent name="game_algorithm" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.main">
-    <configuration name="main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="main" />
-      <module name="ourgameGUI" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ShortestPathGeneratorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ourgameGUI" />
+  <component name="RunManager" selected="JUnit.LocationTest">
+    <configuration name="GameMapGeneratorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Comp3111F23G34" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="game_algorithm.*" />
@@ -73,7 +79,22 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="game_algorithm" />
-      <option name="MAIN_CLASS_NAME" value="game_algorithm.ShortestPathGeneratorTest" />
+      <option name="MAIN_CLASS_NAME" value="game_algorithm.GameMapGeneratorTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="LocationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Comp3111F23G34" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="game_states.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="game_states" />
+      <option name="MAIN_CLASS_NAME" value="game_states.LocationTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -142,11 +163,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.LocationTest" />
+        <item itemvalue="JUnit.GameMapGeneratorTest" />
         <item itemvalue="JUnit.ShortestPathGeneratorTest.test_output_file" />
         <item itemvalue="JUnit.ShortestPathGeneratorTest.test_output_array" />
         <item itemvalue="JUnit.ShortestPathGeneratorTest.test_load_csv" />
-        <item itemvalue="JUnit.ShortestPathGeneratorTest" />
-        <item itemvalue="Application.main" />
       </list>
     </recent_temporary>
   </component>
@@ -178,23 +199,60 @@
     <option name="LAST_COMMIT_MESSAGE" value="Test case added" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Comp3111F23G34$ShortestPathGeneratorTest_test_output_file.ic" NAME="ShortestPathGeneratorTest.test_output_file Coverage Results" MODIFIED="1699458533547" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>game_algorithm.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/Comp3111F23G34$ShortestPathGeneratorTest_test_calculate_shortest_path.ic" NAME="ShortestPathGeneratorTest.test_calculate_shortest_path Coverage Results" MODIFIED="1699458077681" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$GameMapGeneratorTest_GameMapGeneratorTest1.ic" NAME="GameMapGeneratorTest.GameMapGeneratorTest1 Coverage Results" MODIFIED="1699777600021" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>game_algorithm.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/Comp3111F23G34$ShortestPathGeneratorTest_test_load_csv.ic" NAME="ShortestPathGeneratorTest.test_load_csv Coverage Results" MODIFIED="1699460025764" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>game_algorithm.*</FILTER>
     </SUITE>
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$ShortestPathGeneratorTest.ic" NAME="ShortestPathGeneratorTest Coverage Results" MODIFIED="1699460039559" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>game_algorithm.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$LocationTest_testEqual.ic" NAME="LocationTest.testEqual Coverage Results" MODIFIED="1699782449442" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>game_states.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$ShortestPathGeneratorTest_test_output_file.ic" NAME="ShortestPathGeneratorTest.test_output_file Coverage Results" MODIFIED="1699458533547" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>game_algorithm.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$PrimTest.ic" NAME="PrimTest Coverage Results" MODIFIED="1698076114212" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$LocationTest.ic" NAME="LocationTest Coverage Results" MODIFIED="1699774576520" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>game_states.*</FILTER>
+    </SUITE>
     <SUITE FILE_PATH="coverage/Comp3111F23G34$ShortestPathGeneratorTest_test_constructor.ic" NAME="ShortestPathGeneratorTest.test_constructor Coverage Results" MODIFIED="1699456224094" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>game_algorithm.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/Comp3111F23G34$ShortestPathGeneratorTest.ic" NAME="ShortestPathGeneratorTest Coverage Results" MODIFIED="1699460039559" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$LocationTest_toStringTest1.ic" NAME="LocationTest.toStringTest1 Coverage Results" MODIFIED="1699782496897" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>game_states.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$GameMapGeneratorTest_to_csvTest1.ic" NAME="GameMapGeneratorTest.to_csvTest1 Coverage Results" MODIFIED="1699777750797" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>game_algorithm.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$LocationTest_opposite_nodeTest4.ic" NAME="LocationTest.opposite_nodeTest4 Coverage Results" MODIFIED="1699783032273" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>game_states.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$LocationTest_opposite_nodeTest3.ic" NAME="LocationTest.opposite_nodeTest3 Coverage Results" MODIFIED="1699783113265" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>game_states.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$ShortestPathGeneratorTest_test_calculate_shortest_path.ic" NAME="ShortestPathGeneratorTest.test_calculate_shortest_path Coverage Results" MODIFIED="1699458077681" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>game_algorithm.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/Comp3111F23G34$ShortestPathGeneratorTest_test_output_array.ic" NAME="ShortestPathGeneratorTest.test_output_array Coverage Results" MODIFIED="1699459905243" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>game_algorithm.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$LocationTest_opposite_nodeTest5.ic" NAME="LocationTest.opposite_nodeTest5 Coverage Results" MODIFIED="1699783149668" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>game_states.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$LocationTest_opposite_nodeTest1.ic" NAME="LocationTest.opposite_nodeTest1 Coverage Results" MODIFIED="1699782717405" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>game_states.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$GameMapGeneratorTest.ic" NAME="GameMapGeneratorTest Coverage Results" MODIFIED="1699774493206" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>game_algorithm.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$GameMapGeneratorTest_PrimMazeGeneratorTest1.ic" NAME="GameMapGeneratorTest.PrimMazeGeneratorTest1 Coverage Results" MODIFIED="1699777937753" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>game_algorithm.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$LocationTest_opposite_nodeTest2.ic" NAME="LocationTest.opposite_nodeTest2 Coverage Results" MODIFIED="1699782835882" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>game_states.*</FILTER>
     </SUITE>
   </component>
 </project>

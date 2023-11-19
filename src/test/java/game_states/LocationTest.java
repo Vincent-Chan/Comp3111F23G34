@@ -6,25 +6,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class LocationTest {
     @Test
-    public void testEqual(){
+    public void testEqual()
+    {
         Location a = new Location(1,2);
         Location b = new Location(1,2);
         Location c = new Location(2,3);
 
         assertEquals(true,a.equals(b));
         assertEquals(false,a.equals(c));
-    }
-
-    // Function A Unit Testing
-    @Test
-    public void toStringTest1()
-    {
-        Location loc1 = new Location(4, 13) ;
-        String actual_str1 = loc1.toString() ;
-
-        String expected_str1 = "[ 4 , 13 ]" ;
-
-        assertEquals(expected_str1, actual_str1) ;
     }
 
     // Function A Unit Testing
