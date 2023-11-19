@@ -2,15 +2,29 @@ package game_scene;
 import game_states.Move;
 import game_states.MoveCode;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 
+/**
+ *The user view of the control panel
+ */
 public class ControlPanelView extends JPanel {
+    /**The four buttons that control movements to four directions*/
     private JButton upButton, rightButton, leftButton, downButton;
+
+    /**The controller of this user view, to be constructed later*/
     private ControlPanelController controller;
 
-    public ControlPanelView() {
+
+    /**
+     * Constructor of this class, also constructs the controller after creating all buttons
+     */
+    public ControlPanelView() throws IOException {
         setLayout(new GridBagLayout()); // Set the layout to GridBagLayout
 
         // Create the buttons
@@ -64,13 +78,18 @@ public class ControlPanelView extends JPanel {
         add(downButton, c);
 
         // Create a label to explain what the buttons do
-        JLabel label = new JLabel("Use arrow keys to move", SwingConstants.CENTER);
-        label.setFont(new Font("Arial", Font.PLAIN, 24));
+        //JLabel label = new JLabel("Use arrow keys to move", SwingConstants.CENTER);
+        //label.setFont(new Font("Arial", Font.PLAIN, 24));
         c.gridx = 0;
         c.gridy = 3;
         c.gridwidth = 3;
+        BufferedImage bannerpic = ImageIO.read(new File("src/main/java/visuals/banner_hints.png"));
+        JLabel label = new JLabel(new ImageIcon(bannerpic), SwingConstants.CENTER);
         add(label, c);
     }
 
+    /**
+     * @return the controller of this view
+     */
     public ControlPanelController getControlPanelController(){return controller;}
 }

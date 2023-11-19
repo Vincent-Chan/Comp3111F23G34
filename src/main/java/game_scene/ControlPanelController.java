@@ -8,20 +8,34 @@ import java.awt.event.*;
 import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
 
+/**
+ * The controller for the control panel, which contains the keys the player can access
+ */
 public class ControlPanelController {
+
+    /**The hashmap storing the respective JButton instance of each possible move*/
     private HashMap<MoveCode, JButton> move2Button;
+
+    /**The FIFO blocking buffer for the actions submitted by the user via pressing the buttons*/
     private static LinkedBlockingQueue<Move> actionQueue;
+
+
+    /**
+     * Constructor for this class
+     * @param move2Button It is the user's responsibility to pass a well-defined [move->button] table when calling the constructor
+     */
     public ControlPanelController(HashMap<MoveCode, JButton> move2Button){
         if(actionQueue==null){
             actionQueue = new LinkedBlockingQueue<>();
         }
 
         this.move2Button = move2Button;
-        System.out.println("Hashcode of actionqueue upon initializing ControlPanelController"+actionQueue.hashCode());
         for(MoveCode move: MoveCode.values()){
 
-            // Add ActionListener(s) to the buttons
             this.move2Button.get(move).addActionListener(new ActionListener() {
+                /**
+                 * @param e the event to be processed
+                 */
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     Move m = switch(move){
@@ -30,17 +44,11 @@ public class ControlPanelController {
                         case LEFT -> new Move.Left(1);
                         case DOWN -> new Move.Down(1);
                     };
-                    System.out.println("Action received from button: "+m);
                     try {
                         actionQueue.put(m);
                     } catch (InterruptedException ex) {
-                        throw new RuntimeException(ex);
+                        throw new RuntimeException();
                     }
-                    System.out.print("Current actionQueue"+"("+actionQueue.hashCode()+")");
-                    for(int i = 0;i< actionQueue.size();i++){
-                        System.out.print(actionQueue.toArray()[i]+"->");
-                    }
-                    System.out.println();
                 }
 
 
@@ -49,5 +57,8 @@ public class ControlPanelController {
 
     }
 
+    /**
+     * @return the FIFO blocking queue that stores all movements of Jerry made by user
+     */
     public LinkedBlockingQueue<Move> getActionQueue(){return actionQueue;}
 }

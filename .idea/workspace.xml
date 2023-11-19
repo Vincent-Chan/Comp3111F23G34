@@ -4,21 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="894bb80f-52ce-4648-bb94-0f7608b0d8b9" name="Changes" comment="JavaDoc documentation for toString() has just completed.">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_28__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_28__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_31__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_31__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_9_11_2023_15_30__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_9_11_2023_15_30__Changes_.xml" afterDir="false" />
-    </list>
+    <list default="true" id="dced8117-7975-4407-a39c-0a46be81a9a4" name="Changes" comment="Test case added" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ExportToHTMLSettings">
+    <option name="OUTPUT_DIRECTORY" value="$PROJECT_DIR$/htmlReport" />
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JUnit5 Test Class" />
-        <option value="Class" />
         <option value="JUnit4 Test Class" />
       </list>
     </option>
@@ -26,7 +23,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Function_A" />
+        <entry key="$PROJECT_DIR$" value="Function_B" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -34,48 +31,40 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="MavenImportPreferences">
-    <option name="generalSettings">
-      <MavenGeneralSettings>
-        <option name="useMavenConfig" value="true" />
-      </MavenGeneralSettings>
-    </option>
-  </component>
-  <component name="ProjectId" id="2XAMDPVbuDuAPvb8h7nVgYK5e6w" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2XtcHlsyqZlI34Z8CyM9F5DMQiz" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit4&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4&quot;: &quot;&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.includeInheritedMembers&quot;: &quot;true&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit4",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4": ""
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
       <recent name="game_algorithm" />
-      <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.GameMapGeneratorTest">
-    <configuration name="GameMapGeneratorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Application.main">
+    <configuration name="main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="main" />
+      <module name="ourgameGUI" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ShortestPathGeneratorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ourgameGUI" />
       <extension name="coverage">
         <pattern>
@@ -84,13 +73,13 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="game_algorithm" />
-      <option name="MAIN_CLASS_NAME" value="game_algorithm.GameMapGeneratorTest" />
+      <option name="MAIN_CLASS_NAME" value="game_algorithm.ShortestPathGeneratorTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GameMapGeneratorTest.GameMapGeneratorTest1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ShortestPathGeneratorTest.test_load_csv" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ourgameGUI" />
       <extension name="coverage">
         <pattern>
@@ -99,14 +88,14 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="game_algorithm" />
-      <option name="MAIN_CLASS_NAME" value="game_algorithm.GameMapGeneratorTest" />
-      <option name="METHOD_NAME" value="GameMapGeneratorTest1" />
+      <option name="MAIN_CLASS_NAME" value="game_algorithm.ShortestPathGeneratorTest" />
+      <option name="METHOD_NAME" value="test_load_csv" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GameMapGeneratorTest.PrimMazeGeneratorTest1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ShortestPathGeneratorTest.test_output_array" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ourgameGUI" />
       <extension name="coverage">
         <pattern>
@@ -115,14 +104,14 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="game_algorithm" />
-      <option name="MAIN_CLASS_NAME" value="game_algorithm.GameMapGeneratorTest" />
-      <option name="METHOD_NAME" value="PrimMazeGeneratorTest1" />
+      <option name="MAIN_CLASS_NAME" value="game_algorithm.ShortestPathGeneratorTest" />
+      <option name="METHOD_NAME" value="test_output_array" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="GameMapGeneratorTest.to_csvTest1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ShortestPathGeneratorTest.test_output_file" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ourgameGUI" />
       <extension name="coverage">
         <pattern>
@@ -131,298 +120,81 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="game_algorithm" />
-      <option name="MAIN_CLASS_NAME" value="game_algorithm.GameMapGeneratorTest" />
-      <option name="METHOD_NAME" value="to_csvTest1" />
+      <option name="MAIN_CLASS_NAME" value="game_algorithm.ShortestPathGeneratorTest" />
+      <option name="METHOD_NAME" value="test_output_file" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="LocationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ourgameGUI" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="game_states.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="game_states" />
-      <option name="MAIN_CLASS_NAME" value="game_states.LocationTest" />
-      <option name="TEST_OBJECT" value="class" />
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="Function_B" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="Function_B" />
+      <option name="filePath" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.GameMapGeneratorTest" />
-        <item itemvalue="JUnit.LocationTest" />
-        <item itemvalue="JUnit.GameMapGeneratorTest.to_csvTest1" />
-        <item itemvalue="JUnit.GameMapGeneratorTest.PrimMazeGeneratorTest1" />
-        <item itemvalue="JUnit.GameMapGeneratorTest.GameMapGeneratorTest1" />
+        <item itemvalue="JUnit.ShortestPathGeneratorTest.test_output_file" />
+        <item itemvalue="JUnit.ShortestPathGeneratorTest.test_output_array" />
+        <item itemvalue="JUnit.ShortestPathGeneratorTest.test_load_csv" />
+        <item itemvalue="JUnit.ShortestPathGeneratorTest" />
+        <item itemvalue="Application.main" />
       </list>
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
-  <component name="SvnConfiguration">
-    <configuration>C:\Users\User\AppData\Roaming\Subversion</configuration>
-  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="894bb80f-52ce-4648-bb94-0f7608b0d8b9" name="Changes" comment="" />
-      <created>1698067310429</created>
+      <changelist id="dced8117-7975-4407-a39c-0a46be81a9a4" name="Changes" comment="" />
+      <created>1699451731939</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1698067310429</updated>
+      <updated>1699451731939</updated>
     </task>
-    <task id="LOCAL-00001" summary="Vincent (on 25/10/2023, 00:16)&#10;&#10;&#10;Things I have done:&#10;&#10;I have already refined the algorithm to generate the maze without using any try...catch... block to make it easier to read and debug.&#10;&#10;I have also implemented a function to print the whole maze on screen. Since a 30*30 maze will be too big to display on screen, currently I set it to 10*10 maze instead (I will change that to 30*30 later)&#10;&#10;&#10;TODO tasks left:&#10;&#10;-convert the whole maze data to a .csv file for exporting&#10;&#10;-the GUI part to show the maze in GUI (but I think Edward you know how to do that since I saw you successfully display the maze in GUI?)&#10; (Maybe I can borrow you code, Edward?)">
-      <created>1698164473480</created>
+    <task id="LOCAL-00001" summary="Test case added">
+      <option name="closed" value="true" />
+      <created>1699460472445</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1698164473480</updated>
+      <updated>1699460472445</updated>
     </task>
-    <task id="LOCAL-00002" summary="I have just implemented the toCSV function (but did not work quite correct :( )">
-      <created>1698202777445</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1698202777445</updated>
-    </task>
-    <task id="LOCAL-00003" summary="The function toCSV() has been correctly implemented! You can see that in the csv file &quot;MazeData.csv&quot;, it can correctly shown the data of the maze in a 30*30 format.&#10;&#10;Please note that in the csv file:&#10;&#10;// if maze[i][j] = '1', it is a barrier in grey color&#10;// if maze[i][j] = '0', it is a clear path in white color&#10;// if maze[i][j] = 'S', it is the starting point for the mouse Jerry&#10;// if maze[i][j] = 'E', it is the exit point where the mouse Jerry should go to">
-      <created>1698222657997</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1698222657997</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Slightly updated what different numbers represent in the csv file:&#10;&#10;// if maze[i][j] = '0', it is a clear path in white color&#10;// if maze[i][j] = '1', it is a barrier in grey color&#10;// if maze[i][j] = '2', it is the starting point for the mouse Jerry&#10;// if maze[i][j] = '3', it is the exit point where the mouse Jerry should go to&#10;&#10;&#10;Note that '2' is always placed at the leftmost column &amp; '3' is always placed at the rightmost column respectively.">
-      <created>1698225378087</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1698225378087</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Slightly updated what different numbers represent in the csv file:&#10;&#10;// if maze[i][j] = '0', it is a clear path in white color&#10;// if maze[i][j] = '1', it is a barrier in grey color&#10;// if maze[i][j] = '2', it is the starting point for the mouse Jerry&#10;// if maze[i][j] = '3', it is the exit point where the mouse Jerry should go to&#10;&#10;&#10;Note that '2' is always placed at the leftmost column &amp; '3' is always placed at the rightmost column respectively.">
-      <created>1698225453438</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1698225453438</updated>
-    </task>
-    <task id="LOCAL-00006" summary="I have implemented how to show the maze in GUI format.&#10;&#10;The white tiles are the clea path.&#10;The gray tiles are barrier.&#10;The red tile is the starting point for the mouse Jerry.&#10;The green tile is the exit point for the mouse Jerry.">
-      <created>1698227703990</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1698227703990</updated>
-    </task>
-    <task id="LOCAL-00007" summary="I further split each function in different java class file (.java files), so that this can make the debugging and testing easier later.&#10;&#10;(Note that the code still works fine as the previous one)">
-      <created>1698476984538</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1698476984539</updated>
-    </task>
-    <task id="LOCAL-00008" summary="Slight modification on Main.java, MazeGenerator.java, PrintMaze.java, Vertex.java.&#10;&#10;(Adding comments will be done later)">
-      <created>1698477471524</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1698477471524</updated>
-    </task>
-    <task id="LOCAL-00009" summary="Further modified MazeGenerator.java by allowing breaking 18 blocks of barrier to ensure there are always at least 2 possible paths from starting point to finishing point. (Already discussed with Anthony and he agreed me to do so)">
-      <created>1698827156146</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1698827156146</updated>
-    </task>
-    <task id="LOCAL-00010" summary="Add the set seed number as 3111 in MazeGenerator.java file (I temporarily comment out those lines for setting the seed)">
-      <created>1698828294070</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1698828294070</updated>
-    </task>
-    <task id="LOCAL-00011" summary="Slight modification is made to Main.java and MazeGenerator.java so that it will be more convenience for me to do unit testing on MazeGenerator class in the future (by making setSeed() on rand more easier to do).&#10;&#10;The final output is still the same as before.">
-      <created>1698914741989</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1698914741989</updated>
-    </task>
-    <task id="LOCAL-00012" summary="Added a few unit test cases for DataOfSquare and MazeGenerator">
-      <created>1699200267054</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1699200267054</updated>
-    </task>
-    <task id="LOCAL-00013" summary="Modify the following unit testing class:&#10;&#10;- MazeDataToCSVTest.java&#10;- MazeGeneratorTest.java&#10;- WindowTest.java">
-      <created>1699426439747</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1699426439747</updated>
-    </task>
-    <task id="LOCAL-00014" summary="Modified DataOfSquareTest.java.&#10;&#10;(&#10;Email reply from TA John Li Tsz On regarding unit testing on class or function of void return type:&#10;&#10;Dear Vincent,&#10;&#10;Junit can run without assertion statements. So to cover lines of void functions or classes, you may just call them in a test case without assertion statements.&#10;&#10;Yours sincerely,&#10;Tsz-On&#10;)">
-      <created>1699431849396</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1699431849397</updated>
-    </task>
-    <task id="LOCAL-00015" summary="Include a new unit test: SquarePanelTest.java">
-      <created>1699432970282</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1699432970282</updated>
-    </task>
-    <task id="LOCAL-00016" summary="- Include a new unit test: VertexTest.java&#10;&#10;- Modify MazeGeneratorTest.java and SquarePanelTest.java a bit&#10;&#10;- Main class and PrintMaze class no need to unit test them (I guess?)">
-      <created>1699434051358</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1699434051358</updated>
-    </task>
-    <task id="LOCAL-00017" summary="Include all test cases for function A">
-      <created>1699517574764</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1699517574764</updated>
-    </task>
-    <task id="LOCAL-00018" summary="Add one more unit test case for LocationTest.java">
-      <created>1699518324949</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1699518324949</updated>
-    </task>
-    <task id="LOCAL-00019" summary="Write only part of the Javadoc documentation in GameMapGenerator.java. &#10;&#10;Will finish that after I go home.">
-      <created>1699523650881</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1699523650881</updated>
-    </task>
-    <task id="LOCAL-00020" summary="Complete the JavaDoc documentaion for the core maze generator function PrimMazeGenerator()">
-      <created>1699535420923</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1699535420923</updated>
-    </task>
-    <task id="LOCAL-00021" summary="JavaDoc documentation for to_csv() has just completed.">
-      <created>1699536225644</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1699536225644</updated>
-    </task>
-    <task id="LOCAL-00022" summary="JavaDoc documentation for toString() has just completed.">
-      <created>1699536946414</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1699536946414</updated>
-    </task>
-    <option name="localTasksCounter" value="23" />
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.csv" />
   </component>
   <component name="VcsManagerConfiguration">
-    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Vincent (on 25/10/2023, 00:16)&#10;&#10;&#10;Things I have done:&#10;&#10;I have already refined the algorithm to generate the maze without using any try...catch... block to make it easier to read and debug.&#10;&#10;I have also implemented a function to print the whole maze on screen. Since a 30*30 maze will be too big to display on screen, currently I set it to 10*10 maze instead (I will change that to 30*30 later)&#10;&#10;&#10;TODO tasks left:&#10;&#10;-convert the whole maze data to a .csv file for exporting&#10;&#10;-the GUI part to show the maze in GUI (but I think Edward you know how to do that since I saw you successfully display the maze in GUI?)&#10; (Maybe I can borrow you code, Edward?)" />
-    <MESSAGE value="I have just implemented the toCSV function (but did not work quite correct :( )" />
-    <MESSAGE value="The function toCSV() has been correctly implemented! You can see that in the csv file &quot;MazeData.csv&quot;, it can correctly shown the data of the maze in a 30*30 format.&#10;&#10;Please note that in the csv file:&#10;&#10;// if maze[i][j] = '1', it is a barrier in grey color&#10;// if maze[i][j] = '0', it is a clear path in white color&#10;// if maze[i][j] = 'S', it is the starting point for the mouse Jerry&#10;// if maze[i][j] = 'E', it is the exit point where the mouse Jerry should go to" />
-    <MESSAGE value="Slightly updated what different numbers represent in the csv file:&#10;&#10;// if maze[i][j] = '0', it is a clear path in white color&#10;// if maze[i][j] = '1', it is a barrier in grey color&#10;// if maze[i][j] = '2', it is the starting point for the mouse Jerry&#10;// if maze[i][j] = '3', it is the exit point where the mouse Jerry should go to&#10;&#10;&#10;Note that '2' is always placed at the leftmost column &amp; '3' is always placed at the rightmost column respectively." />
-    <MESSAGE value="I have implemented how to show the maze in GUI format.&#10;&#10;The white tiles are the clea path.&#10;The gray tiles are barrier.&#10;The red tile is the starting point for the mouse Jerry.&#10;The green tile is the exit point for the mouse Jerry." />
-    <MESSAGE value="I further split each function in different java class file (.java files), so that this can make the debugging and testing easier later.&#10;&#10;(Note that the code still works fine as the previous one)" />
-    <MESSAGE value="Slight modification on Main.java, MazeGenerator.java, PrintMaze.java, Vertex.java.&#10;&#10;(Adding comments will be done later)" />
-    <MESSAGE value="Further modified MazeGenerator.java by allowing breaking 18 blocks of barrier to ensure there are always at least 2 possible paths from starting point to finishing point. (Already discussed with Anthony and he agreed me to do so)" />
-    <MESSAGE value="Add the set seed number as 3111 in MazeGenerator.java file (I temporarily comment out those lines for setting the seed)" />
-    <MESSAGE value="Slight modification is made to Main.java and MazeGenerator.java so that it will be more convenience for me to do unit testing on MazeGenerator class in the future (by making setSeed() on rand more easier to do).&#10;&#10;The final output is still the same as before." />
-    <MESSAGE value="Added a few unit test cases for DataOfSquare and MazeGenerator" />
-    <MESSAGE value="Modify the following unit testing class:&#10;&#10;- MazeDataToCSVTest.java&#10;- MazeGeneratorTest.java&#10;- WindowTest.java" />
-    <MESSAGE value="Modified DataOfSquareTest.java.&#10;&#10;(&#10;Email reply from TA John Li Tsz On regarding unit testing on class or function of void return type:&#10;&#10;Dear Vincent,&#10;&#10;Junit can run without assertion statements. So to cover lines of void functions or classes, you may just call them in a test case without assertion statements.&#10;&#10;Yours sincerely,&#10;Tsz-On&#10;)" />
-    <MESSAGE value="Include a new unit test: SquarePanelTest.java" />
-    <MESSAGE value="- Include a new unit test: VertexTest.java&#10;&#10;- Modify MazeGeneratorTest.java and SquarePanelTest.java a bit&#10;&#10;- Main class and PrintMaze class no need to unit test them (I guess?)" />
-    <MESSAGE value="Include all test cases for function A" />
-    <MESSAGE value="Add one more unit test case for LocationTest.java" />
-    <MESSAGE value="Write only part of the Javadoc documentation in GameMapGenerator.java. &#10;&#10;Will finish that after I go home." />
-    <MESSAGE value="Complete the JavaDoc documentaion for the core maze generator function PrimMazeGenerator()" />
-    <MESSAGE value="JavaDoc documentation for to_csv() has just completed." />
-    <MESSAGE value="JavaDoc documentation for toString() has just completed." />
-    <option name="LAST_COMMIT_MESSAGE" value="JavaDoc documentation for toString() has just completed." />
+    <MESSAGE value="Test case added" />
+    <option name="LAST_COMMIT_MESSAGE" value="Test case added" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Comp3111F23G34$GameMapGeneratorTest_GameMapGeneratorTest1.ic" NAME="GameMapGeneratorTest.GameMapGeneratorTest1 Coverage Results" MODIFIED="1699777600021" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$ShortestPathGeneratorTest_test_output_file.ic" NAME="ShortestPathGeneratorTest.test_output_file Coverage Results" MODIFIED="1699458533547" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>game_algorithm.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$ShortestPathGeneratorTest_test_calculate_shortest_path.ic" NAME="ShortestPathGeneratorTest.test_calculate_shortest_path Coverage Results" MODIFIED="1699458077681" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>game_algorithm.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/Comp3111F23G34$ShortestPathGeneratorTest_test_load_csv.ic" NAME="ShortestPathGeneratorTest.test_load_csv Coverage Results" MODIFIED="1699460025764" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>game_algorithm.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/Comp3111F23G34$ShortestPathGeneratorTest.ic" NAME="ShortestPathGeneratorTest Coverage Results" MODIFIED="1699460039559" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>game_algorithm.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/Comp3111F23G34$LocationTest_testEqual.ic" NAME="LocationTest.testEqual Coverage Results" MODIFIED="1699782449442" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>game_states.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/Comp3111F23G34$ShortestPathGeneratorTest_test_output_file.ic" NAME="ShortestPathGeneratorTest.test_output_file Coverage Results" MODIFIED="1699458533547" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>game_algorithm.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/Comp3111F23G34$PrimTest.ic" NAME="PrimTest Coverage Results" MODIFIED="1698076114212" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/Comp3111F23G34$LocationTest.ic" NAME="LocationTest Coverage Results" MODIFIED="1699774576520" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>game_states.*</FILTER>
-    </SUITE>
     <SUITE FILE_PATH="coverage/Comp3111F23G34$ShortestPathGeneratorTest_test_constructor.ic" NAME="ShortestPathGeneratorTest.test_constructor Coverage Results" MODIFIED="1699456224094" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>game_algorithm.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/Comp3111F23G34$LocationTest_toStringTest1.ic" NAME="LocationTest.toStringTest1 Coverage Results" MODIFIED="1699782496897" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>game_states.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/Comp3111F23G34$GameMapGeneratorTest_to_csvTest1.ic" NAME="GameMapGeneratorTest.to_csvTest1 Coverage Results" MODIFIED="1699777750797" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>game_algorithm.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/Comp3111F23G34$LocationTest_opposite_nodeTest4.ic" NAME="LocationTest.opposite_nodeTest4 Coverage Results" MODIFIED="1699783032273" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>game_states.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/Comp3111F23G34$LocationTest_opposite_nodeTest3.ic" NAME="LocationTest.opposite_nodeTest3 Coverage Results" MODIFIED="1699783113265" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>game_states.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/Comp3111F23G34$ShortestPathGeneratorTest_test_calculate_shortest_path.ic" NAME="ShortestPathGeneratorTest.test_calculate_shortest_path Coverage Results" MODIFIED="1699458077681" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$ShortestPathGeneratorTest.ic" NAME="ShortestPathGeneratorTest Coverage Results" MODIFIED="1699460039559" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>game_algorithm.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/Comp3111F23G34$ShortestPathGeneratorTest_test_output_array.ic" NAME="ShortestPathGeneratorTest.test_output_array Coverage Results" MODIFIED="1699459905243" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>game_algorithm.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/Comp3111F23G34$LocationTest_opposite_nodeTest5.ic" NAME="LocationTest.opposite_nodeTest5 Coverage Results" MODIFIED="1699783149668" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>game_states.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/Comp3111F23G34$LocationTest_opposite_nodeTest1.ic" NAME="LocationTest.opposite_nodeTest1 Coverage Results" MODIFIED="1699782717405" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>game_states.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/Comp3111F23G34$GameMapGeneratorTest.ic" NAME="GameMapGeneratorTest Coverage Results" MODIFIED="1699774493206" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>game_algorithm.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/Comp3111F23G34$GameMapGeneratorTest_PrimMazeGeneratorTest1.ic" NAME="GameMapGeneratorTest.PrimMazeGeneratorTest1 Coverage Results" MODIFIED="1699777937753" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>game_algorithm.*</FILTER>
-    </SUITE>
-    <SUITE FILE_PATH="coverage/Comp3111F23G34$LocationTest_opposite_nodeTest2.ic" NAME="LocationTest.opposite_nodeTest2 Coverage Results" MODIFIED="1699782835882" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>game_states.*</FILTER>
     </SUITE>
   </component>
 </project>

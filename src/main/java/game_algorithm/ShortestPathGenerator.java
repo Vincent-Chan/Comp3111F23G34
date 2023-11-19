@@ -8,22 +8,61 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
-
-
+/**
+ * <p>This class is used to calculate the shortest path in a maze.</p>
+ *
+ * <p>To calculate the shortest path in a maze, an object is needed to be created. Then, calling calculate_shortest_path() will
+ *  return an ArrayList object. This ArrayList object contains a list of Location objects for each vertex along the shortest path
+ *  in the maze.</p>
+ *
+ *
+ * <p>To generate a .csv file that contains the coordinates along the vertices in the shortest path,  calling output_file() is required
+ * after calculate_shortest_path(). The .csv file will be created in the directory specified in the constructor.</p>
+ */
 public class ShortestPathGenerator
 {
+    /**
+     * The number of rows in the map. It is initialized to 30, the default map size.
+     */
     private final int ROW = 30;
+
+    /**
+     * The number of columns in the map. It is initialized to 30, the default map size.
+     */
     private final int COL = 30;
+
+    /**
+     * Directory of the map data file in .csv format.
+     */
     private String map_file_path;
+
+    /**
+     * Directory of the file in .csv format for outputing the coordinates along the shortest path vertices.
+     */
     private String output_file_path;
 
+    /**
+     * The .csv map data file is stored in a 2D int array.
+     */
     private int[][] map =  new int[ROW][COL];
 
+    /**
+     * This is a constructor for ShortestPathGenerator class.
+     * @param map_file_path Directory of the map data file in .csv format. For example, "src/main/java/MazeData.csv".
+     * @param output_file_path Directory of the file in .csv format for outputing the coordinates along the shortest path vertices. For example, "src/main/java/shortest_path_at_beginning.csv".
+     */
     public ShortestPathGenerator(String map_file_path, String output_file_path){
         this.map_file_path = map_file_path;
         this.output_file_path = output_file_path;
         load_csv(this.map_file_path);
     }
+
+    /**
+     * This function calculates the shortest path according the given maze data. Only the vertices travelled in the shortest path will be saved.
+     * @param entry Location object that indicates the entry point in the maze.
+     * @param exit Location object that indicates the exit point in the maze.
+     * @return ArrayList consists of a list of Location objects for each vertex along the shortest path in the maze.
+     */
     public ArrayList<Location> calculate_shortest_path(Location entry, Location exit)
     {
         boolean[][] visited = new boolean[ROW][COL];
@@ -89,6 +128,14 @@ public class ShortestPathGenerator
         return null;
     }
 
+    /**
+     * <p>This function outputs the coordinates along the shortest path to a .csv file.</p>
+     * <p>In the .csv file, the first line in the file will be "s1".
+     * Lines afterwards will be in the format of "row, col", where row and col are the row index and column index of a vertex respectively.</p>
+     * <p>To output the file, an ArrayList containing a list of Location objects is passed to this function.</p>
+     *
+     * @param Shortest_path_vertices An ArrayList object that contains a list of Location objects for each vertex along the shortest path.
+     */
     public void output_file(ArrayList<Location> Shortest_path_vertices)
     {
         try
@@ -107,6 +154,13 @@ public class ShortestPathGenerator
         }
     }
 
+    /**
+     * @param entry Location object that indicates the entry point in the maze.
+     * @param exit Location object that indicates the exit point in the maze.
+     * @param previous An int[30][30][2] array for recording the coordinates of the previously travelled vertex when we are running BFS in calculate_shortest_path().
+     * @param Shortest_path_vertices An ArrayList empty object for storing a list of Location objects for each vertex along the shortest path.
+     * @return After running this function, Shortest_path_vertices, an ArrayList consists of a list of Location objects for each vertex along the shortest path will be returned.
+     */
     public ArrayList<Location> output_array(Location entry, Location exit, int[][][] previous, ArrayList<Location> Shortest_path_vertices)
     {
         // add exit point vertex first
@@ -122,6 +176,13 @@ public class ShortestPathGenerator
         return Shortest_path_vertices;
     }
 
+    /**
+     * <p>This function is called by the constructor. It is to import the maze data into the object for further calculation.</p>
+     * <p>Each char in .csv file represent a vertex in the map. This function converts every char into a int[30][30] array, where
+     * given the map has 30 rows and 30 columns.</p>
+     *
+     * @param map_file_path Directory of the map data file in .csv format.
+     */
     public void load_csv(String map_file_path)
     {
         // transform the .csv into map
