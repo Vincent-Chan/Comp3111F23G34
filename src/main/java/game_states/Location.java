@@ -21,18 +21,6 @@ import java.util.Objects;
 public record Location(int row, int col) {
 
     /**
-     * toString() is a member function for Location class.
-     * It returns the String expression of the location.
-     *
-     * @return: A string that store the string expression of the current location in the format [ row , col ]
-     */
-    @Override
-    public String toString()
-    {
-        return "[ "+row+" , "+col+" ]";
-    }
-
-    /**
      * opposite_node() is a member function for Location class.
      * It returns the opposite node of the current node, and it should be exactly the adjacent node of the current node;
      * or null.
