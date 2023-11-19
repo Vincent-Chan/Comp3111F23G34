@@ -78,13 +78,29 @@ public class ControlPanelView extends JPanel {
         add(downButton, c);
 
         // Create a label to explain what the buttons do
-        //JLabel label = new JLabel("Use arrow keys to move", SwingConstants.CENTER);
-        //label.setFont(new Font("Arial", Font.PLAIN, 24));
+        StringBuilder sb = new StringBuilder(128);
+        sb.append("<html>")
+            .append("<p>Press the above buttons to control Jerry's movement</p>")
+            .append("<p><strong>Hints</strong>:</p>")
+            .append("<ul>")
+                    .append("<li><span style=\"color: rgb(97, 189, 109);\"><strong>GREEN</strong></span> blocks show the shortest path to exit</li>")
+                    .append("<li><span style=\"color: rgb(250, 197, 28);\"><strong>YELLOW</strong></span> blocks show reachable locations by Tom</li>")
+                    .append("<li><span style=\"color: rgb(184, 49, 47);\"><strong>RED</strong></span> blocks are the intersection of previous two</li>")
+                    .append("</ul>").append("</html>");
+
+        /**sb.append("<html><br>").
+         append("Use arrow keys to move").append("<br>").
+         append("GREEN blocks show the shortest path to exit").append("<br>").
+         append("ORANGE blocks show reachable locations by Tom").append("<br>").
+         append("RED blocks are the intersection of previous two").append("</html>");*/
+        //JLabel label = new JLabel("Use arrow keys to move \n GREEN blocks show the shortest path to exit \n ORANGE blocks show reachable locations by Tom \n RED blocks are the intersection of previous two", SwingConstants.CENTER);
+        JLabel label = new JLabel(sb.toString());
+        label.setFont(new Font("Arial", Font.PLAIN, 18));
         c.gridx = 0;
         c.gridy = 3;
         c.gridwidth = 3;
-        BufferedImage bannerpic = ImageIO.read(new File("src/main/java/visuals/banner_hints.png"));
-        JLabel label = new JLabel(new ImageIcon(bannerpic), SwingConstants.CENTER);
+        //BufferedImage bannerpic = ImageIO.read(new File("src/main/java/visuals/banner_hints.png"));
+        //JLabel label = new JLabel(new ImageIcon(bannerpic), SwingConstants.CENTER);
         add(label, c);
     }
 
