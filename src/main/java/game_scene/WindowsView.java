@@ -56,8 +56,8 @@ public class WindowsView extends JFrame {
         getContentPane().add(this.controlPanelView, BorderLayout.WEST);
         pack();
 
-        int width = controlPanelView.getPreferredSize().width + mapViewer.getPreferredSize().width + 50;
-        int height = Math.max(controlPanelView.getPreferredSize().height, mapViewer.getPreferredSize().height) + 40;
+        int width = controlPanelView.getPreferredSize().width + mapViewer.getPreferredSize().width + 20;
+        int height = Math.max(controlPanelView.getPreferredSize().height, mapViewer.getPreferredSize().height) + 20;
         setSize(width, height);
 
     }
