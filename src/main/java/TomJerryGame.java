@@ -19,6 +19,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
@@ -91,7 +92,6 @@ public class TomJerryGame {
         try(BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line = "";
             while ((line = br.readLine()) != null) {
-                System.out.println(line);
                 ArrayList<Integer> intList = new ArrayList<>();
                 String[] strlist = line.split(separator);
                 for(int i = 0;i< strlist.length;i++){
@@ -112,32 +112,38 @@ public class TomJerryGame {
      *     <li>Hard: PLAYER_SPEED = 6, COMPUTER_SPEED = 9</li>
      * </ui>
      * */
-    public void setDifficulty(){
+    public void setDifficulty(boolean unittesting, String unittesting_fixed_difficulty){
         String[] difficultyModes = {"Easy", "Medium", "Hard"};
 
         // Show the message box and get the selected difficulty mode
-        int choice = JOptionPane.showOptionDialog(null, "Please select the difficulty.\n The harder the game, the more steps Tom can run in each turn!", "Game Launcher",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, new ImageIcon(StringResources.select_difficulty), difficultyModes, difficultyModes[0]);
-        if (choice >= 0) {
-            difficulty = difficultyModes[choice];
-            if(difficulty.equals("Easy")){
-                jerrySpeed = 3;
-                tomSpeed = 3;
-
-            }
-            else if(difficulty.equals("Medium")){
-                jerrySpeed = 4;
-                tomSpeed = 6;
-            }
-            else{
-                jerrySpeed = 6;
-                tomSpeed = 9;
-            }
-            JOptionPane.showMessageDialog(null, "Selected Difficulty Mode: " + difficulty+" \n In each round, you can control Jerry to run "+jerrySpeed+" blocks and Tom can run "+tomSpeed+" steps.");
-        } else {
-            // User closed the dialog or clicked outside the options
-            System.exit(0);
+        JOptionPane optionPane = new JOptionPane("Please select the difficulty.\n The harder the game, the more steps Tom can run in each turn!",JOptionPane.PLAIN_MESSAGE,JOptionPane.DEFAULT_OPTION,new ImageIcon(StringResources.select_difficulty),difficultyModes, difficultyModes[0]);
+        JDialog dialog = optionPane.createDialog("Option Dialog");
+        dialog.setVisible(true);
+        if(unittesting){
+            dialog.setVisible(false);
+            optionPane.setValue(unittesting_fixed_difficulty);
         }
+
+        difficulty = (String)optionPane.getValue();
+
+        //difficulty = difficultyModes[choice];
+        if(difficulty.equals("Easy")){
+            jerrySpeed = 3;
+            tomSpeed = 3;
+
+        }
+        else if(difficulty.equals("Medium")){
+            jerrySpeed = 4;
+            tomSpeed = 6;
+        }
+        else if(difficulty.equals("Hard")){
+            jerrySpeed = 6;
+            tomSpeed = 9;
+        }else {
+        // User closed the dialog or clicked outside the options
+        System.exit(0);
+        }
+        JOptionPane.showMessageDialog(null, "Selected Difficulty Mode: " + difficulty+" \n In each round, you can control Jerry to run "+jerrySpeed+" blocks and Tom can run "+tomSpeed+" steps.");
     }
 
     /**
@@ -212,10 +218,7 @@ public class TomJerryGame {
             Location oldjerry = stateController.getCharacterLocation(1);
 
             LinkedBlockingQueue<Move> actionQueue = windowsView.getControlPanelView().getControlPanelController().getActionQueue();
-            System.out.println("Hashcode of actionqueue in main.java" + actionQueue.hashCode());
-            System.out.println(actionQueue.size());
             Move nextMove = actionQueue.take();
-            System.out.println("new move fetched: " + nextMove);
 
 
             /**check validity of the move*/
@@ -289,7 +292,7 @@ public class TomJerryGame {
     public void run(LandingPageView landingPageView) throws IOException, InterruptedException {
         /**Player presses "Start Game"*/
 
-        this.setDifficulty();
+        this.setDifficulty(false,"");
         windowsView.setVisible(true);
         landingPageView.setVisible(false);
         JOptionPane.showMessageDialog(null,"To make your life easier, we have prepared you with several hints", "Hint", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(StringResources.show_sp_hint_image));
@@ -306,9 +309,6 @@ public class TomJerryGame {
         mazeMapController.removeHighlightPath();
         showHintsOnMap(true,true);
         JOptionPane.showMessageDialog(null,"If a location is both on the shortest path and reachable by Tom, we will show it in RED, beware of these locations!", "Hint", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(StringResources.show_sp_hint_image));
-
-
-
 
         boolean highlighted = true;
 
