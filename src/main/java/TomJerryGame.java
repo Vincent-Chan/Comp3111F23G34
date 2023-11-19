@@ -112,17 +112,16 @@ public class TomJerryGame {
      *     <li>Hard: PLAYER_SPEED = 6, COMPUTER_SPEED = 9</li>
      * </ui>
      * */
-    public void setDifficulty(boolean unittesting, String unittesting_fixed_difficulty){
+    public boolean setDifficulty(boolean unittesting, String unittesting_fixed_difficulty){
         String[] difficultyModes = {"Easy", "Medium", "Hard"};
 
         // Show the message box and get the selected difficulty mode
         JOptionPane optionPane = new JOptionPane("Please select the difficulty.\n The harder the game, the more steps Tom can run in each turn!",JOptionPane.PLAIN_MESSAGE,JOptionPane.DEFAULT_OPTION,new ImageIcon(StringResources.select_difficulty),difficultyModes, difficultyModes[0]);
         JDialog dialog = optionPane.createDialog("Option Dialog");
-        dialog.setVisible(true);
         if(unittesting){
             dialog.setVisible(false);
             optionPane.setValue(unittesting_fixed_difficulty);
-        }
+        }else dialog.setVisible(true);
 
         difficulty = (String)optionPane.getValue();
 
@@ -141,9 +140,10 @@ public class TomJerryGame {
             tomSpeed = 9;
         }else {
         // User closed the dialog or clicked outside the options
-        System.exit(0);
+            return false;
         }
         JOptionPane.showMessageDialog(null, "Selected Difficulty Mode: " + difficulty+" \n In each round, you can control Jerry to run "+jerrySpeed+" blocks and Tom can run "+tomSpeed+" steps.");
+        return true;
     }
 
     /**
@@ -292,7 +292,8 @@ public class TomJerryGame {
     public void run(LandingPageView landingPageView) throws IOException, InterruptedException {
         /**Player presses "Start Game"*/
 
-        this.setDifficulty(false,"");
+        if (!this.setDifficulty(false,""))
+            return;
         windowsView.setVisible(true);
         landingPageView.setVisible(false);
         JOptionPane.showMessageDialog(null,"To make your life easier, we have prepared you with several hints", "Hint", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(StringResources.show_sp_hint_image));
