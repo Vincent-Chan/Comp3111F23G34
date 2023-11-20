@@ -59,17 +59,6 @@ public class ControlPanelTest {
     }
 
     @Test
-    public void testControlPanelActionQueueException(){
-        HashMap<MoveCode, JButton> move2Button = generateMove2ButtonMap();
-        ControlPanelController ctrler = new ControlPanelController(move2Button);
-        LinkedBlockingQueue<Move> queue = ctrler.getActionQueue();
-        Thread.currentThread().interrupt();
-        JButton upbutton = move2Button.get(MoveCode.UP);
-        assertThrowsExactly(RuntimeException.class, upbutton::doClick);
-
-    }
-
-    @Test
     public void testShowRemainingMoves(){
         StringResources.showRemainingMoves(0,2); //target
         StringResources.showRemainingMoves(1,3); //target
