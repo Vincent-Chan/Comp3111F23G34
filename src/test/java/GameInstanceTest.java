@@ -87,6 +87,8 @@ public class GameInstanceTest {
 
     @Test
     public void test_JerryMoves() throws IOException, InterruptedException {
+
+        /**Test Invalid Move*/
         TomJerryGame tjg = new TomJerryGame(MAP_FILE_PATH, SP_OUTPUT_PATH);
         GameStateController sc = tjg.stateController;
         Location jerry = sc.JerryLocation;
@@ -115,6 +117,56 @@ public class GameInstanceTest {
         }
 
         LinkedBlockingQueue<Move> submitted_move = new LinkedBlockingQueue<>();
+        submitted_move.put(new Move.Left(1)); //to test the "invalid mode" hint
+        submitted_move.put(move_for_testing);
+
+        tjg.jerrySpeed = 3;
+        tjg.JerryMoves(true,true,submitted_move);//target
+        assertEquals(GameState.TOM_WIN,sc.gameStateOutcome());
+
+        /**Test exhausted remaining moves*/
+        tjg = new TomJerryGame(MAP_FILE_PATH, SP_OUTPUT_PATH);
+        sc = tjg.stateController;
+        jerry = sc.JerryLocation;
+        l2vc = (HashMap<Location, Vertex>) sc.location2vertex;
+        rightOfJerry = new Location(jerry.row(),jerry.col()+1);
+        leftOfJerry = new Location(jerry.row(),jerry.col()-1);
+        upOfJerry = new Location(jerry.row()-1,jerry.col());
+        downOfJerry = new Location(jerry.row()+1,jerry.col());
+
+        move_for_testing = null;
+        if(l2vc.containsKey(rightOfJerry)&&l2vc.get(rightOfJerry).isClear()){
+            sc.TomLocation = rightOfJerry;
+            move_for_testing = new Move.Right(1);
+        }
+        else if(l2vc.containsKey(leftOfJerry)&&l2vc.get(leftOfJerry).isClear()){
+            sc.TomLocation = leftOfJerry;
+            move_for_testing = new Move.Left(1);
+        }
+        if(l2vc.containsKey(upOfJerry)&&l2vc.get(upOfJerry).isClear()) {
+            sc.TomLocation = upOfJerry;
+            move_for_testing = new Move.Up(1);
+        }
+        if(l2vc.containsKey(downOfJerry)&&l2vc.get(downOfJerry).isClear()) {
+            sc.TomLocation = downOfJerry;
+            move_for_testing = new Move.Down(1);
+        }
+
+        submitted_move = new LinkedBlockingQueue<>();
+        submitted_move.put(new Move.Left(1)); //to test the "invalid mode" hint
+        submitted_move.put(move_for_testing);
+
+        tjg.jerrySpeed = 1;
+        tjg.JerryMoves(true,true,submitted_move);//target
+        assertEquals(GameState.TOM_WIN,sc.gameStateOutcome());
+
+        /**Test ending condition at beginning of while(remaning_moves>0)*/
+        tjg = new TomJerryGame(MAP_FILE_PATH, SP_OUTPUT_PATH);
+        sc = tjg.stateController;
+        sc.JerryLocation = sc.exitLocation;
+
+        submitted_move = new LinkedBlockingQueue<>();
+        submitted_move.put(new Move.Right(1));
         submitted_move.put(move_for_testing);
 
         tjg.jerrySpeed = 1;
