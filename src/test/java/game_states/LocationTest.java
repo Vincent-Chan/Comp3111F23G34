@@ -63,9 +63,12 @@ public class LocationTest {
         Location expected4 = new Location(15, 24) ;
 
         assertEquals(expected4, actual4) ;
+    }
 
-        //////////
-
+    // Function A Unit Testing
+    @Test
+    public void opposite_nodeTest2()
+    {
         Location loc_a5 = new Location(15, 25) ;
         Location loc_b5 = new Location(15, 25) ;
 
