@@ -76,10 +76,10 @@ public class MazeMapController {
      * @param newtom  the new location that tom is at, insert Tom's image into the vertex at this location
      * @param oldjerry  the last location jerry was at, remove Jerry's image from the vertex at this location
      * @param oldtom  the last location tom was at, remove Tom's image from the vertex at this location
-     *
      * @throws IOException if there is error in image insertion operation
      * */
-    public void renderMap(Location newtom, Location newjerry, Location oldtom, Location oldjerry) throws IOException {
+    public void renderMap(Location newtom, Location newjerry, Location oldtom, Location oldjerry, boolean unittesting) throws IOException {
+        if(unittesting) return;
         if(newtom!=oldtom){
             System.out.println("Tom change location, from "+oldtom+" to "+newtom);
             location2vertexController.get(oldtom).removeImage();

@@ -8,15 +8,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ShortestPathGeneratorTest {
-    public Random rand1 = new Random();
+
     public GameMapGenerator map_gen1 = new GameMapGenerator("src/main/java/MazeData.csv");
     @Before
-    public void init_map() throws IOException {
-        long seed_number = 3111;
-        rand1.setSeed(seed_number);
+    public void init_map() throws IOException
+    {
+        map_gen1.rand.setSeed(3111) ;
         char[][] maze_data = map_gen1.PrimMazeGenerator();
         map_gen1.to_csv(maze_data);
     }

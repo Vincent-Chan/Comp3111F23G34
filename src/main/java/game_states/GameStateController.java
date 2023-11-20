@@ -12,19 +12,19 @@ import java.util.*;
 public class GameStateController {
 
     /**The hashmap storing the vertex entity at each location*/
-    private  Map<Location, Vertex> location2vertex = new HashMap<>();
+    public  Map<Location, Vertex> location2vertex = new HashMap<>();
 
     /**The latest location of Tom*/
-    private Location TomLocation;
+    public Location TomLocation;
 
     /**The latest location of Tom*/
-    private Location JerryLocation;
+    public Location JerryLocation;
 
     /**The location of entry point, IMMUTABLE*/
-    private Location entryLocation;
+    public Location entryLocation;
 
     /**The location of exit point, IMMUTABLE*/
-    private Location exitLocation;
+    public Location exitLocation;
 
     /**The side length of the game map*/
     public static final int SIDE_LENGTH = 30;
@@ -148,9 +148,6 @@ public class GameStateController {
 
         while (!queue.isEmpty() && currentLevel <= allowed_num_move) {
             Location currentLocation = queue.poll();
-
-            if (currentLevel > allowed_num_move)
-                break;
 
             reachableLocations.add(currentLocation);
             nodesLeftInCurrentLevel--;

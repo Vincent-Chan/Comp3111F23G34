@@ -12,6 +12,7 @@ import game_states.Move;
 import visuals.StringResources;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -119,17 +120,16 @@ public class TomJerryGame {
         JOptionPane optionPane = new JOptionPane("Please select the difficulty.\n The harder the game, the more steps Tom can run in each turn!",JOptionPane.PLAIN_MESSAGE,JOptionPane.DEFAULT_OPTION,new ImageIcon(StringResources.select_difficulty),difficultyModes, difficultyModes[0]);
         JDialog dialog = optionPane.createDialog("Option Dialog");
         if(unittesting){
-            dialog.setVisible(false);
+            dialog.setModal(false);
             optionPane.setValue(unittesting_fixed_difficulty);
-        }else dialog.setVisible(true);
+        }
+        dialog.setVisible(true);
 
         difficulty = (String)optionPane.getValue();
 
-        //difficulty = difficultyModes[choice];
         if(difficulty.equals("Easy")){
             jerrySpeed = 3;
             tomSpeed = 3;
-
         }
         else if(difficulty.equals("Medium")){
             jerrySpeed = 4;
@@ -138,11 +138,17 @@ public class TomJerryGame {
         else if(difficulty.equals("Hard")){
             jerrySpeed = 6;
             tomSpeed = 9;
-        }else {
+        }
+        else {
         // User closed the dialog or clicked outside the options
             return false;
         }
-        JOptionPane.showMessageDialog(null, "Selected Difficulty Mode: " + difficulty+" \n In each round, you can control Jerry to run "+jerrySpeed+" blocks and Tom can run "+tomSpeed+" steps.");
+        JOptionPane optionPane2 = new JOptionPane("Selected Difficulty Mode: " + difficulty+" \n In each round, you can control Jerry to run "+jerrySpeed+" blocks and Tom can run "+tomSpeed+" steps.",JOptionPane.INFORMATION_MESSAGE,JOptionPane.DEFAULT_OPTION);
+        JDialog dialog2 = optionPane2.createDialog("Difficulty Selected");
+        if(unittesting){
+            dialog2.setModal(false);
+        }
+        dialog2.setVisible(true);
         return true;
     }
 
@@ -151,43 +157,45 @@ public class TomJerryGame {
      * Move Tom by one step following this path
      *
      * @param remainingMoves the remaining quota of moves by Tom
+     * @param unittesting (for unit testing only) to fix the movements of tom
      * @throws IOException when exception occurs in updating the GUI of the map
      * */
-    public void TomMovesOneStep(int remainingMoves) throws IOException {
+    public void TomMovesOneStep(int remainingMoves, boolean unittesting, String unit_test_direction) throws IOException {
         Location oldtom = stateController.getCharacterLocation(characterID.TOM_ID);
         Location oldjerry = stateController.getCharacterLocation(characterID.JERRY_ID);
-
         ArrayList<Location> shortestPathToJerry = shortestPathGenerator.calculate_shortest_path(oldtom,oldjerry);
-        if(shortestPathToJerry==null){
-            JOptionPane.showMessageDialog(null, "Error in generating shortestPathToJerry", "Message", JOptionPane.INFORMATION_MESSAGE);
-            return;
-        }
 
-        // infer intermediate move that results in location transition: oldtom->newtom
+        /** infer intermediate move that results in location transition: oldtom->newtom*/
         Location newtom = shortestPathToJerry.get(1);
+        if(unittesting){
+            if(unit_test_direction.equals("up"))
+                newtom = new Location(oldtom.row()-1, oldtom.col());
+            else if(unit_test_direction.equals("down"))
+                newtom = new Location(oldtom.row()+1, oldtom.col());
+            else if(unit_test_direction.equals("right"))
+                newtom = new Location(oldtom.row(), oldtom.col()+1);
+            else if(unit_test_direction.equals("left"))
+                newtom = new Location(oldtom.row(), oldtom.col()-1);}
+
         Move nextMove = null;
         if(newtom.row() == oldtom.row()+1){
-            nextMove = new Move.Down(characterID.TOM_ID);
-        }
+            System.out.println(1);
+            nextMove = new Move.Down(characterID.TOM_ID);}
         if(newtom.row() == oldtom.row()-1){
-            nextMove = new Move.Up(characterID.TOM_ID);
-        }
+            System.out.println(2);
+            nextMove = new Move.Up(characterID.TOM_ID);}
         if(newtom.col() == oldtom.col()+1){
-            nextMove = new Move.Right(characterID.TOM_ID);
-        }
+            System.out.println(3);
+            nextMove = new Move.Right(characterID.TOM_ID);}
         if(newtom.col() == oldtom.col()-1){
-            nextMove = new Move.Left(characterID.TOM_ID);
-        }
+            System.out.println(4);
+            nextMove = new Move.Left(characterID.TOM_ID);}
         stateController.moveCharacter(characterID.TOM_ID,nextMove);
-
         Location newjerry = stateController.getCharacterLocation(characterID.JERRY_ID);
-        mazeMapController.renderMap(newtom,newjerry,oldtom,oldjerry);
+        mazeMapController.renderMap(newtom,newjerry,oldtom,oldjerry,unittesting);
         windowsView.setTextBillboard(StringResources.showRemainingMoves(1, remainingMoves -1));
         windowsView.revalidate();
-        windowsView.repaint();
-
-
-    }
+        windowsView.repaint();}
 
     /**
      * Called when it is Tom's turn to move
@@ -198,16 +206,12 @@ public class TomJerryGame {
 
         while (remainingMoves>0){
             if(stateController.gameStateOutcome()!=GameState.CONTINUE){
-                break;
-            }
-            this.TomMovesOneStep(remainingMoves);
+                break;}
+            this.TomMovesOneStep(remainingMoves,false,"");
             remainingMoves--;
             if(stateController.gameStateOutcome()!=GameState.CONTINUE){
-                break;
-            }
-        }
-    }
-    public void JerryMoves(boolean highlighted) throws InterruptedException, IOException {
+                break;}}}
+    public void JerryMoves(boolean highlighted, boolean unittesting, LinkedBlockingQueue<Move> unit_test_movements) throws InterruptedException, IOException {
         int remainingMoves = jerrySpeed;
         windowsView.setTextBillboard(StringResources.showRemainingMoves(1, remainingMoves));
         while (remainingMoves > 0) {
@@ -216,26 +220,22 @@ public class TomJerryGame {
             }
             Location oldtom = stateController.getCharacterLocation(0);
             Location oldjerry = stateController.getCharacterLocation(1);
-
             LinkedBlockingQueue<Move> actionQueue = windowsView.getControlPanelView().getControlPanelController().getActionQueue();
+            if (unittesting)
+                actionQueue.put(unit_test_movements.take());
             Move nextMove = actionQueue.take();
-
 
             /**check validity of the move*/
             boolean moveResult = stateController.moveCharacter(1, nextMove);
             if (moveResult) {
                 Location newtom = stateController.getCharacterLocation(0);
                 Location newjerry = stateController.getCharacterLocation(1);
-                if (stateController.gameStateOutcome() != GameState.CONTINUE) {
-                    break;
-                }
                 remainingMoves--;
                 if (highlighted) {
                     mazeMapController.removeHighlightPath();
                     highlighted = false;
                 }
-
-                mazeMapController.renderMap(newtom, newjerry, oldtom, oldjerry);
+                mazeMapController.renderMap(newtom, newjerry, oldtom, oldjerry, unittesting);
                 windowsView.setTextBillboard(StringResources.showRemainingMoves(1, remainingMoves));
                 windowsView.revalidate();
                 windowsView.repaint();
@@ -246,15 +246,20 @@ public class TomJerryGame {
                  *      need to clear this step before proceeding to next round
                  * */
                 if (remainingMoves == 0) {
-                    if (actionQueue.size() > 0) {
-                        actionQueue.clear();
-                    }
+                    if (unittesting)
+                        actionQueue.put(new Move.Up(1));
+                    actionQueue.clear();
                 }
-
+                if (stateController.gameStateOutcome() != GameState.CONTINUE) {
+                    break;
+                }
             } else {
-                JOptionPane.showMessageDialog(null, "Invalid Move! Be sure to stay in map and avoid the barriers\nThis will not exhaust your quota for moving in this round", "Message", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(StringResources.invalid_move));
+                JOptionPane pane = new JOptionPane("Invalid Move! Be sure to stay in map and avoid the barriers\nThis will not exhaust your quota for moving in this round", JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, new ImageIcon(StringResources.invalid_move));
+                final JDialog dialog = pane.createDialog("Invalid Move!");
+                if (unittesting)
+                    dialog.setModal(false);
+                dialog.setVisible(true);
             }
-
         }
     }
 
@@ -287,30 +292,58 @@ public class TomJerryGame {
                 }
             }
         }
-
     }
-    public void run(LandingPageView landingPageView) throws IOException, InterruptedException {
-        /**Player presses "Start Game"*/
-
-        if (!this.setDifficulty(false,""))
+    public void run(LandingPageView landingPageView,boolean unittesting,boolean unittesting_from_main, LinkedBlockingQueue<Move> moves_for_testing) throws IOException, InterruptedException {
+        if(unittesting_from_main)
             return;
+
+        /**Player presses "Start Game"*/
+        if (!this.setDifficulty(unittesting,"Easy"))
+            return;
+        if(unittesting){
+            tomSpeed = 1;
+            jerrySpeed = 1;
+        }
         windowsView.setVisible(true);
+        if(unittesting)
+            windowsView.setVisible(false);
         landingPageView.setVisible(false);
-        JOptionPane.showMessageDialog(null,"To make your life easier, we have prepared you with several hints", "Hint", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(StringResources.show_sp_hint_image));
+
+        JOptionPane pane1 = new JOptionPane("To make your life easier, we have prepared you with several hints",JOptionPane.INFORMATION_MESSAGE,JOptionPane.DEFAULT_OPTION,new ImageIcon(StringResources.show_sp_hint_image));
+        final JDialog dialog = pane1.createDialog("Guide");
+        if(unittesting)
+            dialog.setModal(false);
+        dialog.setVisible(true);
+
+
         /**Guidance: demo of highlighting the shortest path*/
         showHintsOnMap(true,false);
-        JOptionPane.showMessageDialog(null,"We will highlight the shortest path to the exit in GREEN", "Hint", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(StringResources.show_sp_hint_image));
+        JOptionPane pane2 = new JOptionPane("We will highlight the shortest path to the exit in GREEN",JOptionPane.INFORMATION_MESSAGE,JOptionPane.DEFAULT_OPTION,new ImageIcon(StringResources.show_sp_hint_image));
+        final JDialog dialog2 = pane2.createDialog("Guide");
+        if(unittesting)
+            dialog2.setModal(false);
+        dialog2.setVisible(true);
+
 
         /**Guidance: demo of highlighting tom reachable locations*/
         mazeMapController.removeHighlightPath();
         showHintsOnMap(false,true);
-        JOptionPane.showMessageDialog(null,"We will highlight the reachable locations by Tom in his next round in YELLOW", "Hint", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(StringResources.show_sp_hint_image));
+        JOptionPane pane3 = new JOptionPane("We will highlight the reachable locations by Tom in his next round in YELLOW",JOptionPane.INFORMATION_MESSAGE,JOptionPane.DEFAULT_OPTION,new ImageIcon(StringResources.show_sp_hint_image));
+        final JDialog dialog3 = pane3.createDialog("Guide");
+        if(unittesting)
+            dialog3.setModal(false);
+        dialog3.setVisible(true);
 
         /**Guidance: demo of highlighting both shortest path and tom reachable locations*/
         mazeMapController.removeHighlightPath();
         showHintsOnMap(true,true);
-        JOptionPane.showMessageDialog(null,"If a location is both on the shortest path and reachable by Tom, we will show it in RED, beware of these locations!", "Hint", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(StringResources.show_sp_hint_image));
-
+        mazeMapController.removeHighlightPath();
+        showHintsOnMap(false,true);
+        JOptionPane pane4 = new JOptionPane("If a location is both on the shortest path and reachable by Tom, we will show it in RED, beware of these locations!",JOptionPane.INFORMATION_MESSAGE,JOptionPane.DEFAULT_OPTION,new ImageIcon(StringResources.show_sp_hint_image));
+        final JDialog dialog4 = pane4.createDialog("Guide");
+        if(unittesting)
+            dialog4.setModal(false);
+        dialog4.setVisible(true);
         boolean highlighted = true;
 
         int turn = 1; // turn%2 -> id of current GameCharacter that can move
@@ -319,33 +352,36 @@ public class TomJerryGame {
             turn = turn%2;
             if(turn%2==1){
                 highlighted = true;
-                showHintsOnMap(true, true);
-            }
+                showHintsOnMap(true, true);}
             if(turn == characterID.TOM_ID){
-                this.TomMoves();
-            }
+                this.TomMoves();}
             else{
                 /**Process jerry's moves*/
-                this.JerryMoves(highlighted);
-                highlighted = false;
-            }
+                this.JerryMoves(highlighted,unittesting,moves_for_testing);
+                highlighted = false;}
 
             if(stateController.gameStateOutcome()!=GameState.CONTINUE){
-                break;
-            }
-            turn++;
-        }
+                break;}
+            turn++;}
 
         /**A Game Instance Ends*/
         if(stateController.gameStateOutcome() == GameState.JERRY_WIN){
             windowsView.revalidate();
             windowsView.repaint();
-            JOptionPane.showMessageDialog(null, StringResources.jerryWinsMessage, "Message", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(StringResources.jerry_wins));
+            JOptionPane pane5 = new JOptionPane(StringResources.jerryWinsMessage,JOptionPane.INFORMATION_MESSAGE,JOptionPane.DEFAULT_OPTION,new ImageIcon(StringResources.show_sp_hint_image));
+            final JDialog dialog5 = pane5.createDialog("Guide");
+            if(unittesting)
+                dialog5.setModal(false);
+            dialog5.setVisible(true);
         }
         else{
             windowsView.revalidate();
             windowsView.repaint();
-            JOptionPane.showMessageDialog(null, StringResources.tomWinsMessage, "Message", JOptionPane.INFORMATION_MESSAGE,new ImageIcon(StringResources.tom_catches_jerry));
+            JOptionPane pane6 = new JOptionPane(StringResources.tomWinsMessage,JOptionPane.INFORMATION_MESSAGE,JOptionPane.DEFAULT_OPTION,new ImageIcon(StringResources.show_sp_hint_image));
+            final JDialog dialog6 = pane6.createDialog("Guide");
+            if(unittesting)
+                dialog6.setModal(false);
+            dialog6.setVisible(true);
         }
         /**Clear existing data*/
         LinkedBlockingQueue<Move> actionQueue = windowsView.getControlPanelView().getControlPanelController().getActionQueue();

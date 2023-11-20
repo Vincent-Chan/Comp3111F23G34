@@ -126,7 +126,7 @@ public class MazeMapInterfaceTest {
         ArrayList<ArrayList<Integer>> mzm = generateMazeMap(entry,exit);
         WindowsView wv = new WindowsView(mzm,entry,exit);
         MazeMapController mazeMapController = wv.getMapViewer().getController();
-        mazeMapController.renderMap(entry,exit,exit,entry);
+        mazeMapController.renderMap(entry,exit,exit,entry,false);
 
     }
 
