@@ -252,8 +252,8 @@ public class TomJerryGame {
                 }
                 if (stateController.gameStateOutcome() != GameState.CONTINUE) {
                     break;
-                }
-            } else {
+                }}
+            else {
                 JOptionPane pane = new JOptionPane("Invalid Move! Be sure to stay in map and avoid the barriers\nThis will not exhaust your quota for moving in this round", JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, new ImageIcon(StringResources.invalid_move));
                 final JDialog dialog = pane.createDialog("Invalid Move!");
                 if (unittesting)

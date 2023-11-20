@@ -31,27 +31,18 @@ public class ControlPanelController {
 
         this.move2Button = move2Button;
         for(MoveCode move: MoveCode.values()){
-
-            this.move2Button.get(move).addActionListener(new ActionListener() {
-                /**
-                 * @param e the event to be processed
-                 */
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    Move m = switch(move){
-                        case UP -> new Move.Up(1);
-                        case RIGHT -> new Move.Right(1);
-                        case LEFT -> new Move.Left(1);
-                        case DOWN -> new Move.Down(1);
-                    };
-                    try {
-                        actionQueue.put(m);
-                    } catch (InterruptedException ex) {
-                        throw new RuntimeException();
-                    }
+            this.move2Button.get(move).addActionListener(e-> {
+                Move m = switch(move){
+                    case UP -> new Move.Up(1);
+                    case RIGHT -> new Move.Right(1);
+                    case LEFT -> new Move.Left(1);
+                    case DOWN -> new Move.Down(1);
+                };
+                try {
+                    actionQueue.put(m);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException();
                 }
-
-
             });
         }
 

@@ -30,15 +30,11 @@ public class LandingPageController {
         this.LandingPage = LandingPage;
         this.buttonHitRecords = new LinkedBlockingQueue<>();
 
-        startButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    buttonHitRecords.put("Button Clicked");// put message into queue, to be fetched by main program
-                } catch (InterruptedException ex) {
-                    throw new RuntimeException(ex);
-                }
-
+        startButton.addActionListener(e -> {
+            try {
+                buttonHitRecords.put("Button Clicked");
+            } catch (InterruptedException ex) {
+                throw new RuntimeException(ex);
             }
         });
     }
