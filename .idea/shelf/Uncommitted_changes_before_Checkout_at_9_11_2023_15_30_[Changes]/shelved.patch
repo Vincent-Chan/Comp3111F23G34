@@ -1,0 +1,57 @@
+Index: src/main/java/game_algorithm/GameMapGenerator.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package game_algorithm;\r\nimport game_states.Location;\r\nimport com.opencsv.CSVWriter;\r\nimport java.io.File;\r\nimport java.io.FileWriter;\r\nimport java.io.IOException;\r\nimport java.util.ArrayList;\r\nimport java.util.HashMap;\r\nimport java.util.List;\r\nimport java.util.Random;\r\npublic class GameMapGenerator {\r\n    private Random rand;\r\n    private final int ROW = 30;\r\n    private final int COL = 30;\r\n    private String maze_csv_file;\r\n    public GameMapGenerator(String maze_csv_file){\r\n        rand = new Random();\r\n        this.maze_csv_file = maze_csv_file;\r\n    }\r\n    public char[][] PrimMazeGenerator()\r\n    {\r\n        int no_of_barrier_need_to_removed = 18 ;\r\n\r\n        // Random rand = new Random() ;\r\n\r\n        // set the seed number as 3111 seems to generate a very good maze\r\n        // long seed_number = 3111 ;\r\n        // rand.setSeed(seed_number) ;\r\n\r\n        // if maze[i][j] = '0', it is a clear path in white color\r\n        // if maze[i][j] = '1', it is a barrier in grey color\r\n        // if maze[i][j] = '2', it is the starting point for the mouse Jerry\r\n        // if maze[i][j] = '3', it is the exit point where the mouse Jerry should go to\r\n\r\n\r\n        // corresponds to North, East, South, West\r\n        final int[] row_step = {-1, 0, 1, 0} ;\r\n        final int[] col_step = {0, 1, 0, -1} ;\r\n\r\n        char[][] maze = new char [ROW][COL] ;\r\n\r\n        for (int i = 0; i < ROW; ++i)\r\n        {\r\n            for (int j = 0; j < COL; ++j)\r\n            {\r\n                maze[i][j] = '1' ;\r\n            }\r\n        }\r\n\r\n        Location start = new Location(rand.nextInt(ROW), 0) ;\r\n        maze[start.row()][start.col()] = '2' ;\r\n\r\n        ArrayList<Location> frontier = new ArrayList<Location> () ;\r\n        HashMap<Location, Location> node2parent = new HashMap<>();\r\n        for (int i = 0; i < row_step.length; ++i)\r\n        {\r\n            if ( (start.row() + row_step[i]) >= 0 &&\r\n                    (start.row() + row_step[i]) < ROW &&\r\n                    (start.col() + col_step[i]) >= 0 &&\r\n                    (start.col() + col_step[i]) < COL )\r\n            {\r\n                if (maze[start.row() + row_step[i]][start.col() + col_step[i]] == '0')\r\n                {\r\n                    continue ;\r\n                }\r\n\r\n                Location newloc = new Location(start.row() + row_step[i], start.col() + col_step[i]);\r\n                frontier.add(newloc) ;\r\n                node2parent.put(newloc,start);\r\n\r\n\r\n            }\r\n        }\r\n\r\n        Location last = null;\r\n        Location current = null ;\r\n        Location opposite = null ;\r\n\r\n\r\n        while (frontier.isEmpty() == false)\r\n        {\r\n            current = frontier.remove( rand.nextInt( frontier.size() ) ) ;\r\n            opposite = current.opposite_node(node2parent.get(current)) ;\r\n\r\n            if (opposite.row() >= 0 && opposite.row() < ROW && opposite.col() >= 0 && opposite.col() < COL)\r\n            {\r\n                if (maze[current.row()][current.col()] == '1' && maze[opposite.row()][opposite.col()] == '1') {\r\n\r\n                    maze[current.row()][current.col()] = '0';\r\n                    maze[opposite.row()][opposite.col()] = '0';\r\n\r\n                    last = opposite;\r\n\r\n                    for (int i = 0; i < row_step.length; ++i) {\r\n                        if ((opposite.row() + row_step[i]) >= 0 &&\r\n                                (opposite.row() + row_step[i]) < ROW &&\r\n                                (opposite.col() + col_step[i]) >= 0 &&\r\n                                (opposite.col() + col_step[i]) < COL) {\r\n                            if (maze[opposite.row() + row_step[i]][opposite.col() + col_step[i]] == '0') {\r\n                                continue;\r\n                            }\r\n                            Location newloc = new Location(opposite.row() + row_step[i], opposite.col() + col_step[i]);\r\n                            frontier.add(newloc);\r\n                            node2parent.put(newloc, opposite);\r\n                        }\r\n                    }\r\n                }\r\n            }\r\n\r\n\r\n            if (frontier.isEmpty() == true)\r\n            {\r\n                maze[last.row()][last.col()] = '0' ;\r\n            }\r\n\r\n        }\r\n\r\n\r\n        boolean flag_exit_placed = false ;\r\n\r\n        while (flag_exit_placed == false)\r\n        {\r\n            int temp = rand.nextInt(ROW) ;\r\n\r\n            if (maze[temp][COL-2] == '0')\r\n            {\r\n                maze[temp][COL-1] = '3' ;\r\n                flag_exit_placed = true ;\r\n            }\r\n        }\r\n\r\n        while (no_of_barrier_need_to_removed  > 0)\r\n        {\r\n            int temp_row = rand.nextInt(ROW) ;\r\n            int temp_col = rand.nextInt(COL) ;\r\n\r\n            if (maze[temp_row][temp_col] == '1')\r\n            {\r\n                maze[temp_row][temp_col] = '0' ;\r\n                --no_of_barrier_need_to_removed ;\r\n            }\r\n        }\r\n\r\n        return maze ;\r\n\r\n    }\r\n\r\n    public void to_csv(char[][] maze_data) throws IOException{\r\n        // Use \"throws IOException\" instead of try ... catch ...\r\n\r\n        File file = new File(this.maze_csv_file);\r\n\r\n\r\n        FileWriter outputfile = new FileWriter(file);\r\n\r\n        CSVWriter writer = new CSVWriter(outputfile);\r\n\r\n        String[] temporary_string_arr = new String[maze_data[0].length] ;\r\n\r\n        List<String[]> data = new ArrayList<String[]>() ;\r\n\r\n\r\n        for (int i = 0; i < maze_data.length; ++i)\r\n        {\r\n            for (int j = 0; j < maze_data[0].length; ++j)\r\n            {\r\n                temporary_string_arr[j] = Character.toString(maze_data[i][j]) ;\r\n            }\r\n\r\n            data.add(temporary_string_arr) ;\r\n\r\n            writer.writeAll(data); ;\r\n            data.clear() ;\r\n        }\r\n\r\n        writer.close() ;\r\n\r\n\r\n    }\r\n}\r\n\r\n\r\n
+===================================================================
+diff --git a/src/main/java/game_algorithm/GameMapGenerator.java b/src/main/java/game_algorithm/GameMapGenerator.java
+--- a/src/main/java/game_algorithm/GameMapGenerator.java	
++++ b/src/main/java/game_algorithm/GameMapGenerator.java	
+@@ -8,15 +8,20 @@
+ import java.util.HashMap;
+ import java.util.List;
+ import java.util.Random;
+-public class GameMapGenerator {
++
++// Function A's Unit Testing: GameMapGenerator(), PrimMazeGenerator(), to_csv()
++public class GameMapGenerator
++{
+     private Random rand;
+     private final int ROW = 30;
+     private final int COL = 30;
+     private String maze_csv_file;
++
+     public GameMapGenerator(String maze_csv_file){
+         rand = new Random();
+         this.maze_csv_file = maze_csv_file;
+     }
++
+     public char[][] PrimMazeGenerator()
+     {
+         int no_of_barrier_need_to_removed = 18 ;
+Index: src/main/java/game_states/Location.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package game_states;\r\n\r\nimport java.util.Objects;\r\n\r\npublic record Location(int row, int col) {\r\n    @Override\r\n    public String toString(){\r\n        return \"[ \"+row+\" , \"+col+\" ]\";\r\n    }\r\n\r\n    public Location opposite_node(Location l) {\r\n        if (this.row > l.row)\r\n        {\r\n            return new Location(this.row + 1, this.col) ;\r\n        }\r\n        if (this.row < l.row)\r\n        {\r\n            return new Location(this.row - 1, this.col) ;\r\n        }\r\n\r\n        if (this.col > l.col)\r\n        {\r\n            return new Location(this.row, this.col + 1) ;\r\n        }\r\n        if (this.col < l.col)\r\n        {\r\n            return new Location(this.row, this.col - 1) ;\r\n        }\r\n\r\n        return null ;\r\n    }\r\n}\r\n
+===================================================================
+diff --git a/src/main/java/game_states/Location.java b/src/main/java/game_states/Location.java
+--- a/src/main/java/game_states/Location.java	
++++ b/src/main/java/game_states/Location.java	
+@@ -2,13 +2,16 @@
+ 
+ import java.util.Objects;
+ 
++// Function A's unit testing: toString(), opposite_node()
+ public record Location(int row, int col) {
+     @Override
+-    public String toString(){
++    public String toString()
++    {
+         return "[ "+row+" , "+col+" ]";
+     }
+ 
+-    public Location opposite_node(Location l) {
++    public Location opposite_node(Location l)
++    {
+         if (this.row > l.row)
+         {
+             return new Location(this.row + 1, this.col) ;

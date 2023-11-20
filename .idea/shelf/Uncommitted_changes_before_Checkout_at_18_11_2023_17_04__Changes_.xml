@@ -1,0 +1,14 @@
+<changelist name="Uncommitted_changes_before_Checkout_at_18_11_2023_17_04_[Changes]" date="1700298304427" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_18_11_2023_17_04_[Changes]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 18/11/2023 17:04 [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/game_algorithm/GameMapGenerator.class" />
+    <option name="AFTER_PATH" value="target/classes/game_algorithm/GameMapGenerator.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_18_11_2023_17_04_[Changes]/GameMapGenerator.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/game_states/Location.class" />
+    <option name="AFTER_PATH" value="target/classes/game_states/Location.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_18_11_2023_17_04_[Changes]/Location.class" />
+  </binary>
+</changelist>
