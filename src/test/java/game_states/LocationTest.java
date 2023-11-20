@@ -5,6 +5,8 @@ import static junit.framework.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class LocationTest {
+
+    // Function A Unit Testing
     @Test
     public void testEqual()
     {
@@ -28,12 +30,9 @@ public class LocationTest {
         Location expected1 = new Location(16, 25) ;
 
         assertEquals(expected1, actual1) ;
-    }
 
-    // Function A Unit Testing
-    @Test
-    public void opposite_nodeTest2()
-    {
+        //////////
+
         Location loc_a2 = new Location(15, 25) ;
         Location loc_b2 = new Location(16, 25) ;
 
@@ -42,12 +41,9 @@ public class LocationTest {
         Location expected2 = new Location(14, 25) ;
 
         assertEquals(expected2, actual2) ;
-    }
 
-    // Function A Unit Testing
-    @Test
-    public void opposite_nodeTest3()
-    {
+        //////////
+
         Location loc_a3 = new Location(15, 25) ;
         Location loc_b3 = new Location(15, 24) ;
 
@@ -56,11 +52,9 @@ public class LocationTest {
         Location expected3 = new Location(15, 26) ;
 
         assertEquals(expected3, actual3) ;
-    }
 
-    @Test
-    public void opposite_nodeTest4()
-    {
+        //////////
+
         Location loc_a4 = new Location(15, 25) ;
         Location loc_b4 = new Location(15, 26) ;
 
@@ -69,11 +63,9 @@ public class LocationTest {
         Location expected4 = new Location(15, 24) ;
 
         assertEquals(expected4, actual4) ;
-    }
 
-    @Test
-    public void opposite_nodeTest5()
-    {
+        //////////
+
         Location loc_a5 = new Location(15, 25) ;
         Location loc_b5 = new Location(15, 25) ;
 
