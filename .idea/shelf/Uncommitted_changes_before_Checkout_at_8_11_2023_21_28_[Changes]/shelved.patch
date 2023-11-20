@@ -1,0 +1,218 @@
+Index: src/main/java/main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import game_algorithm.GameMapGenerator;\r\nimport game_scene.MazeMapController;\r\nimport game_scene.WindowsView;\r\nimport game_states.GameState;\r\nimport game_states.GameStateController;\r\nimport game_entities.characterID;\r\nimport game_states.Location;\r\nimport game_states.Move;\r\nimport visuals.StringResources;\r\nimport game_algorithm.ShortestPathGenerator;\r\nimport javax.swing.*;\r\nimport java.awt.*;\r\nimport java.io.BufferedReader;\r\nimport java.io.FileNotFoundException;\r\nimport java.io.FileReader;\r\nimport java.io.IOException;\r\nimport java.util.*;\r\nimport java.util.concurrent.LinkedBlockingQueue;\r\n\r\npublic class main {\r\n    public static ArrayList<ArrayList<Integer>> readData(String file, String separator) throws IOException {\r\n        int count = 0;\r\n        ArrayList<ArrayList<Integer>> content = new ArrayList<>();\r\n        try(BufferedReader br = new BufferedReader(new FileReader(file))) {\r\n            String line = \"\";\r\n            while ((line = br.readLine()) != null) {\r\n                System.out.println(line);\r\n                ArrayList<Integer> intList = new ArrayList<>();\r\n                String[] strlist = line.split(separator);\r\n                for(int i = 0;i< strlist.length;i++){\r\n                    intList.add(Integer.parseInt(strlist[i].substring(1,2))); //input is [\"1\",\"1\",\"1\"], needs to get rid of \"\"\r\n                }\r\n                content.add(intList);\r\n            }\r\n        } catch (FileNotFoundException e) {\r\n            //Some error logging\r\n        }\r\n        return content;\r\n    }\r\n    public static void main(String[] args) throws IOException {\r\n\r\n        // read map from csv\r\n        int SIDE_LENGTH =  30;\r\n        final String MAP_FILE_PATH = \"src/main/java/MazeData.csv\";\r\n        final String SP_OUTPUT_PATH = \"src/main/java/shortest_path_at_beginning.csv\";\r\n        GameMapGenerator gameMapGenerator = new GameMapGenerator(MAP_FILE_PATH);\r\n        gameMapGenerator.to_csv(gameMapGenerator.PrimMazeGenerator());\r\n\r\n        // initialize maze map gui\r\n        ArrayList<ArrayList<Integer>> mazeMap = readData(MAP_FILE_PATH, \",\");\r\n        Location entry = null;\r\n        Location exit = null;\r\n        for(int i = 0;i<SIDE_LENGTH;i++){\r\n            for(int j = 0;j<SIDE_LENGTH;j++){\r\n                if(mazeMap.get(i).get(j)==2){\r\n                    entry = new Location(i,j);\r\n                }\r\n\r\n                else if (mazeMap.get(i).get(j)==3)\r\n                    exit = new Location(i,j);\r\n            }\r\n            System.out.println();\r\n        }\r\n\r\n\r\n        // initialize the GUI components and obtain their controllers\r\n        WindowsView windowsView = new WindowsView(mazeMap, entry, exit);\r\n        MazeMapController mazeMapController = windowsView.getMapViewer().getController();\r\n        mazeMapController.insertImage(entry, StringResources.jerry);\r\n        mazeMapController.insertImage(exit, StringResources.tom);\r\n        windowsView.setTextBillboard(StringResources.gamestarts);\r\n        windowsView.revalidate();\r\n        windowsView.repaint();\r\n        GameStateController stateController = new GameStateController(mazeMap, entry, exit);\r\n\r\n        int turn = 1; // turn%2 -> id of current GameCharacter that can move\r\n        int PLAYER_SPEED = 3;\r\n        int COMPUTER_SPEED = 3;\r\n\r\n        ShortestPathGenerator shortestPathGenerator = new ShortestPathGenerator(MAP_FILE_PATH,SP_OUTPUT_PATH);\r\n        JOptionPane.showMessageDialog(null,StringResources.show_sp_hint , \"Hint\", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(StringResources.show_sp_hint_image));\r\n        ArrayList<Location> SP = shortestPathGenerator.calculate_shortest_path(entry,exit);\r\n        mazeMapController.highlightPath(SP);\r\n        shortestPathGenerator.output_file(SP);\r\n        boolean highlighted = true; // flag, false->not yet highlighted the shortest path from entry to exit\r\n\r\n\r\n        while(stateController.gameStateOutcome()==GameState.CONTINUE){\r\n            turn = turn%2;\r\n\r\n            if(turn == characterID.TOM_ID){\r\n                // Tom's turn, move along the shortest path\r\n                System.out.println(\"Tom's turn\");\r\n\r\n                int remainingMoves =COMPUTER_SPEED;\r\n                windowsView.setTextBillboard(StringResources.showRemainingMoves(characterID.TOM_ID,remainingMoves));\r\n\r\n                while (remainingMoves>0){\r\n                    if(stateController.gameStateOutcome()!=GameState.CONTINUE){\r\n                        break;\r\n                    }\r\n                    Location oldtom = stateController.getCharacterLocation(characterID.TOM_ID);\r\n                    Location oldjerry = stateController.getCharacterLocation(characterID.JERRY_ID);\r\n\r\n                    ArrayList<Location> shortestPathToJerry = shortestPathGenerator.calculate_shortest_path(oldtom,oldjerry);\r\n                    if(shortestPathToJerry==null){\r\n                        JOptionPane.showMessageDialog(null, \"Error in generating shortestPathToJerry\", \"Message\", JOptionPane.INFORMATION_MESSAGE);\r\n                        return;\r\n                    }\r\n\r\n                    // infer intermediate move that results in location transition: oldtom->newtom\r\n                    Location newtom = shortestPathToJerry.get(1);\r\n                    Move nextMove = null;\r\n                    if(newtom.row() == oldtom.row()+1){\r\n                        nextMove = new Move.Down(characterID.TOM_ID);\r\n                    }\r\n                    if(newtom.row() == oldtom.row()-1){\r\n                        nextMove = new Move.Up(characterID.TOM_ID);\r\n                    }\r\n                    if(newtom.col() == oldtom.col()+1){\r\n                        nextMove = new Move.Right(characterID.TOM_ID);\r\n                    }\r\n                    if(newtom.col() == oldtom.col()-1){\r\n                        nextMove = new Move.Left(characterID.TOM_ID);\r\n                    }\r\n                    stateController.moveCharacter(characterID.TOM_ID,nextMove);\r\n                    remainingMoves--;\r\n\r\n                    Location newjerry = stateController.getCharacterLocation(characterID.JERRY_ID);\r\n\r\n                    mazeMapController.renderMap(newtom,newjerry,oldtom,oldjerry);\r\n                    windowsView.setTextBillboard(StringResources.showRemainingMoves(1,remainingMoves));\r\n                    windowsView.revalidate();\r\n                    windowsView.repaint();\r\n                    if(stateController.gameStateOutcome()!=GameState.CONTINUE){\r\n                        break;\r\n                    }\r\n                }\r\n            }\r\n            else{\r\n                //player's turn\r\n                System.out.println(\"Jerry's turn\");\r\n                int remainingMoves =PLAYER_SPEED;\r\n                windowsView.setTextBillboard(StringResources.showRemainingMoves(1,remainingMoves));\r\n                while (remainingMoves>0){\r\n                    if(stateController.gameStateOutcome()!=GameState.CONTINUE){\r\n                        break;\r\n                    }\r\n                    Location oldtom = stateController.getCharacterLocation(0);\r\n                    Location oldjerry = stateController.getCharacterLocation(1);\r\n\r\n                    Move nextMove;\r\n                    try{\r\n                        LinkedBlockingQueue<Move> actionQueue = windowsView.getControlPanelView().getControlPanelController().getActionQueue();\r\n                        System.out.println(\"Hashcode of actionqueue in main.java\"+actionQueue.hashCode());\r\n                        System.out.println(actionQueue.size());\r\n                        nextMove = actionQueue.take();\r\n                    } catch (InterruptedException e) {\r\n                        throw new RuntimeException(e);\r\n                    }\r\n                    System.out.println(\"new move fetched: \"+nextMove);\r\n                    boolean moveResult = stateController.moveCharacter(1, nextMove);\r\n\r\n                    //check validity of the move\r\n                    if(moveResult){\r\n                        Location newtom = stateController.getCharacterLocation(0);\r\n                        Location newjerry = stateController.getCharacterLocation(1);\r\n                        if(stateController.gameStateOutcome()!=GameState.CONTINUE){\r\n                            break;\r\n                        }\r\n                        remainingMoves--;\r\n                        if(highlighted){\r\n                           mazeMapController.removeHighlightPath();\r\n                           highlighted = false;\r\n                        }\r\n                        mazeMapController.renderMap(newtom,newjerry,oldtom,oldjerry);\r\n                        windowsView.setTextBillboard(StringResources.showRemainingMoves(1,remainingMoves));\r\n                        windowsView.revalidate();\r\n                        windowsView.repaint();\r\n                    }\r\n                    else {\r\n                        JOptionPane.showMessageDialog(null, \"Invalid Move!\", \"Message\", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(StringResources.invalid_move));\r\n                    }\r\n\r\n                    if(stateController.gameStateOutcome()!=GameState.CONTINUE){\r\n                        break;\r\n                    }\r\n                }\r\n            }\r\n            turn++;\r\n\r\n        }\r\n\r\n        if(stateController.gameStateOutcome() == GameState.JERRY_WIN){\r\n            windowsView.revalidate();\r\n            windowsView.repaint();\r\n            JOptionPane.showMessageDialog(null, StringResources.jerryWinsMessage, \"Message\", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(StringResources.jerry_wins));\r\n\r\n        }\r\n        else{\r\n            windowsView.revalidate();\r\n            windowsView.repaint();\r\n            JOptionPane.showMessageDialog(null, StringResources.tomWinsMessage, \"Message\", JOptionPane.INFORMATION_MESSAGE,new ImageIcon(StringResources.tom_catches_jerry));\r\n        }\r\n\r\n\r\n\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/main.java b/src/main/java/main.java
+--- a/src/main/java/main.java	(revision f3a72c266ee573c9fbcd7e4834a66fb69343d88d)
++++ b/src/main/java/main.java	(date 1699449604857)
+@@ -66,8 +66,8 @@
+         // initialize the GUI components and obtain their controllers
+         WindowsView windowsView = new WindowsView(mazeMap, entry, exit);
+         MazeMapController mazeMapController = windowsView.getMapViewer().getController();
+-        mazeMapController.insertImage(entry, StringResources.jerry);
+-        mazeMapController.insertImage(exit, StringResources.tom);
++        // mazeMapController.insertImage(entry, StringResources.jerry);
++        // mazeMapController.insertImage(exit, StringResources.tom);
+         windowsView.setTextBillboard(StringResources.gamestarts);
+         windowsView.revalidate();
+         windowsView.repaint();
+@@ -80,7 +80,7 @@
+         ShortestPathGenerator shortestPathGenerator = new ShortestPathGenerator(MAP_FILE_PATH,SP_OUTPUT_PATH);
+         JOptionPane.showMessageDialog(null,StringResources.show_sp_hint , "Hint", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(StringResources.show_sp_hint_image));
+         ArrayList<Location> SP = shortestPathGenerator.calculate_shortest_path(entry,exit);
+-        mazeMapController.highlightPath(SP);
++        // mazeMapController.highlightPath(SP);
+         shortestPathGenerator.output_file(SP);
+         boolean highlighted = true; // flag, false->not yet highlighted the shortest path from entry to exit
+ 
+Index: src/main/java/game_scene/MazeMapViewer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package game_scene;\r\n\r\nimport game_states.Location;\r\n\r\nimport javax.swing.*;\r\nimport java.awt.*;\r\nimport java.util.ArrayList;\r\nimport java.util.HashMap;\r\n\r\n//https://stackoverflow.com/questions/51746451/how-do-i-make-a-jpanel-grid\r\n\r\npublic class MazeMapViewer extends JPanel {\r\n    public static final int SIDE_LENGTH = 30;\r\n    private MazeMapController controller;\r\n    public MazeMapViewer(ArrayList<ArrayList<Integer>> MazeMap, Location entry, Location exit){\r\n\r\n        controller = new MazeMapController(MazeMap, entry, exit);\r\n        HashMap<Location, VertexController> location2vertexController = controller.getLocationVertexControllerMap();\r\n\r\n        setLayout(new GridLayout(SIDE_LENGTH+1,SIDE_LENGTH+2));\r\n        add(new JLabel(\"\"));\r\n        for (int col = 1; col <= SIDE_LENGTH; col++) { //uppermost row, for the col-axis labels\r\n            add(createAxisLabel(String.valueOf(col)));\r\n        }\r\n        add(new JLabel(\"\"));\r\n\r\n        for(int i = 1;i<=SIDE_LENGTH;i++){\r\n            if(entry.row()==i-1){\r\n                add(createAxisLabel(\"ENTRY\"));\r\n            }else{\r\n                add(createAxisLabel(String.valueOf(i)));\r\n            }\r\n\r\n            for(int j=1;j<=SIDE_LENGTH;j++){\r\n                add(location2vertexController.get(new Location(i-1,j-1)).getVertex());\r\n            }\r\n\r\n            if(exit.row()==i-1){\r\n                add(createAxisLabel(\"EXIT\"));\r\n            }else{\r\n                add(createAxisLabel(String.valueOf(i)));\r\n            }\r\n        }\r\n    }\r\n\r\n    // for marking the row and column indices\r\n    private JLabel createAxisLabel(String item){\r\n        JLabel label = new JLabel(item);\r\n        label.setHorizontalAlignment(JLabel.CENTER);\r\n        label.setVerticalAlignment(JLabel.CENTER);\r\n        label.setPreferredSize(new Dimension(50, 50));\r\n        label.setFont(new Font(\"Arial\", Font.BOLD, 12));\r\n        return label;\r\n    }\r\n\r\n    public MazeMapController getController(){return controller;}\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/game_scene/MazeMapViewer.java b/src/main/java/game_scene/MazeMapViewer.java
+--- a/src/main/java/game_scene/MazeMapViewer.java	(revision f3a72c266ee573c9fbcd7e4834a66fb69343d88d)
++++ b/src/main/java/game_scene/MazeMapViewer.java	(date 1699450034796)
+@@ -49,7 +49,7 @@
+         label.setHorizontalAlignment(JLabel.CENTER);
+         label.setVerticalAlignment(JLabel.CENTER);
+         label.setPreferredSize(new Dimension(50, 50));
+-        label.setFont(new Font("Arial", Font.BOLD, 12));
++        label.setFont(new Font("Arial", Font.BOLD, 7));
+         return label;
+     }
+ 
+Index: src/main/java/MazeData.csv
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\"\r\n\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\"\r\n\"0\",\"0\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\"\r\n\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\"\r\n\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\"\r\n\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\"\r\n\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\"\r\n\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\"\r\n\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\"\r\n\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\"\r\n\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\"\r\n\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\"\r\n\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\"\r\n\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\"\r\n\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\"\r\n\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\"\r\n\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\"\r\n\"2\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\"\r\n\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\"\r\n\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\"\r\n\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\"\r\n\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\"\r\n\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\"\r\n\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\"\r\n\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\"\r\n\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\"\r\n\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\"\r\n\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\"\r\n\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"0\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\"\r\n\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"3\"\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/MazeData.csv b/src/main/java/MazeData.csv
+--- a/src/main/java/MazeData.csv	(revision f3a72c266ee573c9fbcd7e4834a66fb69343d88d)
++++ b/src/main/java/MazeData.csv	(date 1699450040223)
+@@ -1,30 +1,30 @@
+-"0","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1"
+-"0","0","0","1","0","1","0","1","0","0","0","0","0","1","0","1","0","1","0","0","0","1","0","0","0","1","0","1","0","1"
+-"0","0","1","1","0","1","0","1","0","1","1","1","1","1","0","1","0","1","0","1","1","1","0","1","1","1","0","1","0","1"
+-"0","0","0","1","0","1","0","1","0","0","0","0","0","1","0","1","0","0","0","1","0","1","0","1","0","0","0","1","0","1"
+-"0","1","1","1","0","1","0","1","0","1","1","1","1","1","0","1","0","1","1","1","0","1","0","1","0","1","1","1","0","1"
+-"0","1","0","0","0","0","0","0","0","1","0","0","0","1","0","1","0","1","0","1","0","0","0","1","0","0","0","0","0","1"
+-"0","1","1","1","0","1","1","1","0","1","0","1","1","1","0","1","0","1","0","1","0","1","1","1","1","1","0","1","1","1"
+-"0","0","0","0","0","1","0","1","0","0","0","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","1"
+-"1","1","0","1","0","1","0","1","1","1","1","0","1","1","0","1","0","1","1","1","0","1","0","1","0","1","0","1","0","1"
+-"0","0","0","0","0","1","0","1","0","1","0","0","0","1","0","0","0","0","0","1","0","1","0","0","0","1","0","1","0","1"
+-"1","1","0","1","1","1","0","1","0","1","0","1","1","1","0","1","1","1","1","1","1","1","0","1","1","1","1","1","0","1"
+-"0","0","0","1","0","0","0","0","0","0","0","0","0","0","0","0","0","1","0","0","0","1","0","0","0","0","0","1","0","1"
+-"1","1","0","1","0","1","1","1","0","1","1","1","0","1","0","1","0","1","1","1","0","1","1","1","1","1","1","1","1","1"
+-"0","0","0","0","0","0","0","1","0","1","0","1","0","1","0","1","0","1","0","1","0","0","0","1","0","1","0","0","0","1"
+-"1","1","0","1","1","1","1","1","1","1","0","1","1","1","1","1","0","1","0","1","0","1","1","1","0","1","0","1","0","1"
+-"0","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","1","0","1"
+-"0","1","0","1","0","1","0","1","0","1","1","1","1","1","0","1","0","1","0","1","1","1","0","1","0","1","0","1","0","0"
+-"2","0","0","1","0","1","0","1","0","0","0","0","0","0","0","1","0","1","0","0","0","1","0","1","0","0","0","0","0","1"
+-"0","1","0","1","0","1","0","1","0","1","0","1","1","1","1","1","0","1","1","1","0","1","1","1","1","1","0","1","0","1"
+-"0","1","0","1","0","0","0","1","0","1","0","0","0","0","0","0","0","0","0","1","0","1","0","0","0","1","0","1","0","1"
+-"1","1","0","1","1","1","1","0","1","1","1","1","1","1","1","1","1","1","1","1","0","0","0","1","0","1","0","1","0","1"
+-"0","1","0","1","0","0","0","1","0","0","0","1","0","1","0","0","0","0","0","1","0","0","0","1","0","1","0","1","0","1"
+-"0","1","0","1","0","1","1","1","1","1","0","1","0","1","0","1","1","1","1","1","1","1","1","1","1","1","1","1","0","1"
+-"0","0","0","0","0","1","0","1","0","1","0","0","0","0","0","1","0","0","0","1","0","0","0","0","0","0","0","1","0","1"
+-"1","1","0","1","0","1","0","1","0","1","0","1","1","1","1","1","1","1","0","1","0","1","1","1","1","1","1","1","1","1"
+-"0","0","0","1","0","0","0","0","0","0","0","0","0","0","0","1","0","1","0","1","0","0","0","0","0","0","0","0","0","1"
+-"1","1","0","1","0","1","0","1","1","1","0","1","1","1","1","1","0","1","0","1","0","1","1","0","1","1","1","1","0","1"
+-"0","0","0","1","0","1","0","1","0","1","0","0","0","1","0","1","0","0","0","0","0","0","0","0","0","1","0","0","0","1"
+-"0","1","0","1","0","1","0","1","0","1","1","0","1","1","0","1","0","1","1","1","0","1","0","1","1","1","0","1","1","1"
+-"0","1","0","1","0","1","0","0","0","0","0","0","0","0","0","0","0","0","0","1","0","1","0","0","0","0","0","0","0","3"
++"1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","0","1","1","1","0"
++"0","0","0","0","0","0","0","1","0","1","0","1","0","1","0","1","0","1","0","0","0","0","0","1","0","1","0","0","0","1"
++"1","1","1","1","0","1","1","1","0","1","0","1","0","1","0","1","0","1","0","1","1","1","1","1","0","1","0","1","1","1"
++"0","1","0","1","0","0","0","0","0","1","0","1","0","0","0","0","0","0","0","0","0","0","0","1","0","1","0","1","0","1"
++"0","1","0","1","1","1","1","1","0","1","0","1","0","1","1","1","1","1","1","1","1","1","1","1","0","1","0","1","0","1"
++"0","0","0","1","0","0","0","0","0","1","0","1","0","0","0","1","0","1","0","1","0","1","0","0","0","1","0","0","0","1"
++"1","1","0","1","1","1","1","1","0","1","0","1","0","1","1","1","0","1","0","1","0","1","0","1","1","1","1","1","0","0"
++"0","1","0","1","0","0","0","1","0","0","0","0","0","0","0","0","0","1","0","1","0","1","0","0","0","1","0","1","0","1"
++"0","1","0","1","0","1","1","1","1","1","0","1","1","1","0","1","1","1","0","0","0","1","0","1","1","1","0","1","0","1"
++"0","1","0","0","0","1","0","1","0","0","0","1","0","1","0","1","0","0","0","0","0","1","0","0","0","0","0","0","0","1"
++"0","1","1","1","0","1","0","1","1","1","0","1","0","1","0","1","0","1","1","1","1","1","0","1","1","1","0","1","1","1"
++"0","0","0","1","0","0","0","1","0","0","0","1","0","1","0","1","0","0","0","0","0","1","0","1","0","0","0","0","0","1"
++"0","1","1","1","0","1","1","0","0","1","1","1","0","1","0","1","0","1","1","1","1","1","0","1","1","1","0","1","1","1"
++"0","0","0","0","0","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","1","0","0","0","1","0","0","0","1"
++"1","1","0","1","1","1","1","1","0","1","1","1","0","1","0","1","1","1","1","1","1","1","0","1","1","1","0","1","0","1"
++"0","0","0","1","0","1","0","0","0","0","0","1","0","1","0","1","0","0","0","1","0","0","0","1","0","0","0","0","0","1"
++"0","1","1","1","0","0","0","1","1","1","1","1","0","1","1","1","0","1","1","1","0","1","1","1","1","1","0","1","1","1"
++"0","0","0","0","0","1","0","0","0","1","0","0","0","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","1"
++"0","1","1","1","1","1","0","1","1","1","1","1","0","1","0","1","1","1","1","1","1","0","0","1","0","1","0","1","1","1"
++"0","1","0","0","0","1","0","1","0","0","0","1","0","0","0","1","0","1","0","1","0","1","0","1","0","1","0","0","0","1"
++"0","1","0","1","0","1","0","1","0","1","1","1","0","1","0","1","0","1","0","1","0","1","0","1","1","1","0","1","1","1"
++"2","0","0","0","0","1","0","0","0","0","0","0","0","1","0","0","0","0","0","1","0","0","0","1","0","1","0","0","0","1"
++"0","1","0","0","0","1","0","1","1","1","1","1","1","1","1","1","1","1","1","1","1","0","1","1","0","1","0","1","0","3"
++"0","1","0","1","0","0","0","1","0","1","0","1","0","0","0","0","0","1","0","0","0","0","0","0","0","0","0","0","0","1"
++"1","1","0","1","1","1","0","1","0","1","0","1","0","1","1","1","1","1","1","1","0","1","1","1","0","1","1","1","0","1"
++"0","0","0","0","0","1","0","1","0","0","0","0","0","0","0","1","0","0","0","1","0","1","0","1","0","1","0","0","0","1"
++"1","1","0","1","0","1","1","1","0","1","0","1","1","1","0","1","0","1","1","1","0","1","0","1","1","1","1","1","1","1"
++"0","0","0","1","0","0","0","0","0","1","0","0","0","1","0","0","0","0","0","0","0","0","0","1","0","0","0","0","0","1"
++"0","1","0","1","0","1","0","1","0","1","1","1","0","1","1","0","0","1","0","1","0","1","0","1","0","1","1","1","1","1"
++"0","1","0","1","0","1","0","1","0","0","0","1","0","1","0","0","0","1","0","0","0","1","0","0","0","0","0","0","0","1"
+Index: src/main/java/shortest_path_at_beginning.csv
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>s1\r\n17,0\r\n17,1\r\n17,2\r\n18,2\r\n19,2\r\n20,2\r\n21,2\r\n22,2\r\n23,2\r\n23,3\r\n23,4\r\n24,4\r\n25,4\r\n25,5\r\n25,6\r\n26,6\r\n27,6\r\n28,6\r\n29,6\r\n29,7\r\n29,8\r\n29,9\r\n29,10\r\n29,11\r\n29,12\r\n29,13\r\n29,14\r\n29,15\r\n29,16\r\n28,16\r\n27,16\r\n27,17\r\n27,18\r\n27,19\r\n27,20\r\n27,21\r\n27,22\r\n28,22\r\n29,22\r\n29,23\r\n29,24\r\n29,25\r\n29,26\r\n29,27\r\n29,28\r\n29,29\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/shortest_path_at_beginning.csv b/src/main/java/shortest_path_at_beginning.csv
+--- a/src/main/java/shortest_path_at_beginning.csv	(revision f3a72c266ee573c9fbcd7e4834a66fb69343d88d)
++++ b/src/main/java/shortest_path_at_beginning.csv	(date 1699450043289)
+@@ -1,47 +1,44 @@
+ s1
+-17,0
+-17,1
+-17,2
+-18,2
+-19,2
+-20,2
++21,0
++21,1
+ 21,2
+ 22,2
+-23,2
+-23,3
++22,3
++22,4
+ 23,4
+-24,4
+-25,4
+-25,5
+-25,6
+-26,6
+-27,6
+-28,6
+-29,6
+-29,7
+-29,8
+-29,9
+-29,10
+-29,11
+-29,12
+-29,13
+-29,14
+-29,15
+-29,16
+-28,16
+-27,16
+-27,17
+-27,18
+-27,19
+-27,20
+-27,21
+-27,22
+-28,22
+-29,22
+-29,23
+-29,24
+-29,25
+-29,26
+-29,27
+-29,28
+-29,29
++23,5
++23,6
++22,6
++21,6
++21,7
++21,8
++21,9
++21,10
++21,11
++21,12
++20,12
++19,12
++19,13
++19,14
++18,14
++17,14
++17,15
++17,16
++17,17
++17,18
++17,19
++17,20
++17,21
++17,22
++17,23
++17,24
++17,25
++17,26
++18,26
++19,26
++20,26
++21,26
++21,27
++21,28
++22,28
++22,29

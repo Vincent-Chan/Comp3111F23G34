@@ -1,0 +1,691 @@
+Index: .idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_31_[Changes]/shelved.patch
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_31_[Changes]/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_31_[Changes]/shelved.patch
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_31_[Changes]/shelved.patch	(revision 0f442e72f497e582a60174c929797bd43366e73b)
++++ /dev/null	(revision 0f442e72f497e582a60174c929797bd43366e73b)
+@@ -1,218 +0,0 @@
+-Index: src/main/java/main.java
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>import game_algorithm.GameMapGenerator;\r\nimport game_scene.MazeMapController;\r\nimport game_scene.WindowsView;\r\nimport game_states.GameState;\r\nimport game_states.GameStateController;\r\nimport game_entities.characterID;\r\nimport game_states.Location;\r\nimport game_states.Move;\r\nimport visuals.StringResources;\r\nimport game_algorithm.ShortestPathGenerator;\r\nimport javax.swing.*;\r\nimport java.awt.*;\r\nimport java.io.BufferedReader;\r\nimport java.io.FileNotFoundException;\r\nimport java.io.FileReader;\r\nimport java.io.IOException;\r\nimport java.util.*;\r\nimport java.util.concurrent.LinkedBlockingQueue;\r\n\r\npublic class main {\r\n    public static ArrayList<ArrayList<Integer>> readData(String file, String separator) throws IOException {\r\n        int count = 0;\r\n        ArrayList<ArrayList<Integer>> content = new ArrayList<>();\r\n        try(BufferedReader br = new BufferedReader(new FileReader(file))) {\r\n            String line = \"\";\r\n            while ((line = br.readLine()) != null) {\r\n                System.out.println(line);\r\n                ArrayList<Integer> intList = new ArrayList<>();\r\n                String[] strlist = line.split(separator);\r\n                for(int i = 0;i< strlist.length;i++){\r\n                    intList.add(Integer.parseInt(strlist[i].substring(1,2))); //input is [\"1\",\"1\",\"1\"], needs to get rid of \"\"\r\n                }\r\n                content.add(intList);\r\n            }\r\n        } catch (FileNotFoundException e) {\r\n            //Some error logging\r\n        }\r\n        return content;\r\n    }\r\n    public static void main(String[] args) throws IOException {\r\n\r\n        // read map from csv\r\n        int SIDE_LENGTH =  30;\r\n        final String MAP_FILE_PATH = \"src/main/java/MazeData.csv\";\r\n        final String SP_OUTPUT_PATH = \"src/main/java/shortest_path_at_beginning.csv\";\r\n        GameMapGenerator gameMapGenerator = new GameMapGenerator(MAP_FILE_PATH);\r\n        gameMapGenerator.to_csv(gameMapGenerator.PrimMazeGenerator());\r\n\r\n        // initialize maze map gui\r\n        ArrayList<ArrayList<Integer>> mazeMap = readData(MAP_FILE_PATH, \",\");\r\n        Location entry = null;\r\n        Location exit = null;\r\n        for(int i = 0;i<SIDE_LENGTH;i++){\r\n            for(int j = 0;j<SIDE_LENGTH;j++){\r\n                if(mazeMap.get(i).get(j)==2){\r\n                    entry = new Location(i,j);\r\n                }\r\n\r\n                else if (mazeMap.get(i).get(j)==3)\r\n                    exit = new Location(i,j);\r\n            }\r\n            System.out.println();\r\n        }\r\n\r\n\r\n        // initialize the GUI components and obtain their controllers\r\n        WindowsView windowsView = new WindowsView(mazeMap, entry, exit);\r\n        MazeMapController mazeMapController = windowsView.getMapViewer().getController();\r\n        mazeMapController.insertImage(entry, StringResources.jerry);\r\n        mazeMapController.insertImage(exit, StringResources.tom);\r\n        windowsView.setTextBillboard(StringResources.gamestarts);\r\n        windowsView.revalidate();\r\n        windowsView.repaint();\r\n        GameStateController stateController = new GameStateController(mazeMap, entry, exit);\r\n\r\n        int turn = 1; // turn%2 -> id of current GameCharacter that can move\r\n        int PLAYER_SPEED = 3;\r\n        int COMPUTER_SPEED = 3;\r\n\r\n        ShortestPathGenerator shortestPathGenerator = new ShortestPathGenerator(MAP_FILE_PATH,SP_OUTPUT_PATH);\r\n        JOptionPane.showMessageDialog(null,StringResources.show_sp_hint , \"Hint\", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(StringResources.show_sp_hint_image));\r\n        ArrayList<Location> SP = shortestPathGenerator.calculate_shortest_path(entry,exit);\r\n        mazeMapController.highlightPath(SP);\r\n        shortestPathGenerator.output_file(SP);\r\n        boolean highlighted = true; // flag, false->not yet highlighted the shortest path from entry to exit\r\n\r\n\r\n        while(stateController.gameStateOutcome()==GameState.CONTINUE){\r\n            turn = turn%2;\r\n\r\n            if(turn == characterID.TOM_ID){\r\n                // Tom's turn, move along the shortest path\r\n                System.out.println(\"Tom's turn\");\r\n\r\n                int remainingMoves =COMPUTER_SPEED;\r\n                windowsView.setTextBillboard(StringResources.showRemainingMoves(characterID.TOM_ID,remainingMoves));\r\n\r\n                while (remainingMoves>0){\r\n                    if(stateController.gameStateOutcome()!=GameState.CONTINUE){\r\n                        break;\r\n                    }\r\n                    Location oldtom = stateController.getCharacterLocation(characterID.TOM_ID);\r\n                    Location oldjerry = stateController.getCharacterLocation(characterID.JERRY_ID);\r\n\r\n                    ArrayList<Location> shortestPathToJerry = shortestPathGenerator.calculate_shortest_path(oldtom,oldjerry);\r\n                    if(shortestPathToJerry==null){\r\n                        JOptionPane.showMessageDialog(null, \"Error in generating shortestPathToJerry\", \"Message\", JOptionPane.INFORMATION_MESSAGE);\r\n                        return;\r\n                    }\r\n\r\n                    // infer intermediate move that results in location transition: oldtom->newtom\r\n                    Location newtom = shortestPathToJerry.get(1);\r\n                    Move nextMove = null;\r\n                    if(newtom.row() == oldtom.row()+1){\r\n                        nextMove = new Move.Down(characterID.TOM_ID);\r\n                    }\r\n                    if(newtom.row() == oldtom.row()-1){\r\n                        nextMove = new Move.Up(characterID.TOM_ID);\r\n                    }\r\n                    if(newtom.col() == oldtom.col()+1){\r\n                        nextMove = new Move.Right(characterID.TOM_ID);\r\n                    }\r\n                    if(newtom.col() == oldtom.col()-1){\r\n                        nextMove = new Move.Left(characterID.TOM_ID);\r\n                    }\r\n                    stateController.moveCharacter(characterID.TOM_ID,nextMove);\r\n                    remainingMoves--;\r\n\r\n                    Location newjerry = stateController.getCharacterLocation(characterID.JERRY_ID);\r\n\r\n                    mazeMapController.renderMap(newtom,newjerry,oldtom,oldjerry);\r\n                    windowsView.setTextBillboard(StringResources.showRemainingMoves(1,remainingMoves));\r\n                    windowsView.revalidate();\r\n                    windowsView.repaint();\r\n                    if(stateController.gameStateOutcome()!=GameState.CONTINUE){\r\n                        break;\r\n                    }\r\n                }\r\n            }\r\n            else{\r\n                //player's turn\r\n                System.out.println(\"Jerry's turn\");\r\n                int remainingMoves =PLAYER_SPEED;\r\n                windowsView.setTextBillboard(StringResources.showRemainingMoves(1,remainingMoves));\r\n                while (remainingMoves>0){\r\n                    if(stateController.gameStateOutcome()!=GameState.CONTINUE){\r\n                        break;\r\n                    }\r\n                    Location oldtom = stateController.getCharacterLocation(0);\r\n                    Location oldjerry = stateController.getCharacterLocation(1);\r\n\r\n                    Move nextMove;\r\n                    try{\r\n                        LinkedBlockingQueue<Move> actionQueue = windowsView.getControlPanelView().getControlPanelController().getActionQueue();\r\n                        System.out.println(\"Hashcode of actionqueue in main.java\"+actionQueue.hashCode());\r\n                        System.out.println(actionQueue.size());\r\n                        nextMove = actionQueue.take();\r\n                    } catch (InterruptedException e) {\r\n                        throw new RuntimeException(e);\r\n                    }\r\n                    System.out.println(\"new move fetched: \"+nextMove);\r\n                    boolean moveResult = stateController.moveCharacter(1, nextMove);\r\n\r\n                    //check validity of the move\r\n                    if(moveResult){\r\n                        Location newtom = stateController.getCharacterLocation(0);\r\n                        Location newjerry = stateController.getCharacterLocation(1);\r\n                        if(stateController.gameStateOutcome()!=GameState.CONTINUE){\r\n                            break;\r\n                        }\r\n                        remainingMoves--;\r\n                        if(highlighted){\r\n                           mazeMapController.removeHighlightPath();\r\n                           highlighted = false;\r\n                        }\r\n                        mazeMapController.renderMap(newtom,newjerry,oldtom,oldjerry);\r\n                        windowsView.setTextBillboard(StringResources.showRemainingMoves(1,remainingMoves));\r\n                        windowsView.revalidate();\r\n                        windowsView.repaint();\r\n                    }\r\n                    else {\r\n                        JOptionPane.showMessageDialog(null, \"Invalid Move!\", \"Message\", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(StringResources.invalid_move));\r\n                    }\r\n\r\n                    if(stateController.gameStateOutcome()!=GameState.CONTINUE){\r\n                        break;\r\n                    }\r\n                }\r\n            }\r\n            turn++;\r\n\r\n        }\r\n\r\n        if(stateController.gameStateOutcome() == GameState.JERRY_WIN){\r\n            windowsView.revalidate();\r\n            windowsView.repaint();\r\n            JOptionPane.showMessageDialog(null, StringResources.jerryWinsMessage, \"Message\", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(StringResources.jerry_wins));\r\n\r\n        }\r\n        else{\r\n            windowsView.revalidate();\r\n            windowsView.repaint();\r\n            JOptionPane.showMessageDialog(null, StringResources.tomWinsMessage, \"Message\", JOptionPane.INFORMATION_MESSAGE,new ImageIcon(StringResources.tom_catches_jerry));\r\n        }\r\n\r\n\r\n\r\n    }\r\n}\r\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/src/main/java/main.java b/src/main/java/main.java
+---- a/src/main/java/main.java	(revision f3a72c266ee573c9fbcd7e4834a66fb69343d88d)
+-+++ b/src/main/java/main.java	(date 1699450121317)
+-@@ -66,8 +66,8 @@
+-         // initialize the GUI components and obtain their controllers
+-         WindowsView windowsView = new WindowsView(mazeMap, entry, exit);
+-         MazeMapController mazeMapController = windowsView.getMapViewer().getController();
+--        mazeMapController.insertImage(entry, StringResources.jerry);
+--        mazeMapController.insertImage(exit, StringResources.tom);
+-+        // mazeMapController.insertImage(entry, StringResources.jerry);
+-+        // mazeMapController.insertImage(exit, StringResources.tom);
+-         windowsView.setTextBillboard(StringResources.gamestarts);
+-         windowsView.revalidate();
+-         windowsView.repaint();
+-@@ -80,7 +80,7 @@
+-         ShortestPathGenerator shortestPathGenerator = new ShortestPathGenerator(MAP_FILE_PATH,SP_OUTPUT_PATH);
+-         JOptionPane.showMessageDialog(null,StringResources.show_sp_hint , "Hint", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(StringResources.show_sp_hint_image));
+-         ArrayList<Location> SP = shortestPathGenerator.calculate_shortest_path(entry,exit);
+--        mazeMapController.highlightPath(SP);
+-+        // mazeMapController.highlightPath(SP);
+-         shortestPathGenerator.output_file(SP);
+-         boolean highlighted = true; // flag, false->not yet highlighted the shortest path from entry to exit
+- 
+-Index: src/main/java/MazeData.csv
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\"\r\n\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\"\r\n\"0\",\"0\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\"\r\n\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\"\r\n\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\"\r\n\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\"\r\n\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\"\r\n\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\"\r\n\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\"\r\n\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\"\r\n\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\"\r\n\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\"\r\n\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\"\r\n\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\"\r\n\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\"\r\n\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\"\r\n\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\"\r\n\"2\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\"\r\n\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\"\r\n\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\"\r\n\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\"\r\n\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\"\r\n\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\"\r\n\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\"\r\n\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\"\r\n\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\"\r\n\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\"\r\n\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\"\r\n\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"0\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\"\r\n\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"3\"\r\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/src/main/java/MazeData.csv b/src/main/java/MazeData.csv
+---- a/src/main/java/MazeData.csv	(revision f3a72c266ee573c9fbcd7e4834a66fb69343d88d)
+-+++ b/src/main/java/MazeData.csv	(date 1699450121353)
+-@@ -1,30 +1,30 @@
+--"0","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1"
+--"0","0","0","1","0","1","0","1","0","0","0","0","0","1","0","1","0","1","0","0","0","1","0","0","0","1","0","1","0","1"
+--"0","0","1","1","0","1","0","1","0","1","1","1","1","1","0","1","0","1","0","1","1","1","0","1","1","1","0","1","0","1"
+--"0","0","0","1","0","1","0","1","0","0","0","0","0","1","0","1","0","0","0","1","0","1","0","1","0","0","0","1","0","1"
+--"0","1","1","1","0","1","0","1","0","1","1","1","1","1","0","1","0","1","1","1","0","1","0","1","0","1","1","1","0","1"
+--"0","1","0","0","0","0","0","0","0","1","0","0","0","1","0","1","0","1","0","1","0","0","0","1","0","0","0","0","0","1"
+--"0","1","1","1","0","1","1","1","0","1","0","1","1","1","0","1","0","1","0","1","0","1","1","1","1","1","0","1","1","1"
+--"0","0","0","0","0","1","0","1","0","0","0","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","1"
+--"1","1","0","1","0","1","0","1","1","1","1","0","1","1","0","1","0","1","1","1","0","1","0","1","0","1","0","1","0","1"
+--"0","0","0","0","0","1","0","1","0","1","0","0","0","1","0","0","0","0","0","1","0","1","0","0","0","1","0","1","0","1"
+--"1","1","0","1","1","1","0","1","0","1","0","1","1","1","0","1","1","1","1","1","1","1","0","1","1","1","1","1","0","1"
+--"0","0","0","1","0","0","0","0","0","0","0","0","0","0","0","0","0","1","0","0","0","1","0","0","0","0","0","1","0","1"
+--"1","1","0","1","0","1","1","1","0","1","1","1","0","1","0","1","0","1","1","1","0","1","1","1","1","1","1","1","1","1"
+--"0","0","0","0","0","0","0","1","0","1","0","1","0","1","0","1","0","1","0","1","0","0","0","1","0","1","0","0","0","1"
+--"1","1","0","1","1","1","1","1","1","1","0","1","1","1","1","1","0","1","0","1","0","1","1","1","0","1","0","1","0","1"
+--"0","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","1","0","1"
+--"0","1","0","1","0","1","0","1","0","1","1","1","1","1","0","1","0","1","0","1","1","1","0","1","0","1","0","1","0","0"
+--"2","0","0","1","0","1","0","1","0","0","0","0","0","0","0","1","0","1","0","0","0","1","0","1","0","0","0","0","0","1"
+--"0","1","0","1","0","1","0","1","0","1","0","1","1","1","1","1","0","1","1","1","0","1","1","1","1","1","0","1","0","1"
+--"0","1","0","1","0","0","0","1","0","1","0","0","0","0","0","0","0","0","0","1","0","1","0","0","0","1","0","1","0","1"
+--"1","1","0","1","1","1","1","0","1","1","1","1","1","1","1","1","1","1","1","1","0","0","0","1","0","1","0","1","0","1"
+--"0","1","0","1","0","0","0","1","0","0","0","1","0","1","0","0","0","0","0","1","0","0","0","1","0","1","0","1","0","1"
+--"0","1","0","1","0","1","1","1","1","1","0","1","0","1","0","1","1","1","1","1","1","1","1","1","1","1","1","1","0","1"
+--"0","0","0","0","0","1","0","1","0","1","0","0","0","0","0","1","0","0","0","1","0","0","0","0","0","0","0","1","0","1"
+--"1","1","0","1","0","1","0","1","0","1","0","1","1","1","1","1","1","1","0","1","0","1","1","1","1","1","1","1","1","1"
+--"0","0","0","1","0","0","0","0","0","0","0","0","0","0","0","1","0","1","0","1","0","0","0","0","0","0","0","0","0","1"
+--"1","1","0","1","0","1","0","1","1","1","0","1","1","1","1","1","0","1","0","1","0","1","1","0","1","1","1","1","0","1"
+--"0","0","0","1","0","1","0","1","0","1","0","0","0","1","0","1","0","0","0","0","0","0","0","0","0","1","0","0","0","1"
+--"0","1","0","1","0","1","0","1","0","1","1","0","1","1","0","1","0","1","1","1","0","1","0","1","1","1","0","1","1","1"
+--"0","1","0","1","0","1","0","0","0","0","0","0","0","0","0","0","0","0","0","1","0","1","0","0","0","0","0","0","0","3"
+-+"1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","0","1","1","1","0"
+-+"0","0","0","0","0","0","0","1","0","1","0","1","0","1","0","1","0","1","0","0","0","0","0","1","0","1","0","0","0","1"
+-+"1","1","1","1","0","1","1","1","0","1","0","1","0","1","0","1","0","1","0","1","1","1","1","1","0","1","0","1","1","1"
+-+"0","1","0","1","0","0","0","0","0","1","0","1","0","0","0","0","0","0","0","0","0","0","0","1","0","1","0","1","0","1"
+-+"0","1","0","1","1","1","1","1","0","1","0","1","0","1","1","1","1","1","1","1","1","1","1","1","0","1","0","1","0","1"
+-+"0","0","0","1","0","0","0","0","0","1","0","1","0","0","0","1","0","1","0","1","0","1","0","0","0","1","0","0","0","1"
+-+"1","1","0","1","1","1","1","1","0","1","0","1","0","1","1","1","0","1","0","1","0","1","0","1","1","1","1","1","0","0"
+-+"0","1","0","1","0","0","0","1","0","0","0","0","0","0","0","0","0","1","0","1","0","1","0","0","0","1","0","1","0","1"
+-+"0","1","0","1","0","1","1","1","1","1","0","1","1","1","0","1","1","1","0","0","0","1","0","1","1","1","0","1","0","1"
+-+"0","1","0","0","0","1","0","1","0","0","0","1","0","1","0","1","0","0","0","0","0","1","0","0","0","0","0","0","0","1"
+-+"0","1","1","1","0","1","0","1","1","1","0","1","0","1","0","1","0","1","1","1","1","1","0","1","1","1","0","1","1","1"
+-+"0","0","0","1","0","0","0","1","0","0","0","1","0","1","0","1","0","0","0","0","0","1","0","1","0","0","0","0","0","1"
+-+"0","1","1","1","0","1","1","0","0","1","1","1","0","1","0","1","0","1","1","1","1","1","0","1","1","1","0","1","1","1"
+-+"0","0","0","0","0","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","1","0","0","0","1","0","0","0","1"
+-+"1","1","0","1","1","1","1","1","0","1","1","1","0","1","0","1","1","1","1","1","1","1","0","1","1","1","0","1","0","1"
+-+"0","0","0","1","0","1","0","0","0","0","0","1","0","1","0","1","0","0","0","1","0","0","0","1","0","0","0","0","0","1"
+-+"0","1","1","1","0","0","0","1","1","1","1","1","0","1","1","1","0","1","1","1","0","1","1","1","1","1","0","1","1","1"
+-+"0","0","0","0","0","1","0","0","0","1","0","0","0","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","1"
+-+"0","1","1","1","1","1","0","1","1","1","1","1","0","1","0","1","1","1","1","1","1","0","0","1","0","1","0","1","1","1"
+-+"0","1","0","0","0","1","0","1","0","0","0","1","0","0","0","1","0","1","0","1","0","1","0","1","0","1","0","0","0","1"
+-+"0","1","0","1","0","1","0","1","0","1","1","1","0","1","0","1","0","1","0","1","0","1","0","1","1","1","0","1","1","1"
+-+"2","0","0","0","0","1","0","0","0","0","0","0","0","1","0","0","0","0","0","1","0","0","0","1","0","1","0","0","0","1"
+-+"0","1","0","0","0","1","0","1","1","1","1","1","1","1","1","1","1","1","1","1","1","0","1","1","0","1","0","1","0","3"
+-+"0","1","0","1","0","0","0","1","0","1","0","1","0","0","0","0","0","1","0","0","0","0","0","0","0","0","0","0","0","1"
+-+"1","1","0","1","1","1","0","1","0","1","0","1","0","1","1","1","1","1","1","1","0","1","1","1","0","1","1","1","0","1"
+-+"0","0","0","0","0","1","0","1","0","0","0","0","0","0","0","1","0","0","0","1","0","1","0","1","0","1","0","0","0","1"
+-+"1","1","0","1","0","1","1","1","0","1","0","1","1","1","0","1","0","1","1","1","0","1","0","1","1","1","1","1","1","1"
+-+"0","0","0","1","0","0","0","0","0","1","0","0","0","1","0","0","0","0","0","0","0","0","0","1","0","0","0","0","0","1"
+-+"0","1","0","1","0","1","0","1","0","1","1","1","0","1","1","0","0","1","0","1","0","1","0","1","0","1","1","1","1","1"
+-+"0","1","0","1","0","1","0","1","0","0","0","1","0","1","0","0","0","1","0","0","0","1","0","0","0","0","0","0","0","1"
+-Index: src/main/java/game_scene/MazeMapViewer.java
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>package game_scene;\r\n\r\nimport game_states.Location;\r\n\r\nimport javax.swing.*;\r\nimport java.awt.*;\r\nimport java.util.ArrayList;\r\nimport java.util.HashMap;\r\n\r\n//https://stackoverflow.com/questions/51746451/how-do-i-make-a-jpanel-grid\r\n\r\npublic class MazeMapViewer extends JPanel {\r\n    public static final int SIDE_LENGTH = 30;\r\n    private MazeMapController controller;\r\n    public MazeMapViewer(ArrayList<ArrayList<Integer>> MazeMap, Location entry, Location exit){\r\n\r\n        controller = new MazeMapController(MazeMap, entry, exit);\r\n        HashMap<Location, VertexController> location2vertexController = controller.getLocationVertexControllerMap();\r\n\r\n        setLayout(new GridLayout(SIDE_LENGTH+1,SIDE_LENGTH+2));\r\n        add(new JLabel(\"\"));\r\n        for (int col = 1; col <= SIDE_LENGTH; col++) { //uppermost row, for the col-axis labels\r\n            add(createAxisLabel(String.valueOf(col)));\r\n        }\r\n        add(new JLabel(\"\"));\r\n\r\n        for(int i = 1;i<=SIDE_LENGTH;i++){\r\n            if(entry.row()==i-1){\r\n                add(createAxisLabel(\"ENTRY\"));\r\n            }else{\r\n                add(createAxisLabel(String.valueOf(i)));\r\n            }\r\n\r\n            for(int j=1;j<=SIDE_LENGTH;j++){\r\n                add(location2vertexController.get(new Location(i-1,j-1)).getVertex());\r\n            }\r\n\r\n            if(exit.row()==i-1){\r\n                add(createAxisLabel(\"EXIT\"));\r\n            }else{\r\n                add(createAxisLabel(String.valueOf(i)));\r\n            }\r\n        }\r\n    }\r\n\r\n    // for marking the row and column indices\r\n    private JLabel createAxisLabel(String item){\r\n        JLabel label = new JLabel(item);\r\n        label.setHorizontalAlignment(JLabel.CENTER);\r\n        label.setVerticalAlignment(JLabel.CENTER);\r\n        label.setPreferredSize(new Dimension(50, 50));\r\n        label.setFont(new Font(\"Arial\", Font.BOLD, 12));\r\n        return label;\r\n    }\r\n\r\n    public MazeMapController getController(){return controller;}\r\n}\r\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/src/main/java/game_scene/MazeMapViewer.java b/src/main/java/game_scene/MazeMapViewer.java
+---- a/src/main/java/game_scene/MazeMapViewer.java	(revision f3a72c266ee573c9fbcd7e4834a66fb69343d88d)
+-+++ b/src/main/java/game_scene/MazeMapViewer.java	(date 1699450121332)
+-@@ -49,7 +49,7 @@
+-         label.setHorizontalAlignment(JLabel.CENTER);
+-         label.setVerticalAlignment(JLabel.CENTER);
+-         label.setPreferredSize(new Dimension(50, 50));
+--        label.setFont(new Font("Arial", Font.BOLD, 12));
+-+        label.setFont(new Font("Arial", Font.BOLD, 7));
+-         return label;
+-     }
+- 
+-Index: src/main/java/shortest_path_at_beginning.csv
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>s1\r\n17,0\r\n17,1\r\n17,2\r\n18,2\r\n19,2\r\n20,2\r\n21,2\r\n22,2\r\n23,2\r\n23,3\r\n23,4\r\n24,4\r\n25,4\r\n25,5\r\n25,6\r\n26,6\r\n27,6\r\n28,6\r\n29,6\r\n29,7\r\n29,8\r\n29,9\r\n29,10\r\n29,11\r\n29,12\r\n29,13\r\n29,14\r\n29,15\r\n29,16\r\n28,16\r\n27,16\r\n27,17\r\n27,18\r\n27,19\r\n27,20\r\n27,21\r\n27,22\r\n28,22\r\n29,22\r\n29,23\r\n29,24\r\n29,25\r\n29,26\r\n29,27\r\n29,28\r\n29,29\r\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/src/main/java/shortest_path_at_beginning.csv b/src/main/java/shortest_path_at_beginning.csv
+---- a/src/main/java/shortest_path_at_beginning.csv	(revision f3a72c266ee573c9fbcd7e4834a66fb69343d88d)
+-+++ b/src/main/java/shortest_path_at_beginning.csv	(date 1699450121371)
+-@@ -1,47 +1,44 @@
+- s1
+--17,0
+--17,1
+--17,2
+--18,2
+--19,2
+--20,2
+-+21,0
+-+21,1
+- 21,2
+- 22,2
+--23,2
+--23,3
+-+22,3
+-+22,4
+- 23,4
+--24,4
+--25,4
+--25,5
+--25,6
+--26,6
+--27,6
+--28,6
+--29,6
+--29,7
+--29,8
+--29,9
+--29,10
+--29,11
+--29,12
+--29,13
+--29,14
+--29,15
+--29,16
+--28,16
+--27,16
+--27,17
+--27,18
+--27,19
+--27,20
+--27,21
+--27,22
+--28,22
+--29,22
+--29,23
+--29,24
+--29,25
+--29,26
+--29,27
+--29,28
+--29,29
+-+23,5
+-+23,6
+-+22,6
+-+21,6
+-+21,7
+-+21,8
+-+21,9
+-+21,10
+-+21,11
+-+21,12
+-+20,12
+-+19,12
+-+19,13
+-+19,14
+-+18,14
+-+17,14
+-+17,15
+-+17,16
+-+17,17
+-+17,18
+-+17,19
+-+17,20
+-+17,21
+-+17,22
+-+17,23
+-+17,24
+-+17,25
+-+17,26
+-+18,26
+-+19,26
+-+20,26
+-+21,26
+-+21,27
+-+21,28
+-+22,28
+-+22,29
+Index: .idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_31__Changes_.xml
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_31__Changes_.xml b/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_31__Changes_.xml
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_31__Changes_.xml	(revision 0f442e72f497e582a60174c929797bd43366e73b)
++++ /dev/null	(revision 0f442e72f497e582a60174c929797bd43366e73b)
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Checkout_at_8_11_2023_21_31_[Changes]" date="1699450268615" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_31_[Changes]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 8/11/2023 21:31 [Changes]" />
+-</changelist>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_28__Changes_.xml
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_28__Changes_.xml b/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_28__Changes_.xml
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_28__Changes_.xml	(revision 0f442e72f497e582a60174c929797bd43366e73b)
++++ /dev/null	(revision 0f442e72f497e582a60174c929797bd43366e73b)
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Checkout_at_8_11_2023_21_28_[Changes]" date="1699450121437" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_28_[Changes]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 8/11/2023 21:28 [Changes]" />
+-</changelist>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_28_[Changes]/shelved.patch
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_28_[Changes]/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_28_[Changes]/shelved.patch
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_28_[Changes]/shelved.patch	(revision 0f442e72f497e582a60174c929797bd43366e73b)
++++ /dev/null	(revision 0f442e72f497e582a60174c929797bd43366e73b)
+@@ -1,218 +0,0 @@
+-Index: src/main/java/main.java
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>import game_algorithm.GameMapGenerator;\r\nimport game_scene.MazeMapController;\r\nimport game_scene.WindowsView;\r\nimport game_states.GameState;\r\nimport game_states.GameStateController;\r\nimport game_entities.characterID;\r\nimport game_states.Location;\r\nimport game_states.Move;\r\nimport visuals.StringResources;\r\nimport game_algorithm.ShortestPathGenerator;\r\nimport javax.swing.*;\r\nimport java.awt.*;\r\nimport java.io.BufferedReader;\r\nimport java.io.FileNotFoundException;\r\nimport java.io.FileReader;\r\nimport java.io.IOException;\r\nimport java.util.*;\r\nimport java.util.concurrent.LinkedBlockingQueue;\r\n\r\npublic class main {\r\n    public static ArrayList<ArrayList<Integer>> readData(String file, String separator) throws IOException {\r\n        int count = 0;\r\n        ArrayList<ArrayList<Integer>> content = new ArrayList<>();\r\n        try(BufferedReader br = new BufferedReader(new FileReader(file))) {\r\n            String line = \"\";\r\n            while ((line = br.readLine()) != null) {\r\n                System.out.println(line);\r\n                ArrayList<Integer> intList = new ArrayList<>();\r\n                String[] strlist = line.split(separator);\r\n                for(int i = 0;i< strlist.length;i++){\r\n                    intList.add(Integer.parseInt(strlist[i].substring(1,2))); //input is [\"1\",\"1\",\"1\"], needs to get rid of \"\"\r\n                }\r\n                content.add(intList);\r\n            }\r\n        } catch (FileNotFoundException e) {\r\n            //Some error logging\r\n        }\r\n        return content;\r\n    }\r\n    public static void main(String[] args) throws IOException {\r\n\r\n        // read map from csv\r\n        int SIDE_LENGTH =  30;\r\n        final String MAP_FILE_PATH = \"src/main/java/MazeData.csv\";\r\n        final String SP_OUTPUT_PATH = \"src/main/java/shortest_path_at_beginning.csv\";\r\n        GameMapGenerator gameMapGenerator = new GameMapGenerator(MAP_FILE_PATH);\r\n        gameMapGenerator.to_csv(gameMapGenerator.PrimMazeGenerator());\r\n\r\n        // initialize maze map gui\r\n        ArrayList<ArrayList<Integer>> mazeMap = readData(MAP_FILE_PATH, \",\");\r\n        Location entry = null;\r\n        Location exit = null;\r\n        for(int i = 0;i<SIDE_LENGTH;i++){\r\n            for(int j = 0;j<SIDE_LENGTH;j++){\r\n                if(mazeMap.get(i).get(j)==2){\r\n                    entry = new Location(i,j);\r\n                }\r\n\r\n                else if (mazeMap.get(i).get(j)==3)\r\n                    exit = new Location(i,j);\r\n            }\r\n            System.out.println();\r\n        }\r\n\r\n\r\n        // initialize the GUI components and obtain their controllers\r\n        WindowsView windowsView = new WindowsView(mazeMap, entry, exit);\r\n        MazeMapController mazeMapController = windowsView.getMapViewer().getController();\r\n        mazeMapController.insertImage(entry, StringResources.jerry);\r\n        mazeMapController.insertImage(exit, StringResources.tom);\r\n        windowsView.setTextBillboard(StringResources.gamestarts);\r\n        windowsView.revalidate();\r\n        windowsView.repaint();\r\n        GameStateController stateController = new GameStateController(mazeMap, entry, exit);\r\n\r\n        int turn = 1; // turn%2 -> id of current GameCharacter that can move\r\n        int PLAYER_SPEED = 3;\r\n        int COMPUTER_SPEED = 3;\r\n\r\n        ShortestPathGenerator shortestPathGenerator = new ShortestPathGenerator(MAP_FILE_PATH,SP_OUTPUT_PATH);\r\n        JOptionPane.showMessageDialog(null,StringResources.show_sp_hint , \"Hint\", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(StringResources.show_sp_hint_image));\r\n        ArrayList<Location> SP = shortestPathGenerator.calculate_shortest_path(entry,exit);\r\n        mazeMapController.highlightPath(SP);\r\n        shortestPathGenerator.output_file(SP);\r\n        boolean highlighted = true; // flag, false->not yet highlighted the shortest path from entry to exit\r\n\r\n\r\n        while(stateController.gameStateOutcome()==GameState.CONTINUE){\r\n            turn = turn%2;\r\n\r\n            if(turn == characterID.TOM_ID){\r\n                // Tom's turn, move along the shortest path\r\n                System.out.println(\"Tom's turn\");\r\n\r\n                int remainingMoves =COMPUTER_SPEED;\r\n                windowsView.setTextBillboard(StringResources.showRemainingMoves(characterID.TOM_ID,remainingMoves));\r\n\r\n                while (remainingMoves>0){\r\n                    if(stateController.gameStateOutcome()!=GameState.CONTINUE){\r\n                        break;\r\n                    }\r\n                    Location oldtom = stateController.getCharacterLocation(characterID.TOM_ID);\r\n                    Location oldjerry = stateController.getCharacterLocation(characterID.JERRY_ID);\r\n\r\n                    ArrayList<Location> shortestPathToJerry = shortestPathGenerator.calculate_shortest_path(oldtom,oldjerry);\r\n                    if(shortestPathToJerry==null){\r\n                        JOptionPane.showMessageDialog(null, \"Error in generating shortestPathToJerry\", \"Message\", JOptionPane.INFORMATION_MESSAGE);\r\n                        return;\r\n                    }\r\n\r\n                    // infer intermediate move that results in location transition: oldtom->newtom\r\n                    Location newtom = shortestPathToJerry.get(1);\r\n                    Move nextMove = null;\r\n                    if(newtom.row() == oldtom.row()+1){\r\n                        nextMove = new Move.Down(characterID.TOM_ID);\r\n                    }\r\n                    if(newtom.row() == oldtom.row()-1){\r\n                        nextMove = new Move.Up(characterID.TOM_ID);\r\n                    }\r\n                    if(newtom.col() == oldtom.col()+1){\r\n                        nextMove = new Move.Right(characterID.TOM_ID);\r\n                    }\r\n                    if(newtom.col() == oldtom.col()-1){\r\n                        nextMove = new Move.Left(characterID.TOM_ID);\r\n                    }\r\n                    stateController.moveCharacter(characterID.TOM_ID,nextMove);\r\n                    remainingMoves--;\r\n\r\n                    Location newjerry = stateController.getCharacterLocation(characterID.JERRY_ID);\r\n\r\n                    mazeMapController.renderMap(newtom,newjerry,oldtom,oldjerry);\r\n                    windowsView.setTextBillboard(StringResources.showRemainingMoves(1,remainingMoves));\r\n                    windowsView.revalidate();\r\n                    windowsView.repaint();\r\n                    if(stateController.gameStateOutcome()!=GameState.CONTINUE){\r\n                        break;\r\n                    }\r\n                }\r\n            }\r\n            else{\r\n                //player's turn\r\n                System.out.println(\"Jerry's turn\");\r\n                int remainingMoves =PLAYER_SPEED;\r\n                windowsView.setTextBillboard(StringResources.showRemainingMoves(1,remainingMoves));\r\n                while (remainingMoves>0){\r\n                    if(stateController.gameStateOutcome()!=GameState.CONTINUE){\r\n                        break;\r\n                    }\r\n                    Location oldtom = stateController.getCharacterLocation(0);\r\n                    Location oldjerry = stateController.getCharacterLocation(1);\r\n\r\n                    Move nextMove;\r\n                    try{\r\n                        LinkedBlockingQueue<Move> actionQueue = windowsView.getControlPanelView().getControlPanelController().getActionQueue();\r\n                        System.out.println(\"Hashcode of actionqueue in main.java\"+actionQueue.hashCode());\r\n                        System.out.println(actionQueue.size());\r\n                        nextMove = actionQueue.take();\r\n                    } catch (InterruptedException e) {\r\n                        throw new RuntimeException(e);\r\n                    }\r\n                    System.out.println(\"new move fetched: \"+nextMove);\r\n                    boolean moveResult = stateController.moveCharacter(1, nextMove);\r\n\r\n                    //check validity of the move\r\n                    if(moveResult){\r\n                        Location newtom = stateController.getCharacterLocation(0);\r\n                        Location newjerry = stateController.getCharacterLocation(1);\r\n                        if(stateController.gameStateOutcome()!=GameState.CONTINUE){\r\n                            break;\r\n                        }\r\n                        remainingMoves--;\r\n                        if(highlighted){\r\n                           mazeMapController.removeHighlightPath();\r\n                           highlighted = false;\r\n                        }\r\n                        mazeMapController.renderMap(newtom,newjerry,oldtom,oldjerry);\r\n                        windowsView.setTextBillboard(StringResources.showRemainingMoves(1,remainingMoves));\r\n                        windowsView.revalidate();\r\n                        windowsView.repaint();\r\n                    }\r\n                    else {\r\n                        JOptionPane.showMessageDialog(null, \"Invalid Move!\", \"Message\", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(StringResources.invalid_move));\r\n                    }\r\n\r\n                    if(stateController.gameStateOutcome()!=GameState.CONTINUE){\r\n                        break;\r\n                    }\r\n                }\r\n            }\r\n            turn++;\r\n\r\n        }\r\n\r\n        if(stateController.gameStateOutcome() == GameState.JERRY_WIN){\r\n            windowsView.revalidate();\r\n            windowsView.repaint();\r\n            JOptionPane.showMessageDialog(null, StringResources.jerryWinsMessage, \"Message\", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(StringResources.jerry_wins));\r\n\r\n        }\r\n        else{\r\n            windowsView.revalidate();\r\n            windowsView.repaint();\r\n            JOptionPane.showMessageDialog(null, StringResources.tomWinsMessage, \"Message\", JOptionPane.INFORMATION_MESSAGE,new ImageIcon(StringResources.tom_catches_jerry));\r\n        }\r\n\r\n\r\n\r\n    }\r\n}\r\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/src/main/java/main.java b/src/main/java/main.java
+---- a/src/main/java/main.java	(revision f3a72c266ee573c9fbcd7e4834a66fb69343d88d)
+-+++ b/src/main/java/main.java	(date 1699449604857)
+-@@ -66,8 +66,8 @@
+-         // initialize the GUI components and obtain their controllers
+-         WindowsView windowsView = new WindowsView(mazeMap, entry, exit);
+-         MazeMapController mazeMapController = windowsView.getMapViewer().getController();
+--        mazeMapController.insertImage(entry, StringResources.jerry);
+--        mazeMapController.insertImage(exit, StringResources.tom);
+-+        // mazeMapController.insertImage(entry, StringResources.jerry);
+-+        // mazeMapController.insertImage(exit, StringResources.tom);
+-         windowsView.setTextBillboard(StringResources.gamestarts);
+-         windowsView.revalidate();
+-         windowsView.repaint();
+-@@ -80,7 +80,7 @@
+-         ShortestPathGenerator shortestPathGenerator = new ShortestPathGenerator(MAP_FILE_PATH,SP_OUTPUT_PATH);
+-         JOptionPane.showMessageDialog(null,StringResources.show_sp_hint , "Hint", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(StringResources.show_sp_hint_image));
+-         ArrayList<Location> SP = shortestPathGenerator.calculate_shortest_path(entry,exit);
+--        mazeMapController.highlightPath(SP);
+-+        // mazeMapController.highlightPath(SP);
+-         shortestPathGenerator.output_file(SP);
+-         boolean highlighted = true; // flag, false->not yet highlighted the shortest path from entry to exit
+- 
+-Index: src/main/java/game_scene/MazeMapViewer.java
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>package game_scene;\r\n\r\nimport game_states.Location;\r\n\r\nimport javax.swing.*;\r\nimport java.awt.*;\r\nimport java.util.ArrayList;\r\nimport java.util.HashMap;\r\n\r\n//https://stackoverflow.com/questions/51746451/how-do-i-make-a-jpanel-grid\r\n\r\npublic class MazeMapViewer extends JPanel {\r\n    public static final int SIDE_LENGTH = 30;\r\n    private MazeMapController controller;\r\n    public MazeMapViewer(ArrayList<ArrayList<Integer>> MazeMap, Location entry, Location exit){\r\n\r\n        controller = new MazeMapController(MazeMap, entry, exit);\r\n        HashMap<Location, VertexController> location2vertexController = controller.getLocationVertexControllerMap();\r\n\r\n        setLayout(new GridLayout(SIDE_LENGTH+1,SIDE_LENGTH+2));\r\n        add(new JLabel(\"\"));\r\n        for (int col = 1; col <= SIDE_LENGTH; col++) { //uppermost row, for the col-axis labels\r\n            add(createAxisLabel(String.valueOf(col)));\r\n        }\r\n        add(new JLabel(\"\"));\r\n\r\n        for(int i = 1;i<=SIDE_LENGTH;i++){\r\n            if(entry.row()==i-1){\r\n                add(createAxisLabel(\"ENTRY\"));\r\n            }else{\r\n                add(createAxisLabel(String.valueOf(i)));\r\n            }\r\n\r\n            for(int j=1;j<=SIDE_LENGTH;j++){\r\n                add(location2vertexController.get(new Location(i-1,j-1)).getVertex());\r\n            }\r\n\r\n            if(exit.row()==i-1){\r\n                add(createAxisLabel(\"EXIT\"));\r\n            }else{\r\n                add(createAxisLabel(String.valueOf(i)));\r\n            }\r\n        }\r\n    }\r\n\r\n    // for marking the row and column indices\r\n    private JLabel createAxisLabel(String item){\r\n        JLabel label = new JLabel(item);\r\n        label.setHorizontalAlignment(JLabel.CENTER);\r\n        label.setVerticalAlignment(JLabel.CENTER);\r\n        label.setPreferredSize(new Dimension(50, 50));\r\n        label.setFont(new Font(\"Arial\", Font.BOLD, 12));\r\n        return label;\r\n    }\r\n\r\n    public MazeMapController getController(){return controller;}\r\n}\r\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/src/main/java/game_scene/MazeMapViewer.java b/src/main/java/game_scene/MazeMapViewer.java
+---- a/src/main/java/game_scene/MazeMapViewer.java	(revision f3a72c266ee573c9fbcd7e4834a66fb69343d88d)
+-+++ b/src/main/java/game_scene/MazeMapViewer.java	(date 1699450034796)
+-@@ -49,7 +49,7 @@
+-         label.setHorizontalAlignment(JLabel.CENTER);
+-         label.setVerticalAlignment(JLabel.CENTER);
+-         label.setPreferredSize(new Dimension(50, 50));
+--        label.setFont(new Font("Arial", Font.BOLD, 12));
+-+        label.setFont(new Font("Arial", Font.BOLD, 7));
+-         return label;
+-     }
+- 
+-Index: src/main/java/MazeData.csv
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\"\r\n\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\"\r\n\"0\",\"0\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\"\r\n\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\"\r\n\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\"\r\n\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\"\r\n\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\"\r\n\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\"\r\n\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\"\r\n\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\"\r\n\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\"\r\n\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\"\r\n\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\"\r\n\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\"\r\n\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\"\r\n\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\"\r\n\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\"\r\n\"2\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\"\r\n\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\"\r\n\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\"\r\n\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\"\r\n\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\"\r\n\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\"\r\n\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\"\r\n\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\",\"1\"\r\n\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\"\r\n\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\",\"1\",\"0\",\"1\"\r\n\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"0\",\"0\",\"1\"\r\n\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"0\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"0\",\"1\",\"1\",\"1\",\"0\",\"1\",\"1\",\"1\"\r\n\"0\",\"1\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"1\",\"0\",\"1\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"3\"\r\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/src/main/java/MazeData.csv b/src/main/java/MazeData.csv
+---- a/src/main/java/MazeData.csv	(revision f3a72c266ee573c9fbcd7e4834a66fb69343d88d)
+-+++ b/src/main/java/MazeData.csv	(date 1699450040223)
+-@@ -1,30 +1,30 @@
+--"0","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1"
+--"0","0","0","1","0","1","0","1","0","0","0","0","0","1","0","1","0","1","0","0","0","1","0","0","0","1","0","1","0","1"
+--"0","0","1","1","0","1","0","1","0","1","1","1","1","1","0","1","0","1","0","1","1","1","0","1","1","1","0","1","0","1"
+--"0","0","0","1","0","1","0","1","0","0","0","0","0","1","0","1","0","0","0","1","0","1","0","1","0","0","0","1","0","1"
+--"0","1","1","1","0","1","0","1","0","1","1","1","1","1","0","1","0","1","1","1","0","1","0","1","0","1","1","1","0","1"
+--"0","1","0","0","0","0","0","0","0","1","0","0","0","1","0","1","0","1","0","1","0","0","0","1","0","0","0","0","0","1"
+--"0","1","1","1","0","1","1","1","0","1","0","1","1","1","0","1","0","1","0","1","0","1","1","1","1","1","0","1","1","1"
+--"0","0","0","0","0","1","0","1","0","0","0","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","1"
+--"1","1","0","1","0","1","0","1","1","1","1","0","1","1","0","1","0","1","1","1","0","1","0","1","0","1","0","1","0","1"
+--"0","0","0","0","0","1","0","1","0","1","0","0","0","1","0","0","0","0","0","1","0","1","0","0","0","1","0","1","0","1"
+--"1","1","0","1","1","1","0","1","0","1","0","1","1","1","0","1","1","1","1","1","1","1","0","1","1","1","1","1","0","1"
+--"0","0","0","1","0","0","0","0","0","0","0","0","0","0","0","0","0","1","0","0","0","1","0","0","0","0","0","1","0","1"
+--"1","1","0","1","0","1","1","1","0","1","1","1","0","1","0","1","0","1","1","1","0","1","1","1","1","1","1","1","1","1"
+--"0","0","0","0","0","0","0","1","0","1","0","1","0","1","0","1","0","1","0","1","0","0","0","1","0","1","0","0","0","1"
+--"1","1","0","1","1","1","1","1","1","1","0","1","1","1","1","1","0","1","0","1","0","1","1","1","0","1","0","1","0","1"
+--"0","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","1","0","1"
+--"0","1","0","1","0","1","0","1","0","1","1","1","1","1","0","1","0","1","0","1","1","1","0","1","0","1","0","1","0","0"
+--"2","0","0","1","0","1","0","1","0","0","0","0","0","0","0","1","0","1","0","0","0","1","0","1","0","0","0","0","0","1"
+--"0","1","0","1","0","1","0","1","0","1","0","1","1","1","1","1","0","1","1","1","0","1","1","1","1","1","0","1","0","1"
+--"0","1","0","1","0","0","0","1","0","1","0","0","0","0","0","0","0","0","0","1","0","1","0","0","0","1","0","1","0","1"
+--"1","1","0","1","1","1","1","0","1","1","1","1","1","1","1","1","1","1","1","1","0","0","0","1","0","1","0","1","0","1"
+--"0","1","0","1","0","0","0","1","0","0","0","1","0","1","0","0","0","0","0","1","0","0","0","1","0","1","0","1","0","1"
+--"0","1","0","1","0","1","1","1","1","1","0","1","0","1","0","1","1","1","1","1","1","1","1","1","1","1","1","1","0","1"
+--"0","0","0","0","0","1","0","1","0","1","0","0","0","0","0","1","0","0","0","1","0","0","0","0","0","0","0","1","0","1"
+--"1","1","0","1","0","1","0","1","0","1","0","1","1","1","1","1","1","1","0","1","0","1","1","1","1","1","1","1","1","1"
+--"0","0","0","1","0","0","0","0","0","0","0","0","0","0","0","1","0","1","0","1","0","0","0","0","0","0","0","0","0","1"
+--"1","1","0","1","0","1","0","1","1","1","0","1","1","1","1","1","0","1","0","1","0","1","1","0","1","1","1","1","0","1"
+--"0","0","0","1","0","1","0","1","0","1","0","0","0","1","0","1","0","0","0","0","0","0","0","0","0","1","0","0","0","1"
+--"0","1","0","1","0","1","0","1","0","1","1","0","1","1","0","1","0","1","1","1","0","1","0","1","1","1","0","1","1","1"
+--"0","1","0","1","0","1","0","0","0","0","0","0","0","0","0","0","0","0","0","1","0","1","0","0","0","0","0","0","0","3"
+-+"1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","0","1","1","1","0"
+-+"0","0","0","0","0","0","0","1","0","1","0","1","0","1","0","1","0","1","0","0","0","0","0","1","0","1","0","0","0","1"
+-+"1","1","1","1","0","1","1","1","0","1","0","1","0","1","0","1","0","1","0","1","1","1","1","1","0","1","0","1","1","1"
+-+"0","1","0","1","0","0","0","0","0","1","0","1","0","0","0","0","0","0","0","0","0","0","0","1","0","1","0","1","0","1"
+-+"0","1","0","1","1","1","1","1","0","1","0","1","0","1","1","1","1","1","1","1","1","1","1","1","0","1","0","1","0","1"
+-+"0","0","0","1","0","0","0","0","0","1","0","1","0","0","0","1","0","1","0","1","0","1","0","0","0","1","0","0","0","1"
+-+"1","1","0","1","1","1","1","1","0","1","0","1","0","1","1","1","0","1","0","1","0","1","0","1","1","1","1","1","0","0"
+-+"0","1","0","1","0","0","0","1","0","0","0","0","0","0","0","0","0","1","0","1","0","1","0","0","0","1","0","1","0","1"
+-+"0","1","0","1","0","1","1","1","1","1","0","1","1","1","0","1","1","1","0","0","0","1","0","1","1","1","0","1","0","1"
+-+"0","1","0","0","0","1","0","1","0","0","0","1","0","1","0","1","0","0","0","0","0","1","0","0","0","0","0","0","0","1"
+-+"0","1","1","1","0","1","0","1","1","1","0","1","0","1","0","1","0","1","1","1","1","1","0","1","1","1","0","1","1","1"
+-+"0","0","0","1","0","0","0","1","0","0","0","1","0","1","0","1","0","0","0","0","0","1","0","1","0","0","0","0","0","1"
+-+"0","1","1","1","0","1","1","0","0","1","1","1","0","1","0","1","0","1","1","1","1","1","0","1","1","1","0","1","1","1"
+-+"0","0","0","0","0","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","1","0","0","0","1","0","0","0","1"
+-+"1","1","0","1","1","1","1","1","0","1","1","1","0","1","0","1","1","1","1","1","1","1","0","1","1","1","0","1","0","1"
+-+"0","0","0","1","0","1","0","0","0","0","0","1","0","1","0","1","0","0","0","1","0","0","0","1","0","0","0","0","0","1"
+-+"0","1","1","1","0","0","0","1","1","1","1","1","0","1","1","1","0","1","1","1","0","1","1","1","1","1","0","1","1","1"
+-+"0","0","0","0","0","1","0","0","0","1","0","0","0","1","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","1"
+-+"0","1","1","1","1","1","0","1","1","1","1","1","0","1","0","1","1","1","1","1","1","0","0","1","0","1","0","1","1","1"
+-+"0","1","0","0","0","1","0","1","0","0","0","1","0","0","0","1","0","1","0","1","0","1","0","1","0","1","0","0","0","1"
+-+"0","1","0","1","0","1","0","1","0","1","1","1","0","1","0","1","0","1","0","1","0","1","0","1","1","1","0","1","1","1"
+-+"2","0","0","0","0","1","0","0","0","0","0","0","0","1","0","0","0","0","0","1","0","0","0","1","0","1","0","0","0","1"
+-+"0","1","0","0","0","1","0","1","1","1","1","1","1","1","1","1","1","1","1","1","1","0","1","1","0","1","0","1","0","3"
+-+"0","1","0","1","0","0","0","1","0","1","0","1","0","0","0","0","0","1","0","0","0","0","0","0","0","0","0","0","0","1"
+-+"1","1","0","1","1","1","0","1","0","1","0","1","0","1","1","1","1","1","1","1","0","1","1","1","0","1","1","1","0","1"
+-+"0","0","0","0","0","1","0","1","0","0","0","0","0","0","0","1","0","0","0","1","0","1","0","1","0","1","0","0","0","1"
+-+"1","1","0","1","0","1","1","1","0","1","0","1","1","1","0","1","0","1","1","1","0","1","0","1","1","1","1","1","1","1"
+-+"0","0","0","1","0","0","0","0","0","1","0","0","0","1","0","0","0","0","0","0","0","0","0","1","0","0","0","0","0","1"
+-+"0","1","0","1","0","1","0","1","0","1","1","1","0","1","1","0","0","1","0","1","0","1","0","1","0","1","1","1","1","1"
+-+"0","1","0","1","0","1","0","1","0","0","0","1","0","1","0","0","0","1","0","0","0","1","0","0","0","0","0","0","0","1"
+-Index: src/main/java/shortest_path_at_beginning.csv
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>s1\r\n17,0\r\n17,1\r\n17,2\r\n18,2\r\n19,2\r\n20,2\r\n21,2\r\n22,2\r\n23,2\r\n23,3\r\n23,4\r\n24,4\r\n25,4\r\n25,5\r\n25,6\r\n26,6\r\n27,6\r\n28,6\r\n29,6\r\n29,7\r\n29,8\r\n29,9\r\n29,10\r\n29,11\r\n29,12\r\n29,13\r\n29,14\r\n29,15\r\n29,16\r\n28,16\r\n27,16\r\n27,17\r\n27,18\r\n27,19\r\n27,20\r\n27,21\r\n27,22\r\n28,22\r\n29,22\r\n29,23\r\n29,24\r\n29,25\r\n29,26\r\n29,27\r\n29,28\r\n29,29\r\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/src/main/java/shortest_path_at_beginning.csv b/src/main/java/shortest_path_at_beginning.csv
+---- a/src/main/java/shortest_path_at_beginning.csv	(revision f3a72c266ee573c9fbcd7e4834a66fb69343d88d)
+-+++ b/src/main/java/shortest_path_at_beginning.csv	(date 1699450043289)
+-@@ -1,47 +1,44 @@
+- s1
+--17,0
+--17,1
+--17,2
+--18,2
+--19,2
+--20,2
+-+21,0
+-+21,1
+- 21,2
+- 22,2
+--23,2
+--23,3
+-+22,3
+-+22,4
+- 23,4
+--24,4
+--25,4
+--25,5
+--25,6
+--26,6
+--27,6
+--28,6
+--29,6
+--29,7
+--29,8
+--29,9
+--29,10
+--29,11
+--29,12
+--29,13
+--29,14
+--29,15
+--29,16
+--28,16
+--27,16
+--27,17
+--27,18
+--27,19
+--27,20
+--27,21
+--27,22
+--28,22
+--29,22
+--29,23
+--29,24
+--29,25
+--29,26
+--29,27
+--29,28
+--29,29
+-+23,5
+-+23,6
+-+22,6
+-+21,6
+-+21,7
+-+21,8
+-+21,9
+-+21,10
+-+21,11
+-+21,12
+-+20,12
+-+19,12
+-+19,13
+-+19,14
+-+18,14
+-+17,14
+-+17,15
+-+17,16
+-+17,17
+-+17,18
+-+17,19
+-+17,20
+-+17,21
+-+17,22
+-+17,23
+-+17,24
+-+17,25
+-+17,26
+-+18,26
+-+19,26
+-+20,26
+-+21,26
+-+21,27
+-+21,28
+-+22,28
+-+22,29
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"894bb80f-52ce-4648-bb94-0f7608b0d8b9\" name=\"Changes\" comment=\"JavaDoc documentation for toString() has just completed.\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/main/java/game_states/Location.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/main/java/game_states/Location.java\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"JUnit5 Test Class\" />\r\n        <option value=\"Class\" />\r\n        <option value=\"JUnit4 Test Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\r\n      <map>\r\n        <entry key=\"$PROJECT_DIR$\" value=\"Function_A\" />\r\n      </map>\r\n    </option>\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"MavenImportPreferences\">\r\n    <option name=\"generalSettings\">\r\n      <MavenGeneralSettings>\r\n        <option name=\"useMavenConfig\" value=\"true\" />\r\n      </MavenGeneralSettings>\r\n    </option>\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"2XAMDPVbuDuAPvb8h7nVgYK5e6w\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\">\r\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,\r\n    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\r\n    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit4&quot;,\r\n    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4&quot;: &quot;&quot;,\r\n    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,\r\n    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.includeInheritedMembers&quot;: &quot;true&quot;,\r\n    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,\r\n    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,\r\n    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,\r\n    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;\r\n  }\r\n}</component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CreateTestDialog.Recents.Supers\">\r\n      <recent name=\"\" />\r\n    </key>\r\n    <key name=\"CreateTestDialog.RecentsKey\">\r\n      <recent name=\"game_algorithm\" />\r\n      <recent name=\"\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunManager\" selected=\"JUnit.GameMapGeneratorTest\">\r\n    <configuration name=\"GameMapGeneratorTest\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"ourgameGUI\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"game_algorithm.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"game_algorithm\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"game_algorithm.GameMapGeneratorTest\" />\r\n      <option name=\"TEST_OBJECT\" value=\"class\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"GameMapGeneratorTest.GameMapGeneratorTest1\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"ourgameGUI\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"game_algorithm.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"game_algorithm\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"game_algorithm.GameMapGeneratorTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"GameMapGeneratorTest1\" />\r\n      <option name=\"TEST_OBJECT\" value=\"method\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"GameMapGeneratorTest.PrimMazeGeneratorTest1\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"ourgameGUI\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"game_algorithm.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"game_algorithm\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"game_algorithm.GameMapGeneratorTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"PrimMazeGeneratorTest1\" />\r\n      <option name=\"TEST_OBJECT\" value=\"method\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"GameMapGeneratorTest.to_csvTest1\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"ourgameGUI\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"game_algorithm.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"game_algorithm\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"game_algorithm.GameMapGeneratorTest\" />\r\n      <option name=\"METHOD_NAME\" value=\"to_csvTest1\" />\r\n      <option name=\"TEST_OBJECT\" value=\"method\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"LocationTest\" type=\"JUnit\" factoryName=\"JUnit\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"ourgameGUI\" />\r\n      <extension name=\"coverage\">\r\n        <pattern>\r\n          <option name=\"PATTERN\" value=\"game_states.*\" />\r\n          <option name=\"ENABLED\" value=\"true\" />\r\n        </pattern>\r\n      </extension>\r\n      <option name=\"PACKAGE_NAME\" value=\"game_states\" />\r\n      <option name=\"MAIN_CLASS_NAME\" value=\"game_states.LocationTest\" />\r\n      <option name=\"TEST_OBJECT\" value=\"class\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"JUnit.GameMapGeneratorTest\" />\r\n        <item itemvalue=\"JUnit.LocationTest\" />\r\n        <item itemvalue=\"JUnit.GameMapGeneratorTest.to_csvTest1\" />\r\n        <item itemvalue=\"JUnit.GameMapGeneratorTest.PrimMazeGeneratorTest1\" />\r\n        <item itemvalue=\"JUnit.GameMapGeneratorTest.GameMapGeneratorTest1\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"SvnConfiguration\">\r\n    <configuration>C:\\Users\\User\\AppData\\Roaming\\Subversion</configuration>\r\n  </component>\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"894bb80f-52ce-4648-bb94-0f7608b0d8b9\" name=\"Changes\" comment=\"\" />\r\n      <created>1698067310429</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1698067310429</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"Vincent (on 25/10/2023, 00:16)&#10;&#10;&#10;Things I have done:&#10;&#10;I have already refined the algorithm to generate the maze without using any try...catch... block to make it easier to read and debug.&#10;&#10;I have also implemented a function to print the whole maze on screen. Since a 30*30 maze will be too big to display on screen, currently I set it to 10*10 maze instead (I will change that to 30*30 later)&#10;&#10;&#10;TODO tasks left:&#10;&#10;-convert the whole maze data to a .csv file for exporting&#10;&#10;-the GUI part to show the maze in GUI (but I think Edward you know how to do that since I saw you successfully display the maze in GUI?)&#10; (Maybe I can borrow you code, Edward?)\">\r\n      <created>1698164473480</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1698164473480</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"I have just implemented the toCSV function (but did not work quite correct :( )\">\r\n      <created>1698202777445</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1698202777445</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"The function toCSV() has been correctly implemented! You can see that in the csv file &quot;MazeData.csv&quot;, it can correctly shown the data of the maze in a 30*30 format.&#10;&#10;Please note that in the csv file:&#10;&#10;// if maze[i][j] = '1', it is a barrier in grey color&#10;// if maze[i][j] = '0', it is a clear path in white color&#10;// if maze[i][j] = 'S', it is the starting point for the mouse Jerry&#10;// if maze[i][j] = 'E', it is the exit point where the mouse Jerry should go to\">\r\n      <created>1698222657997</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1698222657997</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00004\" summary=\"Slightly updated what different numbers represent in the csv file:&#10;&#10;// if maze[i][j] = '0', it is a clear path in white color&#10;// if maze[i][j] = '1', it is a barrier in grey color&#10;// if maze[i][j] = '2', it is the starting point for the mouse Jerry&#10;// if maze[i][j] = '3', it is the exit point where the mouse Jerry should go to&#10;&#10;&#10;Note that '2' is always placed at the leftmost column &amp; '3' is always placed at the rightmost column respectively.\">\r\n      <created>1698225378087</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1698225378087</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00005\" summary=\"Slightly updated what different numbers represent in the csv file:&#10;&#10;// if maze[i][j] = '0', it is a clear path in white color&#10;// if maze[i][j] = '1', it is a barrier in grey color&#10;// if maze[i][j] = '2', it is the starting point for the mouse Jerry&#10;// if maze[i][j] = '3', it is the exit point where the mouse Jerry should go to&#10;&#10;&#10;Note that '2' is always placed at the leftmost column &amp; '3' is always placed at the rightmost column respectively.\">\r\n      <created>1698225453438</created>\r\n      <option name=\"number\" value=\"00005\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1698225453438</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00006\" summary=\"I have implemented how to show the maze in GUI format.&#10;&#10;The white tiles are the clea path.&#10;The gray tiles are barrier.&#10;The red tile is the starting point for the mouse Jerry.&#10;The green tile is the exit point for the mouse Jerry.\">\r\n      <created>1698227703990</created>\r\n      <option name=\"number\" value=\"00006\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1698227703990</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00007\" summary=\"I further split each function in different java class file (.java files), so that this can make the debugging and testing easier later.&#10;&#10;(Note that the code still works fine as the previous one)\">\r\n      <created>1698476984538</created>\r\n      <option name=\"number\" value=\"00007\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1698476984539</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00008\" summary=\"Slight modification on Main.java, MazeGenerator.java, PrintMaze.java, Vertex.java.&#10;&#10;(Adding comments will be done later)\">\r\n      <created>1698477471524</created>\r\n      <option name=\"number\" value=\"00008\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1698477471524</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00009\" summary=\"Further modified MazeGenerator.java by allowing breaking 18 blocks of barrier to ensure there are always at least 2 possible paths from starting point to finishing point. (Already discussed with Anthony and he agreed me to do so)\">\r\n      <created>1698827156146</created>\r\n      <option name=\"number\" value=\"00009\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00009\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1698827156146</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00010\" summary=\"Add the set seed number as 3111 in MazeGenerator.java file (I temporarily comment out those lines for setting the seed)\">\r\n      <created>1698828294070</created>\r\n      <option name=\"number\" value=\"00010\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00010\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1698828294070</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00011\" summary=\"Slight modification is made to Main.java and MazeGenerator.java so that it will be more convenience for me to do unit testing on MazeGenerator class in the future (by making setSeed() on rand more easier to do).&#10;&#10;The final output is still the same as before.\">\r\n      <created>1698914741989</created>\r\n      <option name=\"number\" value=\"00011\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00011\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1698914741989</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00012\" summary=\"Added a few unit test cases for DataOfSquare and MazeGenerator\">\r\n      <created>1699200267054</created>\r\n      <option name=\"number\" value=\"00012\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00012\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1699200267054</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00013\" summary=\"Modify the following unit testing class:&#10;&#10;- MazeDataToCSVTest.java&#10;- MazeGeneratorTest.java&#10;- WindowTest.java\">\r\n      <created>1699426439747</created>\r\n      <option name=\"number\" value=\"00013\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00013\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1699426439747</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00014\" summary=\"Modified DataOfSquareTest.java.&#10;&#10;(&#10;Email reply from TA John Li Tsz On regarding unit testing on class or function of void return type:&#10;&#10;Dear Vincent,&#10;&#10;Junit can run without assertion statements. So to cover lines of void functions or classes, you may just call them in a test case without assertion statements.&#10;&#10;Yours sincerely,&#10;Tsz-On&#10;)\">\r\n      <created>1699431849396</created>\r\n      <option name=\"number\" value=\"00014\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00014\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1699431849397</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00015\" summary=\"Include a new unit test: SquarePanelTest.java\">\r\n      <created>1699432970282</created>\r\n      <option name=\"number\" value=\"00015\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00015\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1699432970282</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00016\" summary=\"- Include a new unit test: VertexTest.java&#10;&#10;- Modify MazeGeneratorTest.java and SquarePanelTest.java a bit&#10;&#10;- Main class and PrintMaze class no need to unit test them (I guess?)\">\r\n      <created>1699434051358</created>\r\n      <option name=\"number\" value=\"00016\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00016\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1699434051358</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00017\" summary=\"Include all test cases for function A\">\r\n      <created>1699517574764</created>\r\n      <option name=\"number\" value=\"00017\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00017\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1699517574764</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00018\" summary=\"Add one more unit test case for LocationTest.java\">\r\n      <created>1699518324949</created>\r\n      <option name=\"number\" value=\"00018\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00018\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1699518324949</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00019\" summary=\"Write only part of the Javadoc documentation in GameMapGenerator.java. &#10;&#10;Will finish that after I go home.\">\r\n      <created>1699523650881</created>\r\n      <option name=\"number\" value=\"00019\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00019\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1699523650881</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00020\" summary=\"Complete the JavaDoc documentaion for the core maze generator function PrimMazeGenerator()\">\r\n      <created>1699535420923</created>\r\n      <option name=\"number\" value=\"00020\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00020\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1699535420923</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00021\" summary=\"JavaDoc documentation for to_csv() has just completed.\">\r\n      <created>1699536225644</created>\r\n      <option name=\"number\" value=\"00021\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00021\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1699536225644</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00022\" summary=\"JavaDoc documentation for toString() has just completed.\">\r\n      <created>1699536946414</created>\r\n      <option name=\"number\" value=\"00022\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00022\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1699536946414</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"23\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <option name=\"ADD_EXTERNAL_FILES_SILENTLY\" value=\"true\" />\r\n    <MESSAGE value=\"Vincent (on 25/10/2023, 00:16)&#10;&#10;&#10;Things I have done:&#10;&#10;I have already refined the algorithm to generate the maze without using any try...catch... block to make it easier to read and debug.&#10;&#10;I have also implemented a function to print the whole maze on screen. Since a 30*30 maze will be too big to display on screen, currently I set it to 10*10 maze instead (I will change that to 30*30 later)&#10;&#10;&#10;TODO tasks left:&#10;&#10;-convert the whole maze data to a .csv file for exporting&#10;&#10;-the GUI part to show the maze in GUI (but I think Edward you know how to do that since I saw you successfully display the maze in GUI?)&#10; (Maybe I can borrow you code, Edward?)\" />\r\n    <MESSAGE value=\"I have just implemented the toCSV function (but did not work quite correct :( )\" />\r\n    <MESSAGE value=\"The function toCSV() has been correctly implemented! You can see that in the csv file &quot;MazeData.csv&quot;, it can correctly shown the data of the maze in a 30*30 format.&#10;&#10;Please note that in the csv file:&#10;&#10;// if maze[i][j] = '1', it is a barrier in grey color&#10;// if maze[i][j] = '0', it is a clear path in white color&#10;// if maze[i][j] = 'S', it is the starting point for the mouse Jerry&#10;// if maze[i][j] = 'E', it is the exit point where the mouse Jerry should go to\" />\r\n    <MESSAGE value=\"Slightly updated what different numbers represent in the csv file:&#10;&#10;// if maze[i][j] = '0', it is a clear path in white color&#10;// if maze[i][j] = '1', it is a barrier in grey color&#10;// if maze[i][j] = '2', it is the starting point for the mouse Jerry&#10;// if maze[i][j] = '3', it is the exit point where the mouse Jerry should go to&#10;&#10;&#10;Note that '2' is always placed at the leftmost column &amp; '3' is always placed at the rightmost column respectively.\" />\r\n    <MESSAGE value=\"I have implemented how to show the maze in GUI format.&#10;&#10;The white tiles are the clea path.&#10;The gray tiles are barrier.&#10;The red tile is the starting point for the mouse Jerry.&#10;The green tile is the exit point for the mouse Jerry.\" />\r\n    <MESSAGE value=\"I further split each function in different java class file (.java files), so that this can make the debugging and testing easier later.&#10;&#10;(Note that the code still works fine as the previous one)\" />\r\n    <MESSAGE value=\"Slight modification on Main.java, MazeGenerator.java, PrintMaze.java, Vertex.java.&#10;&#10;(Adding comments will be done later)\" />\r\n    <MESSAGE value=\"Further modified MazeGenerator.java by allowing breaking 18 blocks of barrier to ensure there are always at least 2 possible paths from starting point to finishing point. (Already discussed with Anthony and he agreed me to do so)\" />\r\n    <MESSAGE value=\"Add the set seed number as 3111 in MazeGenerator.java file (I temporarily comment out those lines for setting the seed)\" />\r\n    <MESSAGE value=\"Slight modification is made to Main.java and MazeGenerator.java so that it will be more convenience for me to do unit testing on MazeGenerator class in the future (by making setSeed() on rand more easier to do).&#10;&#10;The final output is still the same as before.\" />\r\n    <MESSAGE value=\"Added a few unit test cases for DataOfSquare and MazeGenerator\" />\r\n    <MESSAGE value=\"Modify the following unit testing class:&#10;&#10;- MazeDataToCSVTest.java&#10;- MazeGeneratorTest.java&#10;- WindowTest.java\" />\r\n    <MESSAGE value=\"Modified DataOfSquareTest.java.&#10;&#10;(&#10;Email reply from TA John Li Tsz On regarding unit testing on class or function of void return type:&#10;&#10;Dear Vincent,&#10;&#10;Junit can run without assertion statements. So to cover lines of void functions or classes, you may just call them in a test case without assertion statements.&#10;&#10;Yours sincerely,&#10;Tsz-On&#10;)\" />\r\n    <MESSAGE value=\"Include a new unit test: SquarePanelTest.java\" />\r\n    <MESSAGE value=\"- Include a new unit test: VertexTest.java&#10;&#10;- Modify MazeGeneratorTest.java and SquarePanelTest.java a bit&#10;&#10;- Main class and PrintMaze class no need to unit test them (I guess?)\" />\r\n    <MESSAGE value=\"Include all test cases for function A\" />\r\n    <MESSAGE value=\"Add one more unit test case for LocationTest.java\" />\r\n    <MESSAGE value=\"Write only part of the Javadoc documentation in GameMapGenerator.java. &#10;&#10;Will finish that after I go home.\" />\r\n    <MESSAGE value=\"Complete the JavaDoc documentaion for the core maze generator function PrimMazeGenerator()\" />\r\n    <MESSAGE value=\"JavaDoc documentation for to_csv() has just completed.\" />\r\n    <MESSAGE value=\"JavaDoc documentation for toString() has just completed.\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"JavaDoc documentation for toString() has just completed.\" />\r\n  </component>\r\n  <component name=\"com.intellij.coverage.CoverageDataManagerImpl\">\r\n    <SUITE FILE_PATH=\"coverage/Comp3111F23G34$GameMapGeneratorTest_GameMapGeneratorTest1.ic\" NAME=\"GameMapGeneratorTest.GameMapGeneratorTest1 Coverage Results\" MODIFIED=\"1699517689089\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>game_algorithm.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/Comp3111F23G34$GameMapGeneratorTest_to_csvTest1.ic\" NAME=\"GameMapGeneratorTest.to_csvTest1 Coverage Results\" MODIFIED=\"1699517739765\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>game_algorithm.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/Comp3111F23G34$GameMapGeneratorTest.ic\" NAME=\"GameMapGeneratorTest Coverage Results\" MODIFIED=\"1699518167860\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>game_algorithm.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/Comp3111F23G34$PrimTest.ic\" NAME=\"PrimTest Coverage Results\" MODIFIED=\"1698076114212\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\" />\r\n    <SUITE FILE_PATH=\"coverage/Comp3111F23G34$GameMapGeneratorTest_PrimMazeGeneratorTest1.ic\" NAME=\"GameMapGeneratorTest.PrimMazeGeneratorTest1 Coverage Results\" MODIFIED=\"1699517715057\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>game_algorithm.*</FILTER>\r\n    </SUITE>\r\n    <SUITE FILE_PATH=\"coverage/Comp3111F23G34$LocationTest.ic\" NAME=\"LocationTest Coverage Results\" MODIFIED=\"1699518102060\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"idea\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\">\r\n      <FILTER>game_states.*</FILTER>\r\n    </SUITE>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 0f442e72f497e582a60174c929797bd43366e73b)
++++ b/.idea/workspace.xml	(date 1700297533145)
+@@ -4,9 +4,14 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="894bb80f-52ce-4648-bb94-0f7608b0d8b9" name="Changes" comment="JavaDoc documentation for toString() has just completed.">
++    <list default="true" id="894bb80f-52ce-4648-bb94-0f7608b0d8b9" name="Changes" comment="JavaDoc documentation for opposite_node() has just completed.&#10;&#10;All JavaDoc documentation for function A are done now.">
++      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_28_[Changes]/shelved.patch" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_28__Changes_.xml" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_31_[Changes]/shelved.patch" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_31__Changes_.xml" beforeDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/main/java/game_states/Location.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game_states/Location.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/target/classes/game_algorithm/GameMapGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game_algorithm/GameMapGenerator.class" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/target/classes/game_states/Location.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game_states/Location.class" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -73,71 +78,72 @@
+       <recent name="" />
+     </key>
+   </component>
+-  <component name="RunManager" selected="JUnit.GameMapGeneratorTest">
+-    <configuration name="GameMapGeneratorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
++  <component name="RunManager" selected="JUnit.LocationTest.opposite_nodeTest5">
++    <configuration name="LocationTest.opposite_nodeTest1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+       <module name="ourgameGUI" />
+       <extension name="coverage">
+         <pattern>
+-          <option name="PATTERN" value="game_algorithm.*" />
++          <option name="PATTERN" value="game_states.*" />
+           <option name="ENABLED" value="true" />
+         </pattern>
+       </extension>
+-      <option name="PACKAGE_NAME" value="game_algorithm" />
+-      <option name="MAIN_CLASS_NAME" value="game_algorithm.GameMapGeneratorTest" />
+-      <option name="TEST_OBJECT" value="class" />
++      <option name="PACKAGE_NAME" value="game_states" />
++      <option name="MAIN_CLASS_NAME" value="game_states.LocationTest" />
++      <option name="METHOD_NAME" value="opposite_nodeTest1" />
++      <option name="TEST_OBJECT" value="method" />
+       <method v="2">
+         <option name="Make" enabled="true" />
+       </method>
+     </configuration>
+-    <configuration name="GameMapGeneratorTest.GameMapGeneratorTest1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
++    <configuration name="LocationTest.opposite_nodeTest2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+       <module name="ourgameGUI" />
+       <extension name="coverage">
+         <pattern>
+-          <option name="PATTERN" value="game_algorithm.*" />
++          <option name="PATTERN" value="game_states.*" />
+           <option name="ENABLED" value="true" />
+         </pattern>
+       </extension>
+-      <option name="PACKAGE_NAME" value="game_algorithm" />
+-      <option name="MAIN_CLASS_NAME" value="game_algorithm.GameMapGeneratorTest" />
+-      <option name="METHOD_NAME" value="GameMapGeneratorTest1" />
++      <option name="PACKAGE_NAME" value="game_states" />
++      <option name="MAIN_CLASS_NAME" value="game_states.LocationTest" />
++      <option name="METHOD_NAME" value="opposite_nodeTest2" />
+       <option name="TEST_OBJECT" value="method" />
+       <method v="2">
+         <option name="Make" enabled="true" />
+       </method>
+     </configuration>
+-    <configuration name="GameMapGeneratorTest.PrimMazeGeneratorTest1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
++    <configuration name="LocationTest.opposite_nodeTest3" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+       <module name="ourgameGUI" />
+       <extension name="coverage">
+         <pattern>
+-          <option name="PATTERN" value="game_algorithm.*" />
++          <option name="PATTERN" value="game_states.*" />
+           <option name="ENABLED" value="true" />
+         </pattern>
+       </extension>
+-      <option name="PACKAGE_NAME" value="game_algorithm" />
+-      <option name="MAIN_CLASS_NAME" value="game_algorithm.GameMapGeneratorTest" />
+-      <option name="METHOD_NAME" value="PrimMazeGeneratorTest1" />
++      <option name="PACKAGE_NAME" value="game_states" />
++      <option name="MAIN_CLASS_NAME" value="game_states.LocationTest" />
++      <option name="METHOD_NAME" value="opposite_nodeTest3" />
+       <option name="TEST_OBJECT" value="method" />
+       <method v="2">
+         <option name="Make" enabled="true" />
+       </method>
+     </configuration>
+-    <configuration name="GameMapGeneratorTest.to_csvTest1" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
++    <configuration name="LocationTest.opposite_nodeTest4" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+       <module name="ourgameGUI" />
+       <extension name="coverage">
+         <pattern>
+-          <option name="PATTERN" value="game_algorithm.*" />
++          <option name="PATTERN" value="game_states.*" />
+           <option name="ENABLED" value="true" />
+         </pattern>
+       </extension>
+-      <option name="PACKAGE_NAME" value="game_algorithm" />
+-      <option name="MAIN_CLASS_NAME" value="game_algorithm.GameMapGeneratorTest" />
+-      <option name="METHOD_NAME" value="to_csvTest1" />
++      <option name="PACKAGE_NAME" value="game_states" />
++      <option name="MAIN_CLASS_NAME" value="game_states.LocationTest" />
++      <option name="METHOD_NAME" value="opposite_nodeTest4" />
+       <option name="TEST_OBJECT" value="method" />
+       <method v="2">
+         <option name="Make" enabled="true" />
+       </method>
+     </configuration>
+-    <configuration name="LocationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
++    <configuration name="LocationTest.opposite_nodeTest5" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+       <module name="ourgameGUI" />
+       <extension name="coverage">
+         <pattern>
+@@ -147,18 +153,19 @@
+       </extension>
+       <option name="PACKAGE_NAME" value="game_states" />
+       <option name="MAIN_CLASS_NAME" value="game_states.LocationTest" />
+-      <option name="TEST_OBJECT" value="class" />
++      <option name="METHOD_NAME" value="opposite_nodeTest5" />
++      <option name="TEST_OBJECT" value="method" />
+       <method v="2">
+         <option name="Make" enabled="true" />
+       </method>
+     </configuration>
+     <recent_temporary>
+       <list>
+-        <item itemvalue="JUnit.GameMapGeneratorTest" />
+-        <item itemvalue="JUnit.LocationTest" />
+-        <item itemvalue="JUnit.GameMapGeneratorTest.to_csvTest1" />
+-        <item itemvalue="JUnit.GameMapGeneratorTest.PrimMazeGeneratorTest1" />
+-        <item itemvalue="JUnit.GameMapGeneratorTest.GameMapGeneratorTest1" />
++        <item itemvalue="JUnit.LocationTest.opposite_nodeTest5" />
++        <item itemvalue="JUnit.LocationTest.opposite_nodeTest3" />
++        <item itemvalue="JUnit.LocationTest.opposite_nodeTest4" />
++        <item itemvalue="JUnit.LocationTest.opposite_nodeTest2" />
++        <item itemvalue="JUnit.LocationTest.opposite_nodeTest1" />
+       </list>
+     </recent_temporary>
+   </component>
+@@ -328,7 +335,14 @@
+       <option name="project" value="LOCAL" />
+       <updated>1699536946414</updated>
+     </task>
+-    <option name="localTasksCounter" value="23" />
++    <task id="LOCAL-00023" summary="JavaDoc documentation for opposite_node() has just completed.&#10;&#10;All JavaDoc documentation for function A are done now.">
++      <created>1699538281063</created>
++      <option name="number" value="00023" />
++      <option name="presentableId" value="LOCAL-00023" />
++      <option name="project" value="LOCAL" />
++      <updated>1699538281063</updated>
++    </task>
++    <option name="localTasksCounter" value="24" />
+     <servers />
+   </component>
+   <component name="Vcs.Log.Tabs.Properties">
+@@ -365,23 +379,45 @@
+     <MESSAGE value="Complete the JavaDoc documentaion for the core maze generator function PrimMazeGenerator()" />
+     <MESSAGE value="JavaDoc documentation for to_csv() has just completed." />
+     <MESSAGE value="JavaDoc documentation for toString() has just completed." />
+-    <option name="LAST_COMMIT_MESSAGE" value="JavaDoc documentation for toString() has just completed." />
++    <MESSAGE value="JavaDoc documentation for opposite_node() has just completed.&#10;&#10;All JavaDoc documentation for function A are done now." />
++    <option name="LAST_COMMIT_MESSAGE" value="JavaDoc documentation for opposite_node() has just completed.&#10;&#10;All JavaDoc documentation for function A are done now." />
+   </component>
+   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+-    <SUITE FILE_PATH="coverage/Comp3111F23G34$GameMapGeneratorTest_GameMapGeneratorTest1.ic" NAME="GameMapGeneratorTest.GameMapGeneratorTest1 Coverage Results" MODIFIED="1699517689089" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
++    <SUITE FILE_PATH="coverage/Comp3111F23G34$GameMapGeneratorTest_GameMapGeneratorTest1.ic" NAME="GameMapGeneratorTest.GameMapGeneratorTest1 Coverage Results" MODIFIED="1699777600021" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+       <FILTER>game_algorithm.*</FILTER>
+     </SUITE>
+-    <SUITE FILE_PATH="coverage/Comp3111F23G34$GameMapGeneratorTest_to_csvTest1.ic" NAME="GameMapGeneratorTest.to_csvTest1 Coverage Results" MODIFIED="1699517739765" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
++    <SUITE FILE_PATH="coverage/Comp3111F23G34$LocationTest_testEqual.ic" NAME="LocationTest.testEqual Coverage Results" MODIFIED="1699782449442" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
++      <FILTER>game_states.*</FILTER>
++    </SUITE>
++    <SUITE FILE_PATH="coverage/Comp3111F23G34$PrimTest.ic" NAME="PrimTest Coverage Results" MODIFIED="1698076114212" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
++    <SUITE FILE_PATH="coverage/Comp3111F23G34$LocationTest.ic" NAME="LocationTest Coverage Results" MODIFIED="1699774576520" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
++      <FILTER>game_states.*</FILTER>
++    </SUITE>
++    <SUITE FILE_PATH="coverage/Comp3111F23G34$LocationTest_toStringTest1.ic" NAME="LocationTest.toStringTest1 Coverage Results" MODIFIED="1699782496897" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
++      <FILTER>game_states.*</FILTER>
++    </SUITE>
++    <SUITE FILE_PATH="coverage/Comp3111F23G34$GameMapGeneratorTest_to_csvTest1.ic" NAME="GameMapGeneratorTest.to_csvTest1 Coverage Results" MODIFIED="1699777750797" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+       <FILTER>game_algorithm.*</FILTER>
+     </SUITE>
+-    <SUITE FILE_PATH="coverage/Comp3111F23G34$GameMapGeneratorTest.ic" NAME="GameMapGeneratorTest Coverage Results" MODIFIED="1699518167860" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
++    <SUITE FILE_PATH="coverage/Comp3111F23G34$LocationTest_opposite_nodeTest4.ic" NAME="LocationTest.opposite_nodeTest4 Coverage Results" MODIFIED="1699783032273" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
++      <FILTER>game_states.*</FILTER>
++    </SUITE>
++    <SUITE FILE_PATH="coverage/Comp3111F23G34$LocationTest_opposite_nodeTest3.ic" NAME="LocationTest.opposite_nodeTest3 Coverage Results" MODIFIED="1699783113265" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
++      <FILTER>game_states.*</FILTER>
++    </SUITE>
++    <SUITE FILE_PATH="coverage/Comp3111F23G34$LocationTest_opposite_nodeTest5.ic" NAME="LocationTest.opposite_nodeTest5 Coverage Results" MODIFIED="1699783149668" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
++      <FILTER>game_states.*</FILTER>
++    </SUITE>
++    <SUITE FILE_PATH="coverage/Comp3111F23G34$LocationTest_opposite_nodeTest1.ic" NAME="LocationTest.opposite_nodeTest1 Coverage Results" MODIFIED="1699782717405" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
++      <FILTER>game_states.*</FILTER>
++    </SUITE>
++    <SUITE FILE_PATH="coverage/Comp3111F23G34$GameMapGeneratorTest.ic" NAME="GameMapGeneratorTest Coverage Results" MODIFIED="1699774493206" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+       <FILTER>game_algorithm.*</FILTER>
+     </SUITE>
+-    <SUITE FILE_PATH="coverage/Comp3111F23G34$PrimTest.ic" NAME="PrimTest Coverage Results" MODIFIED="1698076114212" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+-    <SUITE FILE_PATH="coverage/Comp3111F23G34$GameMapGeneratorTest_PrimMazeGeneratorTest1.ic" NAME="GameMapGeneratorTest.PrimMazeGeneratorTest1 Coverage Results" MODIFIED="1699517715057" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
++    <SUITE FILE_PATH="coverage/Comp3111F23G34$GameMapGeneratorTest_PrimMazeGeneratorTest1.ic" NAME="GameMapGeneratorTest.PrimMazeGeneratorTest1 Coverage Results" MODIFIED="1699777937753" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+       <FILTER>game_algorithm.*</FILTER>
+     </SUITE>
+-    <SUITE FILE_PATH="coverage/Comp3111F23G34$LocationTest.ic" NAME="LocationTest Coverage Results" MODIFIED="1699518102060" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
++    <SUITE FILE_PATH="coverage/Comp3111F23G34$LocationTest_opposite_nodeTest2.ic" NAME="LocationTest.opposite_nodeTest2 Coverage Results" MODIFIED="1699782835882" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+       <FILTER>game_states.*</FILTER>
+     </SUITE>
+   </component>
