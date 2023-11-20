@@ -2,6 +2,7 @@ package game_states;
 
 import game_entities.characterID;
 import org.junit.Test;
+import visuals.StringResources;
 
 import java.util.ArrayList;
 
@@ -49,11 +50,11 @@ public class GameStateTest {
         Move left_move = new Move.Left(0);
         Location real_left = left_move.nextPosition(original);//target
         Move right_move = new Move.Right(0);
-        Location real_right = right_move.nextPosition(original);
+        Location real_right = right_move.nextPosition(original);//target
         Move up_move = new Move.Up(0);
-        Location real_up = up_move.nextPosition(original);
+        Location real_up = up_move.nextPosition(original);//target
         Move down_move = new Move.Down(0);
-        Location real_down = down_move.nextPosition(original);
+        Location real_down = down_move.nextPosition(original);//target
 
         assertEquals(left,real_left);
         assertEquals(up,real_up);
@@ -82,7 +83,7 @@ public class GameStateTest {
         Move t_r= new Move.Right(characterID.TOM_ID);
         Move t_l = new Move.Left(characterID.TOM_ID);
 
-        boolean t_r_result = gsc.moveCharacter(characterID.TOM_ID, t_r);
+        boolean t_r_result = gsc.moveCharacter(characterID.TOM_ID, t_r);//target
         assertEquals(false, t_r_result);
 
         gsc.moveCharacter(characterID.JERRY_ID,j_r);//target
@@ -90,8 +91,8 @@ public class GameStateTest {
         Location actual = gsc.getCharacterLocation(characterID.JERRY_ID);
         assertEquals(expected, actual);
 
-        gsc.moveCharacter(characterID.TOM_ID,t_l);
-        gsc.moveCharacter(characterID.TOM_ID,t_r);
+        gsc.moveCharacter(characterID.TOM_ID,t_l);//target
+        gsc.moveCharacter(characterID.TOM_ID,t_r);//target
         Location actual_tom = gsc.getCharacterLocation(characterID.TOM_ID);
         assertEquals(exit, actual_tom);
 
@@ -112,7 +113,7 @@ public class GameStateTest {
         Move j_r = new Move.Right(characterID.JERRY_ID);
         gsc.moveCharacter(characterID.JERRY_ID,j_r);
         Location expected_jerry = new Location(entry.row(), entry.col()+1);
-        Location actual_jerry = gsc.getCharacterLocation(characterID.JERRY_ID);
+        Location actual_jerry = gsc.getCharacterLocation(characterID.JERRY_ID);//target
         assertEquals(expected_jerry, actual_jerry);
     }
 
@@ -136,14 +137,40 @@ public class GameStateTest {
             jerry_location = gsc.getCharacterLocation(characterID.JERRY_ID);
         }
 
-        real = gsc.gameStateOutcome();
+        real = gsc.gameStateOutcome();//target
         assertEquals(GameState.TOM_WIN, real);
 
 
         Move j_r = new Move.Right(characterID.JERRY_ID);
         gsc.moveCharacter(characterID.JERRY_ID,j_r);
-        real = gsc.gameStateOutcome();
+        real = gsc.gameStateOutcome();//target
         assertEquals(GameState.JERRY_WIN, real);
+
+    }
+
+    @Test
+    public void test_reachableLocationByTom(){
+        ArrayList<ArrayList<Integer>> mzp = generateMazeMap(entry,exit);
+        GameStateController gsc = new GameStateController(mzp,entry,exit);
+        Location tomlocation = gsc.getCharacterLocation(characterID.TOM_ID);
+        Location jerrylocation = gsc.getCharacterLocation(characterID.JERRY_ID);
+        ArrayList<Location> TomReachable = new ArrayList<>();
+        TomReachable.add(tomlocation);
+        ArrayList<Location> JerryReachable = new ArrayList<>();
+        JerryReachable.add(jerrylocation);
+        int[][] DIRECTIONS = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+        for (int[] direction : DIRECTIONS){
+            if(gsc.location2vertex.containsKey(new Location(tomlocation.row()+direction[0], tomlocation.col()+direction[1])) && gsc.location2vertex.get(new Location(tomlocation.row()+direction[0], tomlocation.col()+direction[1])).isClear()){
+                TomReachable.add(new Location(tomlocation.row()+direction[0], tomlocation.col()+direction[1]));
+            }
+            if(gsc.location2vertex.containsKey(new Location(jerrylocation.row()+direction[0], jerrylocation.col()+direction[1])) && gsc.location2vertex.get(new Location(jerrylocation.row()+direction[0], jerrylocation.col()+direction[1])).isClear()){
+                JerryReachable.add(new Location(jerrylocation.row()+direction[0], jerrylocation.col()+direction[1]));
+            }
+        }
+        ArrayList<Location> realTomReachable = gsc.reachablePositions(0,1);//target
+        ArrayList<Location> realJerryReachable = gsc.reachablePositions(1,1);//target
+        assertArrayEquals(TomReachable.toArray(), realTomReachable.toArray());
+        assertArrayEquals(JerryReachable.toArray(), realJerryReachable.toArray());
 
     }
 
