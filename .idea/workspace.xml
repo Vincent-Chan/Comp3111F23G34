@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dced8117-7975-4407-a39c-0a46be81a9a4" name="Changes" comment="Test case added" />
+    <list default="true" id="dced8117-7975-4407-a39c-0a46be81a9a4" name="Changes" comment="I split opposite_nodeTest1() into two unit test cases, which are opposite_nodeTest1() and opposite_nodeTest2() respectively, to satisfy the requirement that the same function can be called for a maximum of 4 times. (Reminder from Edward Xiao)">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -154,11 +156,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.LocationTest" />
         <item itemvalue="JUnit.LocationTest.opposite_nodeTest5" />
         <item itemvalue="JUnit.LocationTest.opposite_nodeTest4" />
         <item itemvalue="JUnit.LocationTest.opposite_nodeTest3" />
         <item itemvalue="JUnit.LocationTest.opposite_nodeTest2" />
+        <item itemvalue="JUnit.LocationTest" />
       </list>
     </recent_temporary>
   </component>
@@ -193,16 +195,35 @@
       <option name="project" value="LOCAL" />
       <updated>1700474745332</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="I split opposite_nodeTest1() into two unit test cases, which are opposite_nodeTest1() and opposite_nodeTest2() respectively, to satisfy the requirement that the same function can be called for a maximum of 4 times. (Reminder from Edward Xiao)">
+      <created>1700476438765</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1700476438766</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="UnknownFeatures">
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.csv" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Test case added" />
     <MESSAGE value="I merged opposite_nodeTest1(), opposite_nodeTest2(), opposite_nodeTest3(), opposite_nodeTest4() and opposite_nodeTest5() into opposite_nodeTest1(), just like what team leader Edward XIAO has mentioned in WhatsApp to lower the test per function ratio." />
-    <option name="LAST_COMMIT_MESSAGE" value="I merged opposite_nodeTest1(), opposite_nodeTest2(), opposite_nodeTest3(), opposite_nodeTest4() and opposite_nodeTest5() into opposite_nodeTest1(), just like what team leader Edward XIAO has mentioned in WhatsApp to lower the test per function ratio." />
+    <MESSAGE value="I split opposite_nodeTest1() into two unit test cases, which are opposite_nodeTest1() and opposite_nodeTest2() respectively, to satisfy the requirement that the same function can be called for a maximum of 4 times. (Reminder from Edward Xiao)" />
+    <option name="LAST_COMMIT_MESSAGE" value="I split opposite_nodeTest1() into two unit test cases, which are opposite_nodeTest1() and opposite_nodeTest2() respectively, to satisfy the requirement that the same function can be called for a maximum of 4 times. (Reminder from Edward Xiao)" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Comp3111F23G34$GameMapGeneratorTest_GameMapGeneratorTest1.ic" NAME="GameMapGeneratorTest.GameMapGeneratorTest1 Coverage Results" MODIFIED="1700388802118" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
@@ -221,7 +242,7 @@
       <FILTER>game_algorithm.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/Comp3111F23G34$PrimTest.ic" NAME="PrimTest Coverage Results" MODIFIED="1698076114212" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/Comp3111F23G34$LocationTest.ic" NAME="LocationTest Coverage Results" MODIFIED="1700474582524" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$LocationTest.ic" NAME="LocationTest Coverage Results" MODIFIED="1700476310048" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>game_states.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/Comp3111F23G34$ShortestPathGeneratorTest_test_constructor.ic" NAME="ShortestPathGeneratorTest.test_constructor Coverage Results" MODIFIED="1699456224094" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
