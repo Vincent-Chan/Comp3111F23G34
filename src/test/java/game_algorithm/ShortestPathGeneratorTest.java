@@ -2,12 +2,8 @@ package game_algorithm;
 import game_states.Location;
 import org.junit.Before;
 import org.junit.Test;
-
-import javax.print.attribute.standard.RequestingUserName;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 import static org.junit.Assert.*;
 
 public class ShortestPathGeneratorTest {
@@ -60,8 +56,9 @@ public class ShortestPathGeneratorTest {
         assertEquals(actual_output3, expected_output3);
     }
 
-    @Test
-    public void test_output_file() {
+    @Test(expected = RuntimeException.class)
+    public void test_output_file()
+    {
         // valid directory
         Location entry1 = new Location(11,0);
         Location exit1 = new Location(9,29);
@@ -129,8 +126,9 @@ public class ShortestPathGeneratorTest {
         assertArrayEquals(obj1.output_array(entry1, exit1, previous, temp).toArray(), Shortest_path_vertices.toArray()); // target function
     }
 
-    @Test
-    public void test_load_csv() {
+    @Test(expected = RuntimeException.class)
+    public void test_load_csv()
+    {
         // valid directory
         Location entry1 = new Location(11,0);
         Location exit1 = new Location(9,29);
@@ -143,4 +141,5 @@ public class ShortestPathGeneratorTest {
         ShortestPathGenerator obj2 = new ShortestPathGenerator("srcc/main/java/MazeData.csv", "src/main/java/shortest_path_at_beginning.csv");
         obj2.load_csv("srcc/main/java/MazeData.csv");
     }
+
 }
