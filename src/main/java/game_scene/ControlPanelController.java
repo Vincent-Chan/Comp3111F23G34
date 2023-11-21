@@ -14,10 +14,10 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class ControlPanelController {
 
     /**The hashmap storing the respective JButton instance of each possible move*/
-    private HashMap<MoveCode, JButton> move2Button;
+    public HashMap<MoveCode, JButton> move2Button;
 
     /**The FIFO blocking buffer for the actions submitted by the user via pressing the buttons*/
-    private static LinkedBlockingQueue<Move> actionQueue;
+    public static LinkedBlockingQueue<Move> actionQueue;
 
 
     /**

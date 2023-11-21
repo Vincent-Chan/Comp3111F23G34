@@ -18,7 +18,7 @@ public class LandingPageController {
     private JFrame LandingPage;
 
     /**The FIFO blocking buffer for storing the users' button pressing movements*/
-    private static LinkedBlockingQueue<String> buttonHitRecords;
+    public static LinkedBlockingQueue<String> buttonHitRecords;
 
     /**
      * Constructor of this class
