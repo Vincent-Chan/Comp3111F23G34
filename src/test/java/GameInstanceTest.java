@@ -62,6 +62,7 @@ public class GameInstanceTest {
 
     @Test
     public void test_TomMoves() throws IOException{
+        /**Test condition check after move*/
         TomJerryGame tjg = new TomJerryGame(MAP_FILE_PATH, SP_OUTPUT_PATH);
         GameStateController sc = tjg.stateController;
         Location jerry = sc.JerryLocation;
@@ -82,6 +83,14 @@ public class GameInstanceTest {
 
         tjg.TomMoves();//target
         assertEquals(GameState.TOM_WIN,sc.gameStateOutcome());
+
+        /**Test condition check before making any move*/
+        tjg = new TomJerryGame(MAP_FILE_PATH, SP_OUTPUT_PATH);
+        sc = tjg.stateController;
+        sc.TomLocation = sc.JerryLocation;
+        tjg.TomMoves(); //target
+        assertEquals(GameState.TOM_WIN,sc.gameStateOutcome());
+
 
     }
 

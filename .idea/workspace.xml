@@ -4,26 +4,48 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dced8117-7975-4407-a39c-0a46be81a9a4" name="Changes" comment="Test coverage">
+    <list default="true" id="dced8117-7975-4407-a39c-0a46be81a9a4" name="Changes" comment="Tests for catch{Exception} added">
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_18_11_2023_17_04__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_18_11_2023_17_04__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_28__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_28__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_31__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_8_11_2023_21_31__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_9_11_2023_15_30__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_9_11_2023_15_30__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_9_11_2023__3_11_pm__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_9_11_2023__3_11_pm__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game_algorithm/ShortestPathGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game_algorithm/ShortestPathGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game_scene/ControlPanelController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game_scene/ControlPanelController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game_scene/LandingPageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game_scene/LandingPageController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/game_algorithm/ShortestPathGeneratorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/game_algorithm/ShortestPathGeneratorTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/game_scene/ControlPanelTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/game_scene/ControlPanelTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/game_scene/LandingPageTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/game_scene/LandingPageTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/game_states/LocationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/game_states/LocationTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game_algorithm/ShortestPathGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game_algorithm/ShortestPathGenerator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game_scene/ControlPanelController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game_scene/ControlPanelController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game_scene/LandingPageController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game_scene/LandingPageController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/game_algorithm/ShortestPathGeneratorTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/game_algorithm/ShortestPathGeneratorTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/game_scene/ControlPanelTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/game_scene/ControlPanelTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/game_states/LocationTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/game_states/LocationTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/MazeData.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MazeData.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/GameInstanceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/GameInstanceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/GameFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/game_algorithm/GameMapGenerator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/game_algorithm/ShortestPathGenerator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/game_entities/Entity.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/game_entities/Vertex.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/game_entities/characterID.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/game_scene/ControlPanelController$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/game_scene/ControlPanelController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/game_scene/ControlPanelView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/game_scene/LandingPageController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/game_scene/LandingPageView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/game_scene/MazeMapController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/game_scene/MazeMapViewer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/game_scene/VertexController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/game_scene/VertexViewer.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/game_scene/WindowsView.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/game_states/GameState.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/game_states/GameStateController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/game_states/Location.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/game_states/Move$Down.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/game_states/Move$Left.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/game_states/Move$Right.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/game_states/Move$Up.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/game_states/Move.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/game_states/MoveCode.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/visuals/StringResources.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/GameInstanceTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/game_algorithm/GameMapGeneratorTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/game_algorithm/ShortestPathGeneratorTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/game_entities/VertexEntityTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/game_scene/ControlPanelTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/game_scene/LandingPageTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/game_scene/MazeMapInterfaceTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/game_scene/VertexTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/game_states/GameStateTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/game_states/LocationTest.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,6 +69,7 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -80,6 +103,13 @@
     </key>
   </component>
   <component name="RunManager" selected="JUnit.All in Comp3111F23G34">
+    <configuration name="GameFactory" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="GameFactory" />
+      <module name="Comp3111F23G34" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="All in Comp3111F23G34" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Comp3111F23G34" />
       <option name="PACKAGE_NAME" value="" />
@@ -119,22 +149,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ControlPanelTest.testControlPanelProcessButtonPressing" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Comp3111F23G34" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="game_scene.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="game_scene" />
-      <option name="MAIN_CLASS_NAME" value="game_scene.ControlPanelTest" />
-      <option name="METHOD_NAME" value="testControlPanelProcessButtonPressing" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="LandingPageTest.testActionListenerWithInterruptedException" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Comp3111F23G34" />
       <extension name="coverage">
@@ -167,10 +181,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.All in Comp3111F23G34" />
+        <item itemvalue="Application.GameFactory" />
         <item itemvalue="JUnit.LandingPageTest.testActionListenerWithInterruptedException" />
         <item itemvalue="JUnit.ControlPanelTest" />
         <item itemvalue="JUnit.ControlPanelTest.testActionListenerWithInterruptedException" />
-        <item itemvalue="JUnit.ControlPanelTest.testControlPanelProcessButtonPressing" />
       </list>
     </recent_temporary>
   </component>
@@ -212,7 +226,14 @@
       <option name="project" value="LOCAL" />
       <updated>1700474768856</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Tests for catch{Exception} added">
+      <created>1700536720873</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1700536720873</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -234,7 +255,8 @@
     <MESSAGE value="Modified TomMovesOneStep" />
     <MESSAGE value="Modified GameFactory" />
     <MESSAGE value="Test coverage" />
-    <option name="LAST_COMMIT_MESSAGE" value="Test coverage" />
+    <MESSAGE value="Tests for catch{Exception} added" />
+    <option name="LAST_COMMIT_MESSAGE" value="Tests for catch{Exception} added" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Comp3111F23G34$GameInstanceTest_test_readData.ic" NAME="GameInstanceTest.test_readData Coverage Results" MODIFIED="1700378607059" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
@@ -302,7 +324,7 @@
       <FILTER>game_scene.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/Comp3111F23G34$GameInstanceTest.ic" NAME="GameInstanceTest Coverage Results" MODIFIED="1700456488810" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/Comp3111F23G34$All_in_Comp3111F23G34.ic" NAME="All in Comp3111F23G34 Coverage Results" MODIFIED="1700536606437" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$All_in_Comp3111F23G34.ic" NAME="All in Comp3111F23G34 Coverage Results" MODIFIED="1700537754976" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/Comp3111F23G34$GameInstanceTest_test_TomMoves.ic" NAME="GameInstanceTest.test_TomMoves Coverage Results" MODIFIED="1700384997893" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/Comp3111F23G34$LocationTest.ic" NAME="LocationTest Coverage Results" MODIFIED="1699518102060" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>game_states.*</FILTER>
