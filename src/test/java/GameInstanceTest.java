@@ -10,6 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 import visuals.StringResources;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -95,7 +97,7 @@ public class GameInstanceTest {
     }
 
     @Test
-    public void test_JerryMoves() throws IOException, InterruptedException {
+    public void test_JerryMoves() throws IOException, InterruptedException, UnsupportedAudioFileException, LineUnavailableException {
 
         /**Test Invalid Move*/
         TomJerryGame tjg = new TomJerryGame(MAP_FILE_PATH, SP_OUTPUT_PATH);
@@ -185,7 +187,7 @@ public class GameInstanceTest {
     }
 
     @Test
-    public void test_run() throws IOException, InterruptedException {
+    public void test_run() throws IOException, InterruptedException, UnsupportedAudioFileException, LineUnavailableException {
         TomJerryGame tjg = new TomJerryGame(MAP_FILE_PATH, SP_OUTPUT_PATH);
         GameStateController sc = tjg.stateController;
 
