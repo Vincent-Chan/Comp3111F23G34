@@ -1,6 +1,14 @@
 import game_scene.LandingPageView;
+import visuals.StringResources;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.sound.sampled.Clip;
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class GameFactory {
@@ -14,7 +22,7 @@ public class GameFactory {
         return new TomJerryGame(MAP_FILE_PATH, SP_OUTPUT_PATH);
     }
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) throws IOException, InterruptedException, UnsupportedAudioFileException, LineUnavailableException {
         boolean unittesting_from_main = false;
         if(args.length>0 && args[0].equals("test")){
             System.out.println("testing");
@@ -23,7 +31,7 @@ public class GameFactory {
             SP_OUTPUT_PATH= "src/main/java/shortest_path_at_beginning_test.csv";
         }
 
-        /**Show landing page until user hits "Start Game"*/
+        /**Show landing page with BGM until user hits "Start Game"*/
         LandingPageView landingPageView = new LandingPageView();
         landingPageView.setVisible(true);
         if(unittesting_from_main)
@@ -33,8 +41,12 @@ public class GameFactory {
             if(unittesting_from_main){
                 queue.put("s");
             }
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(StringResources.landing_page_bgm));
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
             String startButtonPressedRecord= queue.take();
-
+            clip.stop(); //stop bgm
             /**User presses start, create a new game instance*/
             TomJerryGame game = createGame();
             game.run(landingPageView, false,unittesting_from_main,null);
