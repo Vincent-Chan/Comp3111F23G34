@@ -37,7 +37,9 @@ public class GameFactory {
         if(unittesting_from_main)
             landingPageView.setVisible(false);
         LinkedBlockingQueue<String> queue = landingPageView.getController().getButtonHitRecords();
-        while(true){
+
+        boolean unittesting_lock = true;
+        while(unittesting_lock){
             if(unittesting_from_main){
                 queue.put("s");
             }
@@ -53,7 +55,7 @@ public class GameFactory {
             landingPageView.setVisible(true);
             if(unittesting_from_main){
                 landingPageView.setVisible(false);
-                break;
+                unittesting_lock = false;
             }
         }
     }
