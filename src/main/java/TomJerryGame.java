@@ -11,13 +11,11 @@ import game_states.Location;
 import game_states.Move;
 import visuals.StringResources;
 
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
@@ -211,7 +209,7 @@ public class TomJerryGame {
             remainingMoves--;
             if(stateController.gameStateOutcome()!=GameState.CONTINUE){
                 break;}}}
-    public void JerryMoves(boolean highlighted, boolean unittesting, LinkedBlockingQueue<Move> unit_test_movements) throws InterruptedException, IOException {
+    public void JerryMoves(boolean highlighted, boolean unittesting, LinkedBlockingQueue<Move> unit_test_movements) throws InterruptedException, IOException, UnsupportedAudioFileException, LineUnavailableException {
         int remainingMoves = jerrySpeed;
         windowsView.setTextBillboard(StringResources.showRemainingMoves(1, remainingMoves));
         while (remainingMoves > 0) {
@@ -239,6 +237,11 @@ public class TomJerryGame {
                 windowsView.setTextBillboard(StringResources.showRemainingMoves(1, remainingMoves));
                 windowsView.revalidate();
                 windowsView.repaint();
+                AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(StringResources.movement_button_bgm));
+                Clip clip = AudioSystem.getClip();
+                clip.open(audioStream);
+                clip.setFramePosition(0);
+                clip.start();
 
                 /**clear any left-over actions in actionqueue if this is the last chance for user to move in current roun
                  * e.g. if user can move 3 steps in a round, but he presses the button for 4 times,
@@ -293,10 +296,17 @@ public class TomJerryGame {
             }
         }
     }
-    public void run(LandingPageView landingPageView,boolean unittesting,boolean unittesting_from_main, LinkedBlockingQueue<Move> moves_for_testing) throws IOException, InterruptedException {
+    public void run(LandingPageView landingPageView,boolean unittesting,boolean unittesting_from_main, LinkedBlockingQueue<Move> moves_for_testing) throws IOException, InterruptedException, UnsupportedAudioFileException, LineUnavailableException {
         if(unittesting_from_main)
             return;
 
+        /**Set all the bgm elements ready*/
+        AudioInputStream audioStream_jl = AudioSystem.getAudioInputStream(new File(StringResources.jerry_caught_bgm));
+        Clip clip_jerry_lose = AudioSystem.getClip();
+        AudioInputStream audioStream_main = AudioSystem.getAudioInputStream(new File(StringResources.main_game_bgm));
+        Clip clip_main = AudioSystem.getClip();
+        AudioInputStream audioStream_jw = AudioSystem.getAudioInputStream(new File(StringResources.jerry_win_bgm));
+        Clip clip_jerry_win = AudioSystem.getClip();
         /**Player presses "Start Game"*/
         if (!this.setDifficulty(unittesting,"Easy"))
             return;
@@ -304,6 +314,10 @@ public class TomJerryGame {
             tomSpeed = 1;
             jerrySpeed = 1;
         }
+        /**Starts to play main game bgm*/
+        clip_main.open(audioStream_main);
+        clip_main.loop(Clip.LOOP_CONTINUOUSLY);
+
         windowsView.setVisible(true);
         if(unittesting)
             windowsView.setVisible(false);
@@ -366,19 +380,34 @@ public class TomJerryGame {
 
         /**A Game Instance Ends*/
         if(stateController.gameStateOutcome() == GameState.JERRY_WIN){
+            clip_main.stop(); //stop main bgm
             windowsView.revalidate();
             windowsView.repaint();
             JOptionPane pane5 = new JOptionPane(StringResources.jerryWinsMessage,JOptionPane.INFORMATION_MESSAGE,JOptionPane.DEFAULT_OPTION,new ImageIcon(StringResources.show_sp_hint_image));
             final JDialog dialog5 = pane5.createDialog("Guide");
+
+
+            clip_jerry_win.open(audioStream_jw);
+            clip_jerry_win.setFramePosition(0);
+            clip_jerry_win.start();
+
+
             if(unittesting)
                 dialog5.setModal(false);
             dialog5.setVisible(true);
         }
         else{
+            clip_main.stop(); //stop main bgm
             windowsView.revalidate();
             windowsView.repaint();
             JOptionPane pane6 = new JOptionPane(StringResources.tomWinsMessage,JOptionPane.INFORMATION_MESSAGE,JOptionPane.DEFAULT_OPTION,new ImageIcon(StringResources.show_sp_hint_image));
             final JDialog dialog6 = pane6.createDialog("Guide");
+
+
+            clip_jerry_lose.open(audioStream_jl);
+            clip_jerry_lose.setFramePosition(0);
+            clip_jerry_lose.start();
+
             if(unittesting)
                 dialog6.setModal(false);
             dialog6.setVisible(true);
@@ -387,6 +416,11 @@ public class TomJerryGame {
         LinkedBlockingQueue<Move> actionQueue = windowsView.getControlPanelView().getControlPanelController().getActionQueue();
         actionQueue.clear();
         windowsView.setVisible(false);
+
+        if(clip_jerry_win.isRunning())
+            clip_jerry_win.stop();
+        if(clip_jerry_lose.isRunning())
+            clip_jerry_lose.stop();
     }
 
 
