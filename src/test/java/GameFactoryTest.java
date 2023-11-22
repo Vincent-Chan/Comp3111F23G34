@@ -1,5 +1,7 @@
 import org.junit.Test;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,8 +14,9 @@ public class GameFactoryTest {
     }
 
     @Test
-    public void test_main() throws IOException, InterruptedException {
+    public void test_main() throws IOException, InterruptedException, UnsupportedAudioFileException, LineUnavailableException {
         String[] args = {"test"};
         GameFactory.main(args); //target
     }
 }
+
