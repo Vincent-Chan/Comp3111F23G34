@@ -170,14 +170,14 @@ public class GameMapGenerator {
                     (start.col() + col_step[i]) >= 0 &&
                     (start.col() + col_step[i]) < COL )
             {
-                /**
-                 * If the neighbour node from the starting point is already a clear path,
-                 * do nothing and go to the next iteration
-                 */
-                if (maze[start.row() + row_step[i]][start.col() + col_step[i]] == '0')
-                {
-                    continue ;
-                }
+                // /**
+                // * If the neighbour node from the starting point is already a clear path,
+                // * do nothing and go to the next iteration
+                // */
+                // if (maze[start.row() + row_step[i]][start.col() + col_step[i]] == '0')
+                // {
+                //     continue ;
+                // }
 
                 /**
                  * If the neighbour node from the starting point is a barrier,
