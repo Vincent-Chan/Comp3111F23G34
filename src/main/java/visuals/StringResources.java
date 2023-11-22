@@ -7,6 +7,11 @@ public class StringResources {
     public static String logo_image = "src/main/java/visuals/logo.png";
     public static String tom_catches_jerry = "src/main/java/visuals/tom_catches_jerry.png";
     public static String jerry_wins = "src/main/java/visuals/jerry_win_image.png";
+    public static String landing_page_bgm = "src/main/java/visuals/landingpage_song.wav";
+    public static String movement_button_bgm = "src/main/java/visuals/movement_button_bgm.wav";
+    public static String jerry_caught_bgm = "src/main/java/visuals/jerry_caught.wav";
+    public static String jerry_win_bgm = "src/main/java/visuals/jerry_win_bgm.wav";
+    public static String main_game_bgm = "src/main/java/visuals/main_game_bgm.wav";
     public static String invalid_move = "src/main/java/visuals/jerry_invalid_move.png";
     public static String show_sp_hint = "Before every move of yours, we will show you the shortest path from Jerry to the Exit in GREEN \n And the reachable locations of Tom in his next move in ORANGE \n Beware of the RED blocks ! They are part of the shortest path but also reachable by Tom";
     public static String show_sp_hint_image = "src/main/java/visuals/hint.png";
