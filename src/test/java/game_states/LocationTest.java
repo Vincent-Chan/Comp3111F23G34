@@ -10,9 +10,9 @@ public class LocationTest {
     @Test
     public void testEqual()
     {
-        Location a = new Location(1,2);
-        Location b = new Location(1,2);
-        Location c = new Location(2,3);
+        Location a = new Location(1,2); // target function
+        Location b = new Location(1,2); // target function
+        Location c = new Location(2,3); // target function
 
         assertEquals(true,a.equals(b));
         assertEquals(false,a.equals(c));
@@ -25,7 +25,7 @@ public class LocationTest {
         Location loc_a1 = new Location(15, 25) ;
         Location loc_b1 = new Location(14, 25) ;
 
-        Location actual1 = loc_a1.opposite_node(loc_b1) ;
+        Location actual1 = loc_a1.opposite_node(loc_b1) ; //target function
 
         Location expected1 = new Location(16, 25) ;
 
@@ -36,7 +36,7 @@ public class LocationTest {
         Location loc_a2 = new Location(15, 25) ;
         Location loc_b2 = new Location(16, 25) ;
 
-        Location actual2 = loc_a2.opposite_node(loc_b2) ;
+        Location actual2 = loc_a2.opposite_node(loc_b2) ; //target function
 
         Location expected2 = new Location(14, 25) ;
 
@@ -47,7 +47,7 @@ public class LocationTest {
         Location loc_a3 = new Location(15, 25) ;
         Location loc_b3 = new Location(15, 24) ;
 
-        Location actual3 = loc_a3.opposite_node(loc_b3) ;
+        Location actual3 = loc_a3.opposite_node(loc_b3) ; //target function
 
         Location expected3 = new Location(15, 26) ;
 
@@ -58,7 +58,7 @@ public class LocationTest {
         Location loc_a4 = new Location(15, 25) ;
         Location loc_b4 = new Location(15, 26) ;
 
-        Location actual4 = loc_a4.opposite_node(loc_b4) ;
+        Location actual4 = loc_a4.opposite_node(loc_b4) ; //target function
 
         Location expected4 = new Location(15, 24) ;
 
@@ -72,7 +72,7 @@ public class LocationTest {
         Location loc_a5 = new Location(15, 25) ;
         Location loc_b5 = new Location(15, 25) ;
 
-        Location actual5 = loc_a5.opposite_node(loc_b5) ;
+        Location actual5 = loc_a5.opposite_node(loc_b5) ; //target function
 
         Location expected5 = null ;
 

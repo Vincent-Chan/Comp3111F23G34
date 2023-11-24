@@ -18,7 +18,7 @@ public class MazeMapInterfaceTest {
     @Test
     public void testMazeMapViewer_constructor() {
         ArrayList<ArrayList<Integer>> mzm = generateMazeMap(entry,exit);
-        MazeMapViewer mmv = new MazeMapViewer(mzm,entry,exit); //target
+        MazeMapViewer mmv = new MazeMapViewer(mzm,entry,exit); //target function
         assertNotNull(mmv);
     }
 
@@ -26,7 +26,7 @@ public class MazeMapInterfaceTest {
     public void testMazeMapViewer_getController() {
         ArrayList<ArrayList<Integer>> mzm = generateMazeMap(entry,exit);
         MazeMapViewer mmv = new MazeMapViewer(mzm,entry,exit);
-        MazeMapController mmc = mmv.getController();//target
+        MazeMapController mmc = mmv.getController(); //target function
         assertInstanceOf(MazeMapController.class,mmc);
     }
 
@@ -34,14 +34,14 @@ public class MazeMapInterfaceTest {
     public void testMazeMapViewer_createAxisLabel(){
         ArrayList<ArrayList<Integer>> mzm = generateMazeMap(entry,exit);
         MazeMapViewer mmv = new MazeMapViewer(mzm,entry,exit);
-        JLabel label = mmv.createAxisLabel("1");
-        assertEquals("1",label.getText());//target
+        JLabel label = mmv.createAxisLabel("1"); //target function
+        assertEquals("1",label.getText());
     }
 
     @Test
     public void testMazeMapController_constructor() {
         ArrayList<ArrayList<Integer>> mzm = generateMazeMap(entry,exit);
-        MazeMapController mmc = new MazeMapController(mzm,entry,exit); // target
+        MazeMapController mmc = new MazeMapController(mzm,entry,exit); // target function
         assertInstanceOf(MazeMapController.class,mmc);
     }
 
@@ -50,7 +50,7 @@ public class MazeMapInterfaceTest {
     public void testMazeMapController_getLocationVertexControllerMap() {
         ArrayList<ArrayList<Integer>> mzm = generateMazeMap(entry,exit);
         MazeMapController mmc = new MazeMapController(mzm,entry,exit);
-        HashMap<Location, VertexController> l2vc = mmc.getLocationVertexControllerMap(); // target
+        HashMap<Location, VertexController> l2vc = mmc.getLocationVertexControllerMap(); //target function
         int map_size = mzm.size()*mzm.get(0).size();
         assertEquals(map_size, l2vc.size());
     }
@@ -62,7 +62,7 @@ public class MazeMapInterfaceTest {
         ArrayList<Location> pathComponents = new ArrayList<>();
         pathComponents.add(new Location(2,3));
         pathComponents.add(new Location(3,4));
-        mmc.highlightPath(pathComponents, StringResources.sp_component);
+        mmc.highlightPath(pathComponents, StringResources.sp_component); //target function
         for(Location l:pathComponents){
             Color col = mmc.getLocationVertexControllerMap().get(l).getVertex().getBackground();
             assertEquals(Color.GREEN,col);
@@ -77,7 +77,7 @@ public class MazeMapInterfaceTest {
         pathComponents.add(new Location(2,3));
         pathComponents.add(new Location(3,4));
         mmc.highlightPath(pathComponents, StringResources.sp_component);
-        mmc.removeHighlightPath();
+        mmc.removeHighlightPath(); //target function
         for(Location l:pathComponents){
             Color col = mmc.getLocationVertexControllerMap().get(l).getVertex().getBackground();
             assertEquals(Color.WHITE,col);
@@ -87,21 +87,21 @@ public class MazeMapInterfaceTest {
     @Test
     public void testWindowsView_constructor() throws IOException {
         ArrayList<ArrayList<Integer>> mzm = generateMazeMap(entry,exit);
-        WindowsView wv = new WindowsView(mzm,entry,exit); //target
+        WindowsView wv = new WindowsView(mzm,entry,exit); //target function
     }
 
     @Test
     public void testWindowsView_setTextBillboard() throws IOException {
         ArrayList<ArrayList<Integer>> mzm = generateMazeMap(entry,exit);
         WindowsView wv = new WindowsView(mzm,entry,exit);
-        wv.setTextBillboard("test");//target
+        wv.setTextBillboard("test"); //target function
     }
 
     @Test
     public void testWindowsView_getControlPanelView() throws IOException {
         ArrayList<ArrayList<Integer>> mzm = generateMazeMap(entry,exit);
         WindowsView wv = new WindowsView(mzm,entry,exit);
-        ControlPanelView cpv = wv.getControlPanelView();//target
+        ControlPanelView cpv = wv.getControlPanelView(); //target function
         assertInstanceOf(ControlPanelView.class,cpv);
     }
 
@@ -109,7 +109,7 @@ public class MazeMapInterfaceTest {
     public void testWindowsView_getMapView() throws IOException {
         ArrayList<ArrayList<Integer>> mzm = generateMazeMap(entry,exit);
         WindowsView wv = new WindowsView(mzm,entry,exit);
-        MazeMapViewer mv = wv.getMapViewer();//target
+        MazeMapViewer mv = wv.getMapViewer(); //target function
         assertInstanceOf(MazeMapViewer.class,mv);
     }
 
@@ -126,7 +126,7 @@ public class MazeMapInterfaceTest {
         ArrayList<ArrayList<Integer>> mzm = generateMazeMap(entry,exit);
         WindowsView wv = new WindowsView(mzm,entry,exit);
         MazeMapController mazeMapController = wv.getMapViewer().getController();
-        mazeMapController.renderMap(entry,exit,exit,entry,false);
+        mazeMapController.renderMap(entry,exit,exit,entry,false); //target function
 
     }
 

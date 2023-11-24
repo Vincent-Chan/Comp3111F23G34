@@ -25,14 +25,14 @@ public class GameInstanceTest {
 
     @Test
     public void test_GameInstanceConstructor() throws IOException {
-        TomJerryGame tjg = new TomJerryGame(MAP_FILE_PATH, SP_OUTPUT_PATH); //target
+        TomJerryGame tjg = new TomJerryGame(MAP_FILE_PATH, SP_OUTPUT_PATH); //target function
         assertEquals(30,tjg.mazeMap.size());
     }
 
     @Test
     public void test_readData_invalidmap() throws IOException {
         TomJerryGame tjg = new TomJerryGame(MAP_FILE_PATH, SP_OUTPUT_PATH);
-        ArrayList<ArrayList<Integer>> mazeMap = tjg.readData("", ","); //target
+        ArrayList<ArrayList<Integer>> mazeMap = tjg.readData("", ","); //target function
         assertNull(mazeMap);
     }
 
@@ -42,7 +42,7 @@ public class GameInstanceTest {
         String[] difficultyModes = {"Easy", "Medium", "Hard","xxx"};
         for(int i = 0;i<difficultyModes.length;i++){
             String mode = difficultyModes[i];
-            tjg.setDifficulty(true,mode);//target
+            tjg.setDifficulty(true,mode); //target function
         }
     }
 
@@ -52,14 +52,14 @@ public class GameInstanceTest {
         String[] directions = {"up", "down", "right","left"};
         for(int i = 0;i<directions.length;i++){
             String dir = directions[i];
-            tjg.TomMovesOneStep(6,true,dir); //target
+            tjg.TomMovesOneStep(6,true,dir); //target function
         }
     }
 
     @Test
     public void test_showHints() throws IOException {
         TomJerryGame tjg = new TomJerryGame(MAP_FILE_PATH, SP_OUTPUT_PATH);
-        tjg.showHintsOnMap(true,true); //target
+        tjg.showHintsOnMap(true,true); //target function
     }
 
     @Test
@@ -83,14 +83,14 @@ public class GameInstanceTest {
         if(l2vc.containsKey(downOfJerry)&&l2vc.get(downOfJerry).isClear())
             sc.TomLocation = downOfJerry;
 
-        tjg.TomMoves();//target
+        tjg.TomMoves(); //target funtion
         assertEquals(GameState.TOM_WIN,sc.gameStateOutcome());
 
         /**Test condition check before making any move*/
         tjg = new TomJerryGame(MAP_FILE_PATH, SP_OUTPUT_PATH);
         sc = tjg.stateController;
         sc.TomLocation = sc.JerryLocation;
-        tjg.TomMoves(); //target
+        tjg.TomMoves(); //target function
         assertEquals(GameState.TOM_WIN,sc.gameStateOutcome());
 
 
@@ -132,7 +132,7 @@ public class GameInstanceTest {
         submitted_move.put(move_for_testing);
 
         tjg.jerrySpeed = 3;
-        tjg.JerryMoves(true,true,submitted_move);//target
+        tjg.JerryMoves(true,true,submitted_move); //target function
         assertEquals(GameState.TOM_WIN,sc.gameStateOutcome());
 
         /**Test exhausted remaining moves*/
@@ -168,7 +168,7 @@ public class GameInstanceTest {
         submitted_move.put(move_for_testing);
 
         tjg.jerrySpeed = 1;
-        tjg.JerryMoves(true,true,submitted_move);//target
+        tjg.JerryMoves(true,true,submitted_move); //target function
         assertEquals(GameState.TOM_WIN,sc.gameStateOutcome());
 
         /**Test ending condition at beginning of while(remaning_moves>0)*/
@@ -181,7 +181,7 @@ public class GameInstanceTest {
         submitted_move.put(move_for_testing);
 
         tjg.jerrySpeed = 1;
-        tjg.JerryMoves(true,true,submitted_move);//target
+        tjg.JerryMoves(true,true,submitted_move); //target functino
         assertEquals(GameState.TOM_WIN,sc.gameStateOutcome());
 
     }
@@ -241,7 +241,7 @@ public class GameInstanceTest {
                 to_be_submitted.put(new Move.Up(1));
             }
         }
-        tjg.run(new LandingPageView(),true,false,to_be_submitted); //target
+        tjg.run(new LandingPageView(),true,false,to_be_submitted); //target function
         assertEquals(GameState.JERRY_WIN, tjg.stateController.gameStateOutcome());
 
         System.out.println("Done with first test");
@@ -296,7 +296,7 @@ public class GameInstanceTest {
                 to_be_submitted.put(new Move.Up(1));
             }
         }
-        tjg.run(new LandingPageView(),true,false,to_be_submitted); //target
+        tjg.run(new LandingPageView(),true,false,to_be_submitted); //target function
         assertEquals(GameState.TOM_WIN, tjg.stateController.gameStateOutcome());
 
     }

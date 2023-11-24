@@ -15,20 +15,20 @@ import static org.junit.jupiter.api.Assertions.*;
 public class LandingPageTest {
     @Test
     public void test_constructorLandingPageView() {
-        LandingPageView lpv = new LandingPageView(); //target
+        LandingPageView lpv = new LandingPageView(); //target function
         assertInstanceOf(LandingPageView.class, lpv);
     }
     @Test
     public void test_getController() {
         LandingPageView lpv = new LandingPageView();
-        LandingPageController lpc = lpv.getController(); //target
+        LandingPageController lpc = lpv.getController(); //target function
         assertInstanceOf(LandingPageController.class, lpc);
     }
     @Test
     public void test_constructorLandingPageController() {
         JButton start = new JButton();
         JFrame frame = new JFrame();
-        LandingPageController lpc = new LandingPageController(start, frame);//target
+        LandingPageController lpc = new LandingPageController(start, frame); //target function
         assertInstanceOf(LandingPageController.class, lpc);
     }
 
@@ -36,7 +36,7 @@ public class LandingPageTest {
     public void test_hitButton(){
         JButton start = new JButton();
         JFrame frame = new JFrame();
-        LandingPageController lpc = new LandingPageController(start, frame);
+        LandingPageController lpc = new LandingPageController(start, frame); //target function
         start.doClick();
     }
     @Test
@@ -45,7 +45,7 @@ public class LandingPageTest {
         JFrame frame = new JFrame();
         LandingPageController lpc = new LandingPageController(start, frame);
         start.doClick();
-        LinkedBlockingQueue<String> q = lpc.getButtonHitRecords(); //target
+        LinkedBlockingQueue<String> q = lpc.getButtonHitRecords(); //target function
         String s = q.take();
         assertEquals("Button Clicked", s);
     }
@@ -59,7 +59,7 @@ public class LandingPageTest {
         JFrame mockedLandingPage = new JFrame();
 
         // Create an instance of LandingPageController with the mocked start button and JFrame
-        LandingPageController controller = new LandingPageController(mockedStartButton, mockedLandingPage);
+        LandingPageController controller = new LandingPageController(mockedStartButton, mockedLandingPage); //target function
 
         // Create a blocking queue that throws InterruptedException on put()
         BlockingQueue<String> mockedButtonHitRecords = new LinkedBlockingQueue<String>() {

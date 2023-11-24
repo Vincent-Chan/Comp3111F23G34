@@ -14,28 +14,28 @@ public class GameStateTest {
     @Test
     public void test_constructorGameStateController(){
         ArrayList<ArrayList<Integer>> mzp = generateMazeMap(entry,exit);
-        GameStateController gsc = new GameStateController(mzp,entry,exit);//target
+        GameStateController gsc = new GameStateController(mzp,entry,exit); //target function
         assertInstanceOf(GameStateController.class, gsc);
     }
 
     @Test
     public void test_constructorMoveLeft(){
-        Move left_move = new Move.Left(0);//target
+        Move left_move = new Move.Left(0); //target function
         assertInstanceOf(Move.Left.class, left_move);
     }
     @Test
     public void test_constructorMoveRight(){
-        Move right_move = new Move.Right(0);//target
+        Move right_move = new Move.Right(0); //target function
         assertInstanceOf(Move.Right.class, right_move);
     }
     @Test
     public void test_constructorMoveUp(){
-        Move up_move = new Move.Up(0);//target
+        Move up_move = new Move.Up(0); //target function
         assertInstanceOf(Move.Up.class, up_move);
     }
     @Test
     public void test_constructorMoveDown(){
-        Move down_move = new Move.Down(0);//target
+        Move down_move = new Move.Down(0); //target function
         assertInstanceOf(Move.Down.class, down_move);
     }
     @Test
@@ -48,13 +48,13 @@ public class GameStateTest {
         Location down = new Location(6,5);
 
         Move left_move = new Move.Left(0);
-        Location real_left = left_move.nextPosition(original);//target
+        Location real_left = left_move.nextPosition(original); //target function
         Move right_move = new Move.Right(0);
-        Location real_right = right_move.nextPosition(original);//target
+        Location real_right = right_move.nextPosition(original); //target function
         Move up_move = new Move.Up(0);
-        Location real_up = up_move.nextPosition(original);//target
+        Location real_up = up_move.nextPosition(original); //target function
         Move down_move = new Move.Down(0);
-        Location real_down = down_move.nextPosition(original);//target
+        Location real_down = down_move.nextPosition(original); //target function
 
         assertEquals(left,real_left);
         assertEquals(up,real_up);
@@ -69,7 +69,7 @@ public class GameStateTest {
         GameStateController gsc = new GameStateController(mzp,entry,exit);
         Move j_r= new Move.Right(characterID.JERRY_ID);
         Move t_r= new Move.Right(characterID.TOM_ID);
-        boolean jcm = gsc.canMove(characterID.JERRY_ID,j_r); //target
+        boolean jcm = gsc.canMove(characterID.JERRY_ID,j_r); //target function
         boolean tcm = gsc.canMove(characterID.TOM_ID,t_r);
         assertEquals(true, jcm);
         assertEquals(false, tcm);
@@ -83,16 +83,16 @@ public class GameStateTest {
         Move t_r= new Move.Right(characterID.TOM_ID);
         Move t_l = new Move.Left(characterID.TOM_ID);
 
-        boolean t_r_result = gsc.moveCharacter(characterID.TOM_ID, t_r);//target
+        boolean t_r_result = gsc.moveCharacter(characterID.TOM_ID, t_r); //target function
         assertEquals(false, t_r_result);
 
-        gsc.moveCharacter(characterID.JERRY_ID,j_r);//target
+        gsc.moveCharacter(characterID.JERRY_ID,j_r); //target function
         Location expected = new Location(entry.row(), entry.col()+1);
         Location actual = gsc.getCharacterLocation(characterID.JERRY_ID);
         assertEquals(expected, actual);
 
-        gsc.moveCharacter(characterID.TOM_ID,t_l);//target
-        gsc.moveCharacter(characterID.TOM_ID,t_r);//target
+        gsc.moveCharacter(characterID.TOM_ID,t_l); //target function
+        gsc.moveCharacter(characterID.TOM_ID,t_r); //target function
         Location actual_tom = gsc.getCharacterLocation(characterID.TOM_ID);
         assertEquals(exit, actual_tom);
 
@@ -107,13 +107,13 @@ public class GameStateTest {
         Move t_l = new Move.Left(characterID.TOM_ID);
         gsc.moveCharacter(characterID.TOM_ID,t_l);
         Location expected_tom = new Location(exit.row(), exit.col()-1);
-        Location actual_tom = gsc.getCharacterLocation(characterID.TOM_ID); //target
+        Location actual_tom = gsc.getCharacterLocation(characterID.TOM_ID); //target function
         assertEquals(expected_tom, actual_tom);
 
         Move j_r = new Move.Right(characterID.JERRY_ID);
         gsc.moveCharacter(characterID.JERRY_ID,j_r);
         Location expected_jerry = new Location(entry.row(), entry.col()+1);
-        Location actual_jerry = gsc.getCharacterLocation(characterID.JERRY_ID);//target
+        Location actual_jerry = gsc.getCharacterLocation(characterID.JERRY_ID);//target function
         assertEquals(expected_jerry, actual_jerry);
     }
 
@@ -122,7 +122,7 @@ public class GameStateTest {
         ArrayList<ArrayList<Integer>> mzp = generateMazeMap(entry,exit);
         GameStateController gsc = new GameStateController(mzp,entry,exit);
 
-        GameState real = gsc.gameStateOutcome(); //target
+        GameState real = gsc.gameStateOutcome(); //target function
         assertEquals(GameState.CONTINUE, real);
 
         Move t_l = new Move.Left(characterID.TOM_ID);
@@ -167,8 +167,8 @@ public class GameStateTest {
                 JerryReachable.add(new Location(jerrylocation.row()+direction[0], jerrylocation.col()+direction[1]));
             }
         }
-        ArrayList<Location> realTomReachable = gsc.reachablePositions(0,1);//target
-        ArrayList<Location> realJerryReachable = gsc.reachablePositions(1,1);//target
+        ArrayList<Location> realTomReachable = gsc.reachablePositions(0,1); //target function
+        ArrayList<Location> realJerryReachable = gsc.reachablePositions(1,1); //target function
         assertArrayEquals(TomReachable.toArray(), realTomReachable.toArray());
         assertArrayEquals(JerryReachable.toArray(), realJerryReachable.toArray());
 

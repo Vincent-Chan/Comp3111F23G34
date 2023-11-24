@@ -24,14 +24,14 @@ public class VertexTest {
         VertexViewer vv = vc.getVertex();
 
         assertEquals(Color.DARK_GRAY, vv.getBackground());
-        vc.changeVertexColor(StringResources.clear_vertex); //target
+        vc.changeVertexColor(StringResources.clear_vertex); //target function
         assertEquals(Color.WHITE,vv.getBackground());
     }
 
     @Test
     public void test_getVertex() {
         VertexController vc = new VertexController(StringResources.barrier,2,3);
-        VertexViewer vv = vc.getVertex();//target
+        VertexViewer vv = vc.getVertex(); //target function
         assertInstanceOf(VertexViewer.class, vv);
     }
 
@@ -40,7 +40,7 @@ public class VertexTest {
         Location l = new Location(2,3);
         MazeMapController mmc = generateMazeMapController();
         VertexController vc = mmc.getLocationVertexControllerMap().get(l);
-        vc.insertImage(StringResources.tom);//target
+        vc.insertImage(StringResources.tom); //target function
     }
 
     @Test
@@ -49,20 +49,20 @@ public class VertexTest {
         MazeMapController mmc = generateMazeMapController();
         VertexController vc = mmc.getLocationVertexControllerMap().get(l);
         vc.insertImage(StringResources.tom);
-        vc.removeImage();//target
+        vc.removeImage(); //target function
     }
 
     @Test
     public void test_vertexViewerchangeColor() {
         VertexViewer vv = new VertexViewer(Color.WHITE);
         assertEquals(Color.WHITE,vv.getBackground());
-        vv.ChangeColor(Color.DARK_GRAY); //target
+        vv.ChangeColor(Color.DARK_GRAY); //target function
         assertEquals(Color.DARK_GRAY, vv.getBackground());
     }
 
     @Test
     public void test_constructorVertexView(){
-        VertexViewer vv = new VertexViewer(Color.WHITE);//target
+        VertexViewer vv = new VertexViewer(Color.WHITE); //target function
         assertInstanceOf(VertexViewer.class,vv);
     }
 

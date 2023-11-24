@@ -16,34 +16,34 @@ public class ControlPanelTest {
 
     @Test
     public void testControlPanelViewConstructor() throws IOException {
-        ControlPanelView cpv = new ControlPanelView();//target
+        ControlPanelView cpv = new ControlPanelView();//target function
     }
 
     @Test
     public void testgetControlPanelController() throws IOException {
         ControlPanelView cpv = new ControlPanelView();
-        ControlPanelController ctrler = cpv.getControlPanelController(); //target
+        ControlPanelController ctrler = cpv.getControlPanelController(); //target function
         assertNotNull(ctrler);
     }
 
     @Test
     public void testControlPanelControllerConstructor(){
         HashMap<MoveCode, JButton> move2Button = generateMove2ButtonMap();
-        ControlPanelController ctrler = new ControlPanelController(move2Button); //target
+        ControlPanelController ctrler = new ControlPanelController(move2Button); //target function
         assertNotNull(ctrler);
     }
     @Test
     public void testgetControlPanelControllerActionQueue(){
         HashMap<MoveCode, JButton> move2Button = generateMove2ButtonMap();
         ControlPanelController ctrler = new ControlPanelController(move2Button);
-        LinkedBlockingQueue<Move> queue = ctrler.getActionQueue();//target
+        LinkedBlockingQueue<Move> queue = ctrler.getActionQueue();//target function
         assertNotNull(queue);
     }
 
     @Test
     public void testControlPanelProcessButtonPressing() throws InterruptedException {
         HashMap<MoveCode, JButton> move2Button = generateMove2ButtonMap();
-        ControlPanelController ctrler = new ControlPanelController(move2Button);
+        ControlPanelController ctrler = new ControlPanelController(move2Button); //target function
         LinkedBlockingQueue<Move> queue = ctrler.getActionQueue();
         JButton upbutton = move2Button.get(MoveCode.UP);
         upbutton.doClick();
@@ -61,8 +61,8 @@ public class ControlPanelTest {
 
     @Test
     public void testShowRemainingMoves(){
-        StringResources.showRemainingMoves(0,2); //target
-        StringResources.showRemainingMoves(1,3); //target
+        StringResources.showRemainingMoves(0,2); //target function
+        StringResources.showRemainingMoves(1,3); //target function
     }
     @Test
     public void testActionListenerWithInterruptedException() {
@@ -74,7 +74,7 @@ public class ControlPanelTest {
         mockedButtonMap.put(MoveCode.DOWN, new JButton());
 
         // Create an instance of ControlPanelController with the mocked HashMap
-        ControlPanelController controller = new ControlPanelController(mockedButtonMap);
+        ControlPanelController controller = new ControlPanelController(mockedButtonMap); //target function
 
         // Create a blocking queue that throws InterruptedException on put()
         BlockingQueue<Move> mockedActionQueue = new LinkedBlockingQueue<Move>() {
