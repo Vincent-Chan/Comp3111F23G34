@@ -99,11 +99,60 @@ public class GameInstanceTest {
     @Test
     public void test_JerryMoves() throws IOException, InterruptedException, UnsupportedAudioFileException, LineUnavailableException {
 
-        /**Test Invalid Move*/
+       /**Test Invalid Move + 2 valid moves*/
         TomJerryGame tjg = new TomJerryGame(MAP_FILE_PATH, SP_OUTPUT_PATH);
         GameStateController sc = tjg.stateController;
         Location jerry = sc.JerryLocation;
         HashMap<Location, Vertex> l2vc = (HashMap<Location, Vertex>) sc.location2vertex;
+        ArrayList<Location> pathOfJerry = tjg.shortestPathGenerator.calculate_shortest_path(tjg.entry,tjg.exit);
+        Location l1 = pathOfJerry.get(1);
+        Location l2 = pathOfJerry.get(2);
+        sc.TomLocation = l2;
+
+        LinkedBlockingQueue<Move> submitted_move = new LinkedBlockingQueue<>();
+        submitted_move.put(new Move.Left(1)); //invalid move
+        if(l1.row()==jerry.row()){
+            if(l1.col()==jerry.col()+1){
+                submitted_move.put(new Move.Right(1));
+            }
+            else{
+                submitted_move.put(new Move.Left(1));
+            }
+        }
+        else{
+            if(l1.row()==jerry.row()+1){
+                submitted_move.put(new Move.Down(1));
+            }
+            else{
+                submitted_move.put(new Move.Up(1));
+            }
+        }
+
+        if(l2.row()==l1.row()){
+            if(l2.col()==l1.col()+1){
+                submitted_move.put(new Move.Right(1));
+            }
+            else{
+                submitted_move.put(new Move.Left(1));
+            }
+        }
+        else{
+            if(l2.row()==l1.row()+1){
+                submitted_move.put(new Move.Down(1));
+            }
+            else{
+                submitted_move.put(new Move.Up(1));
+            }
+        }
+        tjg.jerrySpeed = 2;
+        tjg.JerryMoves(true,true,submitted_move);//target
+        assertEquals(GameState.TOM_WIN,sc.gameStateOutcome());
+
+        /**Test exhausted remaining moves*/
+        tjg = new TomJerryGame(MAP_FILE_PATH, SP_OUTPUT_PATH);
+        sc = tjg.stateController;
+        jerry = sc.JerryLocation;
+        l2vc = (HashMap<Location, Vertex>) sc.location2vertex;
         Location rightOfJerry = new Location(jerry.row(),jerry.col()+1);
         Location leftOfJerry = new Location(jerry.row(),jerry.col()-1);
         Location upOfJerry = new Location(jerry.row()-1,jerry.col());
@@ -127,48 +176,12 @@ public class GameInstanceTest {
             move_for_testing = new Move.Down(1);
         }
 
-        LinkedBlockingQueue<Move> submitted_move = new LinkedBlockingQueue<>();
-        submitted_move.put(new Move.Left(1)); //to test the "invalid mode" hint
-        submitted_move.put(move_for_testing);
-
-        tjg.jerrySpeed = 3;
-        tjg.JerryMoves(true,true,submitted_move); //target function
-        assertEquals(GameState.TOM_WIN,sc.gameStateOutcome());
-
-        /**Test exhausted remaining moves*/
-        tjg = new TomJerryGame(MAP_FILE_PATH, SP_OUTPUT_PATH);
-        sc = tjg.stateController;
-        jerry = sc.JerryLocation;
-        l2vc = (HashMap<Location, Vertex>) sc.location2vertex;
-        rightOfJerry = new Location(jerry.row(),jerry.col()+1);
-        leftOfJerry = new Location(jerry.row(),jerry.col()-1);
-        upOfJerry = new Location(jerry.row()-1,jerry.col());
-        downOfJerry = new Location(jerry.row()+1,jerry.col());
-
-        move_for_testing = null;
-        if(l2vc.containsKey(rightOfJerry)&&l2vc.get(rightOfJerry).isClear()){
-            sc.TomLocation = rightOfJerry;
-            move_for_testing = new Move.Right(1);
-        }
-        else if(l2vc.containsKey(leftOfJerry)&&l2vc.get(leftOfJerry).isClear()){
-            sc.TomLocation = leftOfJerry;
-            move_for_testing = new Move.Left(1);
-        }
-        if(l2vc.containsKey(upOfJerry)&&l2vc.get(upOfJerry).isClear()) {
-            sc.TomLocation = upOfJerry;
-            move_for_testing = new Move.Up(1);
-        }
-        if(l2vc.containsKey(downOfJerry)&&l2vc.get(downOfJerry).isClear()) {
-            sc.TomLocation = downOfJerry;
-            move_for_testing = new Move.Down(1);
-        }
-
         submitted_move = new LinkedBlockingQueue<>();
         submitted_move.put(new Move.Left(1)); //to test the "invalid mode" hint
         submitted_move.put(move_for_testing);
 
         tjg.jerrySpeed = 1;
-        tjg.JerryMoves(true,true,submitted_move); //target function
+        tjg.JerryMoves(true,true,submitted_move);//target
         assertEquals(GameState.TOM_WIN,sc.gameStateOutcome());
 
         /**Test ending condition at beginning of while(remaning_moves>0)*/
@@ -181,7 +194,7 @@ public class GameInstanceTest {
         submitted_move.put(move_for_testing);
 
         tjg.jerrySpeed = 1;
-        tjg.JerryMoves(true,true,submitted_move); //target functino
+        tjg.JerryMoves(true,true,submitted_move);//target
         assertEquals(GameState.TOM_WIN,sc.gameStateOutcome());
 
     }
