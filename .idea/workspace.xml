@@ -4,18 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dced8117-7975-4407-a39c-0a46be81a9a4" name="Changes" comment="Commit changes for workspace.xml">
+    <list default="true" id="dced8117-7975-4407-a39c-0a46be81a9a4" name="Changes" comment="Tests for catch{Exception} added">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MazeData.csv" beforeDir="false" afterPath="$PROJECT_DIR$/MazeData.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/MazeData.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MazeData.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/MazeData_test.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MazeData_test.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/MazeData_testing.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MazeData_testing.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/game_algorithm/GameMapGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game_algorithm/GameMapGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game_algorithm/ShortestPathGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game_algorithm/ShortestPathGenerator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game_scene/ControlPanelController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game_scene/ControlPanelController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game_scene/LandingPageController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game_scene/LandingPageController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/game_states/Location.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game_states/Location.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/GameFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/GameFactory.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/TomJerryGame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/TomJerryGame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/game_algorithm/GameMapGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game_algorithm/GameMapGenerator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/visuals/StringResources.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/visuals/StringResources.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/GameFactoryTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/GameFactoryTest.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/test-classes/GameInstanceTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/GameInstanceTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/game_algorithm/ShortestPathGeneratorTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/game_algorithm/ShortestPathGeneratorTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/game_scene/ControlPanelTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/game_scene/ControlPanelTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/game_scene/LandingPageTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/game_scene/LandingPageTest.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,10 +152,10 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.All in Comp3111F23G34" />
         <item itemvalue="JUnit.LandingPageTest.testActionListenerWithInterruptedException" />
         <item itemvalue="JUnit.ControlPanelTest.testActionListenerWithInterruptedException" />
         <item itemvalue="JUnit.ControlPanelTest" />
+        <item itemvalue="JUnit.All in Comp3111F23G34" />
         <item itemvalue="Application.GameFactory" />
       </list>
     </recent_temporary>
@@ -247,7 +248,7 @@
       <FILTER>game_states.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/Comp3111F23G34$PrimTest.ic" NAME="PrimTest Coverage Results" MODIFIED="1698076114212" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/Comp3111F23G34$All_in_Comp3111F23G34.ic" NAME="All in Comp3111F23G34 Coverage Results" MODIFIED="1700642419826" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$All_in_Comp3111F23G34.ic" NAME="All in Comp3111F23G34 Coverage Results" MODIFIED="1700646521512" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/Comp3111F23G34$GameInstanceTest_test_selectDifficulty.ic" NAME="GameInstanceTest.test_selectDifficulty Coverage Results" MODIFIED="1700382710188" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/Comp3111F23G34$GameMapGeneratorTest_to_csvTest1.ic" NAME="GameMapGeneratorTest.to_csvTest1 Coverage Results" MODIFIED="1700389079274" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>game_algorithm.*</FILTER>
