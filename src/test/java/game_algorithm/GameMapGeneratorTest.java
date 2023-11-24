@@ -12,7 +12,7 @@ public class GameMapGeneratorTest {
     @Test
     public void GameMapGeneratorTest1()
     {
-        GameMapGenerator mapGen = new GameMapGenerator("MazeData.csv") ;
+        GameMapGenerator mapGen = new GameMapGenerator("MazeData.csv") ; //target function
     }
 
     // Function A Unit Testing
@@ -21,7 +21,7 @@ public class GameMapGeneratorTest {
     {
         GameMapGenerator map_gen1 = new GameMapGenerator("MazeData.csv") ;
         map_gen1.rand.setSeed(3111) ;
-        char[][] actual_maze1 = map_gen1.PrimMazeGenerator() ;
+        char[][] actual_maze1 = map_gen1.PrimMazeGenerator() ; //target function
 
         char[][] expected_maze1 = {{'1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '0', '1', '1', '1', '0' },
             {'0', '0', '0', '1', '0', '0', '0', '1', '0', '1', '0', '0', '0', '0', '0', '0', '0', '1', '0', '1', '0', '0', '0', '0', '0', '1', '0', '0', '0', '1' },
@@ -66,7 +66,7 @@ public class GameMapGeneratorTest {
         map_gen_csv1.rand.setSeed(3111) ;
         char[][] actual_csv_maze1 = map_gen_csv1.PrimMazeGenerator() ;
 
-        map_gen_csv1.to_csv(actual_csv_maze1) ;
+        map_gen_csv1.to_csv(actual_csv_maze1) ; //target function
     }
 
 
