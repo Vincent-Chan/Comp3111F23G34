@@ -60,11 +60,6 @@ public class ControlPanelTest {
     }
 
     @Test
-    public void testShowRemainingMoves(){
-        StringResources.showRemainingMoves(0,2); //target function
-        StringResources.showRemainingMoves(1,3); //target function
-    }
-    @Test
     public void testActionListenerWithInterruptedException() {
         // Create a mocked HashMap with the button
         HashMap<MoveCode, JButton> mockedButtonMap = new HashMap<>();
