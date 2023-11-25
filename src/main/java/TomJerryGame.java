@@ -124,7 +124,8 @@ public class TomJerryGame {
         dialog.setVisible(true);
 
         difficulty = (String)optionPane.getValue();
-
+        if(difficulty==null)
+            return false;
         if(difficulty.equals("Easy")){
             jerrySpeed = 3;
             tomSpeed = 3;
@@ -137,10 +138,7 @@ public class TomJerryGame {
             jerrySpeed = 6;
             tomSpeed = 9;
         }
-        else {
-            // User closed the dialog or clicked outside the options
-            return false;
-        }
+
         JOptionPane optionPane2 = new JOptionPane("Selected Difficulty Mode: " + difficulty+" \n In each round, you can control Jerry to run "+jerrySpeed+" blocks and Tom can run "+tomSpeed+" steps.",JOptionPane.INFORMATION_MESSAGE,JOptionPane.DEFAULT_OPTION);
         JDialog dialog2 = optionPane2.createDialog("Difficulty Selected");
         if(unittesting){
