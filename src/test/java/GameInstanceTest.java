@@ -39,10 +39,10 @@ public class GameInstanceTest {
     @Test
     public void test_selectDifficulty() throws IOException {
         TomJerryGame tjg = new TomJerryGame(MAP_FILE_PATH, SP_OUTPUT_PATH);
-        String[] difficultyModes = {"Easy", "Medium", "Hard","xxx"};
+        String[] difficultyModes = {"Easy", "Medium", "Hard",null};
         for(int i = 0;i<difficultyModes.length;i++){
             String mode = difficultyModes[i];
-            tjg.setDifficulty(true,mode); //target function
+            tjg.setDifficulty(true,mode);//target
         }
     }
 
