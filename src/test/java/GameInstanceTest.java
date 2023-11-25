@@ -145,7 +145,7 @@ public class GameInstanceTest {
             }
         }
         tjg.jerrySpeed = 2;
-        tjg.JerryMoves(true,true,submitted_move);//target
+        tjg.JerryMoves(true,true,submitted_move);//target function
         assertEquals(GameState.TOM_WIN,sc.gameStateOutcome());
 
         /**Test exhausted remaining moves*/
@@ -181,7 +181,7 @@ public class GameInstanceTest {
         submitted_move.put(move_for_testing);
 
         tjg.jerrySpeed = 1;
-        tjg.JerryMoves(true,true,submitted_move);//target
+        tjg.JerryMoves(true,true,submitted_move);//target function
         assertEquals(GameState.TOM_WIN,sc.gameStateOutcome());
 
         /**Test ending condition at beginning of while(remaning_moves>0)*/
@@ -194,7 +194,7 @@ public class GameInstanceTest {
         submitted_move.put(move_for_testing);
 
         tjg.jerrySpeed = 1;
-        tjg.JerryMoves(true,true,submitted_move);//target
+        tjg.JerryMoves(true,true,submitted_move);//target function
         assertEquals(GameState.TOM_WIN,sc.gameStateOutcome());
 
     }

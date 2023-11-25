@@ -137,13 +137,13 @@ public class GameStateTest {
             jerry_location = gsc.getCharacterLocation(characterID.JERRY_ID);
         }
 
-        real = gsc.gameStateOutcome();//target
+        real = gsc.gameStateOutcome();//target function
         assertEquals(GameState.TOM_WIN, real);
 
 
         Move j_r = new Move.Right(characterID.JERRY_ID);
         gsc.moveCharacter(characterID.JERRY_ID,j_r);
-        real = gsc.gameStateOutcome();//target
+        real = gsc.gameStateOutcome();//target function
         assertEquals(GameState.JERRY_WIN, real);
 
     }
