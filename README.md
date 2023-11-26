@@ -18,8 +18,8 @@
 *Step 4*
 ![Step 4](https://github.com/yxiaoaz/Comp3111F23G34/blob/main/AddOpenCSVDependencyNo4.png)
 
-Before running the main function, please remember to search for `com.opencsv:openscv` in "Dependencies", and add `com.opencsv:openscv` to your dependency.
-The version of `com.opencsv:openscv` should be ***5.7.1*** in ***default*** mode. (If you cannot find ***default*** mode, choose ***compile*** mode instead.)
+Before running the main function, please remember to search for `com.opencsv:opencsv` in "Dependencies", and add `com.opencsv:opencsv` to your dependency.
+The version of `com.opencsv:opencsv` should be ***5.7.1*** in ***default*** mode. (If you cannot find ***default*** mode, choose ***compile*** mode instead.)
 Also, remember to reload Maven afterwards so that the dependency is properly configured in your running environment.
 
 ## 2. Run main program in `src/main/java/GameFactory.java`
