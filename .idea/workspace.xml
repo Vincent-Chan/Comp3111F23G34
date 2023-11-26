@@ -4,24 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dced8117-7975-4407-a39c-0a46be81a9a4" name="Changes" comment="Commit changes for workspace.xml">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_18_11_2023_17_04_[Changes]/GameMapGenerator.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_18_11_2023_17_04_[Changes]/Location.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_18_11_2023_17_04_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_18_11_2023_17_04__Changes_.xml" beforeDir="false" />
+    <list default="true" id="dced8117-7975-4407-a39c-0a46be81a9a4" name="Changes" comment="Inserted the tutorial on teaching the TA to add the com.opencsv.CSVWriter dependency in their running environment before running the game. This tutorial can be seen in the README.md file.&#10;&#10;&gt; **Tutorials on adding `com.opencsv.CSVWriter` dependency in IntelliJ before running the game:**&#10;&gt;&#10;&gt; Before running the main function, please remember to search for `com.opencsv:openscv` in &quot;Dependencies&quot;, and add `com.opencsv:openscv` to your dependency.&#10;&gt;&#10;&gt; The version of `com.opencsv:openscv` should be ***5.7.1*** in ***default*** mode. (If you cannot find ***default*** mode, choose ***compile*** mode instead.)&#10;&gt;&#10;&gt; Also, remember to reload Maven afterwards so that the dependency is properly configured in your running environment.&#10;&gt;&#10;&gt;After that, enjoy our game!">
+      <change afterPath="$PROJECT_DIR$/src/main/java/shortest_path_at_beginning_test.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/shortest_path_at_beginning_testing.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/MazeData.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MazeData.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/MazeData_test.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MazeData_test.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/MazeData_testing.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MazeData_testing.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/GameFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/GameFactory.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/shortest_path_at_beginning.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/shortest_path_at_beginning.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/TomJerryGame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/TomJerryGame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/classpath.index" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/game_algorithm/GameMapGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game_algorithm/GameMapGenerator.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/test-classes/GameInstanceTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/GameInstanceTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/classpath.index" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/classpath.index" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/game_scene/ControlPanelTest$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/game_scene/ControlPanelTest$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/game_scene/ControlPanelTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/game_scene/ControlPanelTest.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,7 +33,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="Function_A_Unit_Testing" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -63,6 +55,7 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
     &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
@@ -79,7 +72,7 @@
       <recent name="game_algorithm" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.All in Comp3111F23G34">
+  <component name="RunManager">
     <configuration name="All in Comp3111F23G34" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Comp3111F23G34" />
       <option name="PACKAGE_NAME" value="" />
@@ -220,7 +213,14 @@
       <option name="project" value="LOCAL" />
       <updated>1700536720873</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Inserted the tutorial on teaching the TA to add the com.opencsv.CSVWriter dependency in their running environment before running the game. This tutorial can be seen in the README.md file.&#10;&#10;&gt; **Tutorials on adding `com.opencsv.CSVWriter` dependency in IntelliJ before running the game:**&#10;&gt;&#10;&gt; Before running the main function, please remember to search for `com.opencsv:openscv` in &quot;Dependencies&quot;, and add `com.opencsv:openscv` to your dependency.&#10;&gt;&#10;&gt; The version of `com.opencsv:openscv` should be ***5.7.1*** in ***default*** mode. (If you cannot find ***default*** mode, choose ***compile*** mode instead.)&#10;&gt;&#10;&gt; Also, remember to reload Maven afterwards so that the dependency is properly configured in your running environment.&#10;&gt;&#10;&gt;After that, enjoy our game!">
+      <created>1700981469298</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1700981469298</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -238,12 +238,14 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Test case added" />
     <MESSAGE value="Modified TomMovesOneStep" />
     <MESSAGE value="Modified GameFactory" />
     <MESSAGE value="Test coverage" />
     <MESSAGE value="Tests for catch{Exception} added" />
-    <option name="LAST_COMMIT_MESSAGE" value="Tests for catch{Exception} added" />
+    <MESSAGE value="Inserted the tutorial on teaching the TA to add the com.opencsv.CSVWriter dependency in their running environment before running the game. This tutorial can be seen in the README.md file.&#10;&#10;&gt; **Tutorials on adding `com.opencsv.CSVWriter` dependency in IntelliJ before running the game:**&#10;&gt;&#10;&gt; Before running the main function, please remember to search for `com.opencsv:openscv` in &quot;Dependencies&quot;, and add `com.opencsv:openscv` to your dependency.&#10;&gt;&#10;&gt; The version of `com.opencsv:openscv` should be ***5.7.1*** in ***default*** mode. (If you cannot find ***default*** mode, choose ***compile*** mode instead.)&#10;&gt;&#10;&gt; Also, remember to reload Maven afterwards so that the dependency is properly configured in your running environment.&#10;&gt;&#10;&gt;After that, enjoy our game!" />
+    <option name="LAST_COMMIT_MESSAGE" value="Inserted the tutorial on teaching the TA to add the com.opencsv.CSVWriter dependency in their running environment before running the game. This tutorial can be seen in the README.md file.&#10;&#10;&gt; **Tutorials on adding `com.opencsv.CSVWriter` dependency in IntelliJ before running the game:**&#10;&gt;&#10;&gt; Before running the main function, please remember to search for `com.opencsv:openscv` in &quot;Dependencies&quot;, and add `com.opencsv:openscv` to your dependency.&#10;&gt;&#10;&gt; The version of `com.opencsv:openscv` should be ***5.7.1*** in ***default*** mode. (If you cannot find ***default*** mode, choose ***compile*** mode instead.)&#10;&gt;&#10;&gt; Also, remember to reload Maven afterwards so that the dependency is properly configured in your running environment.&#10;&gt;&#10;&gt;After that, enjoy our game!" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Comp3111F23G34$mainTest.ic" NAME="mainTest Coverage Results" MODIFIED="1700285412852" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
@@ -266,7 +268,7 @@
       <FILTER>game_states.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/Comp3111F23G34$PrimTest.ic" NAME="PrimTest Coverage Results" MODIFIED="1698076114212" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/Comp3111F23G34$All_in_Comp3111F23G34.ic" NAME="All in Comp3111F23G34 Coverage Results" MODIFIED="1700904297775" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$All_in_Comp3111F23G34.ic" NAME="All in Comp3111F23G34 Coverage Results" MODIFIED="1700990604452" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/Comp3111F23G34$GameInstanceTest_test_selectDifficulty.ic" NAME="GameInstanceTest.test_selectDifficulty Coverage Results" MODIFIED="1700382710188" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/Comp3111F23G34$GameMapGeneratorTest_to_csvTest1.ic" NAME="GameMapGeneratorTest.to_csvTest1 Coverage Results" MODIFIED="1700903440733" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>game_algorithm.*</FILTER>
