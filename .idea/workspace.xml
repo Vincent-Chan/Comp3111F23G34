@@ -4,19 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dced8117-7975-4407-a39c-0a46be81a9a4" name="Changes" comment="Tests for catch{Exception} added">
+    <list default="true" id="dced8117-7975-4407-a39c-0a46be81a9a4" name="Changes" comment="Commit changes for workspace.xml">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_18_11_2023_17_04_[Changes]/GameMapGenerator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_18_11_2023_17_04_[Changes]/Location.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_18_11_2023_17_04_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_18_11_2023_17_04__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/MazeData.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MazeData.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/MazeData_test.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MazeData_test.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/MazeData_testing.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MazeData_testing.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game_algorithm/GameMapGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game_algorithm/GameMapGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/game_states/Location.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/game_states/Location.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/GameFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/GameFactory.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/TomJerryGame.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/TomJerryGame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/classpath.index" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/game_algorithm/GameMapGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/game_algorithm/GameMapGenerator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/visuals/StringResources.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/visuals/StringResources.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/GameFactoryTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/GameFactoryTest.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/test-classes/GameInstanceTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/GameInstanceTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/classpath.index" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/classpath.index" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/game_scene/ControlPanelTest$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/game_scene/ControlPanelTest$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/game_scene/ControlPanelTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/game_scene/ControlPanelTest.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,13 +80,6 @@
     </key>
   </component>
   <component name="RunManager" selected="JUnit.All in Comp3111F23G34">
-    <configuration name="GameFactory" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="GameFactory" />
-      <module name="Comp3111F23G34" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="All in Comp3111F23G34" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Comp3111F23G34" />
       <option name="PACKAGE_NAME" value="" />
@@ -90,7 +88,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ControlPanelTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ControlPanelTest.testControlPanelControllerConstructor" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Comp3111F23G34" />
       <extension name="coverage">
         <pattern>
@@ -100,28 +98,29 @@
       </extension>
       <option name="PACKAGE_NAME" value="game_scene" />
       <option name="MAIN_CLASS_NAME" value="game_scene.ControlPanelTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ControlPanelTest.testActionListenerWithInterruptedException" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Comp3111F23G34" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="game_scene.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="game_scene" />
-      <option name="MAIN_CLASS_NAME" value="game_scene.ControlPanelTest" />
-      <option name="METHOD_NAME" value="testActionListenerWithInterruptedException" />
+      <option name="METHOD_NAME" value="testControlPanelControllerConstructor" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="LandingPageTest.testActionListenerWithInterruptedException" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ControlPanelTest.testControlPanelProcessButtonPressing" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Comp3111F23G34" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="game_scene.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="game_scene" />
+      <option name="MAIN_CLASS_NAME" value="game_scene.ControlPanelTest" />
+      <option name="METHOD_NAME" value="testControlPanelProcessButtonPressing" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="LandingPageTest.test_constructorLandingPageView" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Comp3111F23G34" />
       <extension name="coverage">
         <pattern>
@@ -131,7 +130,23 @@
       </extension>
       <option name="PACKAGE_NAME" value="game_scene" />
       <option name="MAIN_CLASS_NAME" value="game_scene.LandingPageTest" />
-      <option name="METHOD_NAME" value="testActionListenerWithInterruptedException" />
+      <option name="METHOD_NAME" value="test_constructorLandingPageView" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="LocationTest.opposite_nodeTest2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Comp3111F23G34" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="game_states.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="game_states" />
+      <option name="MAIN_CLASS_NAME" value="game_states.LocationTest" />
+      <option name="METHOD_NAME" value="opposite_nodeTest2" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -152,11 +167,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.LandingPageTest.testActionListenerWithInterruptedException" />
-        <item itemvalue="JUnit.ControlPanelTest.testActionListenerWithInterruptedException" />
-        <item itemvalue="JUnit.ControlPanelTest" />
+        <item itemvalue="JUnit.LocationTest.opposite_nodeTest2" />
+        <item itemvalue="JUnit.LandingPageTest.test_constructorLandingPageView" />
+        <item itemvalue="JUnit.ControlPanelTest.testControlPanelProcessButtonPressing" />
+        <item itemvalue="JUnit.ControlPanelTest.testControlPanelControllerConstructor" />
         <item itemvalue="JUnit.All in Comp3111F23G34" />
-        <item itemvalue="Application.GameFactory" />
       </list>
     </recent_temporary>
   </component>
@@ -239,18 +254,21 @@
     <SUITE FILE_PATH="coverage/Comp3111F23G34$VertexTest.ic" NAME="VertexTest Coverage Results" MODIFIED="1700230397691" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>game_scene.*</FILTER>
     </SUITE>
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$ControlPanelTest_testControlPanelProcessButtonPressing.ic" NAME="ControlPanelTest.testControlPanelProcessButtonPressing Coverage Results" MODIFIED="1700903939444" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>game_scene.*</FILTER>
+    </SUITE>
     <SUITE FILE_PATH="coverage/Comp3111F23G34$GameInstanceTest_test_TomMovesOneStep.ic" NAME="GameInstanceTest.test_TomMovesOneStep Coverage Results" MODIFIED="1700384388732" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/Comp3111F23G34$ShortestPathGeneratorTest.ic" NAME="ShortestPathGeneratorTest Coverage Results" MODIFIED="1699460039559" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>game_algorithm.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/Comp3111F23G34$GameInstanceTest.ic" NAME="GameInstanceTest Coverage Results" MODIFIED="1700456488810" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/Comp3111F23G34$LocationTest_testEqual.ic" NAME="LocationTest.testEqual Coverage Results" MODIFIED="1700389262274" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$LocationTest_testEqual.ic" NAME="LocationTest.testEqual Coverage Results" MODIFIED="1700903463827" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>game_states.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/Comp3111F23G34$PrimTest.ic" NAME="PrimTest Coverage Results" MODIFIED="1698076114212" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/Comp3111F23G34$All_in_Comp3111F23G34.ic" NAME="All in Comp3111F23G34 Coverage Results" MODIFIED="1700646521512" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$All_in_Comp3111F23G34.ic" NAME="All in Comp3111F23G34 Coverage Results" MODIFIED="1700904297775" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/Comp3111F23G34$GameInstanceTest_test_selectDifficulty.ic" NAME="GameInstanceTest.test_selectDifficulty Coverage Results" MODIFIED="1700382710188" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/Comp3111F23G34$GameMapGeneratorTest_to_csvTest1.ic" NAME="GameMapGeneratorTest.to_csvTest1 Coverage Results" MODIFIED="1700389079274" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$GameMapGeneratorTest_to_csvTest1.ic" NAME="GameMapGeneratorTest.to_csvTest1 Coverage Results" MODIFIED="1700903440733" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>game_algorithm.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/Comp3111F23G34$LocationTest_opposite_nodeTest4.ic" NAME="LocationTest.opposite_nodeTest4 Coverage Results" MODIFIED="1700389504170" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
@@ -259,11 +277,11 @@
     <SUITE FILE_PATH="coverage/Comp3111F23G34$ControlPanelTest_testActionListenerWithInterruptedException.ic" NAME="ControlPanelTest.testActionListenerWithInterruptedException Coverage Results" MODIFIED="1700535992913" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>game_scene.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/Comp3111F23G34$LocationTest_opposite_nodeTest2.ic" NAME="LocationTest.opposite_nodeTest2 Coverage Results" MODIFIED="1700389365664" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$LocationTest_opposite_nodeTest2.ic" NAME="LocationTest.opposite_nodeTest2 Coverage Results" MODIFIED="1700903615953" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>game_states.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/Comp3111F23G34$GameInstanceTest_test_readData.ic" NAME="GameInstanceTest.test_readData Coverage Results" MODIFIED="1700378607059" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/Comp3111F23G34$GameMapGeneratorTest_GameMapGeneratorTest1.ic" NAME="GameMapGeneratorTest.GameMapGeneratorTest1 Coverage Results" MODIFIED="1700388802118" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$GameMapGeneratorTest_GameMapGeneratorTest1.ic" NAME="GameMapGeneratorTest.GameMapGeneratorTest1 Coverage Results" MODIFIED="1700903383001" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>game_algorithm.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/Comp3111F23G34$GameFactoryTest.ic" NAME="GameFactoryTest Coverage Results" MODIFIED="1700457722157" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
@@ -279,10 +297,13 @@
     <SUITE FILE_PATH="coverage/Comp3111F23G34$GameStateTest.ic" NAME="GameStateTest Coverage Results" MODIFIED="1700238054068" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>game_states.*</FILTER>
     </SUITE>
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$LandingPageTest_test_constructorLandingPageView.ic" NAME="LandingPageTest.test_constructorLandingPageView Coverage Results" MODIFIED="1700904068211" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>game_scene.*</FILTER>
+    </SUITE>
     <SUITE FILE_PATH="coverage/Comp3111F23G34$ControlPanelTest.ic" NAME="ControlPanelTest Coverage Results" MODIFIED="1700536265151" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>game_scene.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/Comp3111F23G34$LocationTest.ic" NAME="LocationTest Coverage Results" MODIFIED="1700476310048" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$LocationTest.ic" NAME="LocationTest Coverage Results" MODIFIED="1700793306356" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>game_states.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/Comp3111F23G34$ShortestPathGeneratorTest_test_constructor.ic" NAME="ShortestPathGeneratorTest.test_constructor Coverage Results" MODIFIED="1699456224094" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
@@ -297,6 +318,9 @@
     <SUITE FILE_PATH="coverage/Comp3111F23G34$GameStateTest_test_reachableLocationByTom.ic" NAME="GameStateTest.test_reachableLocationByTom Coverage Results" MODIFIED="1700467081966" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>game_states.*</FILTER>
     </SUITE>
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$ControlPanelTest_testControlPanelControllerConstructor.ic" NAME="ControlPanelTest.testControlPanelControllerConstructor Coverage Results" MODIFIED="1700903758486" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>game_scene.*</FILTER>
+    </SUITE>
     <SUITE FILE_PATH="coverage/Comp3111F23G34$ShortestPathGeneratorTest_test_calculate_shortest_path.ic" NAME="ShortestPathGeneratorTest.test_calculate_shortest_path Coverage Results" MODIFIED="1699458077681" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>game_algorithm.*</FILTER>
     </SUITE>
@@ -310,13 +334,13 @@
     <SUITE FILE_PATH="coverage/Comp3111F23G34$LocationTest_opposite_nodeTest5.ic" NAME="LocationTest.opposite_nodeTest5 Coverage Results" MODIFIED="1700389566010" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>game_states.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/Comp3111F23G34$LocationTest_opposite_nodeTest1.ic" NAME="LocationTest.opposite_nodeTest1 Coverage Results" MODIFIED="1700389284458" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$LocationTest_opposite_nodeTest1.ic" NAME="LocationTest.opposite_nodeTest1 Coverage Results" MODIFIED="1700903583859" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>game_states.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/Comp3111F23G34$GameMapGeneratorTest.ic" NAME="GameMapGeneratorTest Coverage Results" MODIFIED="1700388831859" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$GameMapGeneratorTest.ic" NAME="GameMapGeneratorTest Coverage Results" MODIFIED="1700792288469" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>game_algorithm.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/Comp3111F23G34$GameMapGeneratorTest_PrimMazeGeneratorTest1.ic" NAME="GameMapGeneratorTest.PrimMazeGeneratorTest1 Coverage Results" MODIFIED="1700389043755" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/Comp3111F23G34$GameMapGeneratorTest_PrimMazeGeneratorTest1.ic" NAME="GameMapGeneratorTest.PrimMazeGeneratorTest1 Coverage Results" MODIFIED="1700903400604" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>game_algorithm.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/Comp3111F23G34$GameInstanceTest_test_TomMoves.ic" NAME="GameInstanceTest.test_TomMoves Coverage Results" MODIFIED="1700384997893" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
