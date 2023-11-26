@@ -3,17 +3,16 @@
 ![alt text](https://github.com/yxiaoaz/Comp3111F23G34/blob/main/group%20info.png)
 
 
-> **Tutorials on adding `com.opencsv.CSVWriter` dependency in IntelliJ before running the game:**
->
-> Before running the main function, please remember to search for `com.opencsv:openscv` in "Dependencies", and add `com.opencsv:openscv` to your dependency.
->
-> The version of `com.opencsv:openscv` should be ***5.7.1*** in ***default*** mode. (If you cannot find ***default*** mode, choose ***compile*** mode instead.)
->
-> Also, remember to reload Maven afterwards so that the dependency is properly configured in your running environment.
->
->After that, enjoy our game!
+# How To Run
+## 1. Add the `com.opencsv.CSVWriter` dependency in IntelliJ
 
+Before running the main function, please remember to search for `com.opencsv:openscv` in "Dependencies", and add `com.opencsv:openscv` to your dependency.
+The version of `com.opencsv:openscv` should be ***5.7.1*** in ***default*** mode. (If you cannot find ***default*** mode, choose ***compile*** mode instead.)
+Also, remember to reload Maven afterwards so that the dependency is properly configured in your running environment.
 
+## 2. Run main program in `GameFactory.java`
+
+# Reading the shortest path csv file
 After running f(A) & f(B), shortest path's routing data will be output in a .csv file. Here are the instructions for reading that file.
 
 1. The file's directory from the repository root is "src/main/java/shortest_path_at_beginning.csv".
