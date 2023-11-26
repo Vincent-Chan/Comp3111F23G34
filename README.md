@@ -6,6 +6,18 @@
 # How To Run
 ## 1. Add the `com.opencsv.CSVWriter` dependency in IntelliJ
 
+*Step 1*
+![Step 1](https://github.com/yxiaoaz/Comp3111F23G34/blob/main/AddOpenCSVDependencyNo1.png)
+
+*Step 2*
+![Step 2](https://github.com/yxiaoaz/Comp3111F23G34/blob/main/AddOpenCSVDependencyNo2.png)
+
+*Step 3*
+![Step 3](https://github.com/yxiaoaz/Comp3111F23G34/blob/main/AddOpenCSVDependencyNo3.png)
+
+*Step 4*
+![Step 4](https://github.com/yxiaoaz/Comp3111F23G34/blob/main/AddOpenCSVDependencyNo4.png)
+
 Before running the main function, please remember to search for `com.opencsv:openscv` in "Dependencies", and add `com.opencsv:openscv` to your dependency.
 The version of `com.opencsv:openscv` should be ***5.7.1*** in ***default*** mode. (If you cannot find ***default*** mode, choose ***compile*** mode instead.)
 Also, remember to reload Maven afterwards so that the dependency is properly configured in your running environment.
