@@ -67,6 +67,8 @@ public class TomJerryGame {
             }
         }
 
+        shortestPathGenerator.output_file(shortestPathGenerator.calculate_shortest_path(entry,exit));
+
         /**Initialize all GUI controllers and views */
 
         windowsView = new WindowsView(mazeMap, entry, exit);
