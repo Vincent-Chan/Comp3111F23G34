@@ -10,7 +10,7 @@ Before running the main function, please remember to search for `com.opencsv:ope
 The version of `com.opencsv:openscv` should be ***5.7.1*** in ***default*** mode. (If you cannot find ***default*** mode, choose ***compile*** mode instead.)
 Also, remember to reload Maven afterwards so that the dependency is properly configured in your running environment.
 
-## 2. Run main program in `GameFactory.java`
+## 2. Run main program in `src/main/java/GameFactory.java`
 
 # Reading the shortest path csv file
 After running f(A) & f(B), shortest path's routing data will be output in a .csv file. Here are the instructions for reading that file.
